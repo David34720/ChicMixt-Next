@@ -1,3 +1,8 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "extends": ["next/core-web-vitals", "next/typescript", "plugin:@next/next/recommended"],
+  "rules": {
+    "@typescript-eslint/no-require-imports": "off", // Désactive l'interdiction des imports require()
+    "@typescript-eslint/no-unused-expressions": ["error", { "allowShortCircuit": true, "allowTernary": true }],
+    "@typescript-eslint/no-this-alias": "off" // Si vous devez utiliser `this` en alias
+  }
 }

@@ -1,0 +1,20 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+CALSCALE:GREGORIAN
+X-WR-CALNAME:Live Chic'Mixt
+METHOD:PUBLISH
+BEGIN:VEVENT
+UID:unique-id@example.com
+DTSTAMP:20240101T080000Z
+DTSTART:20240101T193000Z
+DTEND:20240101T203000Z
+RRULE:FREQ=WEEKLY;BYDAY=MO
+SUMMARY:Live Chic'Mixt
+DESCRIPTION:Rejoignez-nous tous les lundis soir à 20h30 pour nos lives.\
+ n\n----( Appel vidéo )----\nhttps://www.facebook.com/profile.php?id=6155
+ 5657774462\n---===---
+URL;VALUE=URI:https://www.facebook.com/profile.php?id=61555657774462
+LOCATION:Facebook Live
+URL:https://www.facebook.com/profile.php?id=61555657774462
+END:VEVENT
+END:VCALENDAR
