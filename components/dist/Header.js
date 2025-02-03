@@ -6,6 +6,7 @@ var react_2 = require("next-auth/react");
 var navigation_1 = require("next/navigation");
 var AppWrapper_1 = require("./AppWrapper");
 var ModalContext_1 = require("../contexts/ModalContext");
+var link_1 = require("next/link");
 var ContactModal_1 = require("../components/ContactModal");
 var AproposModal_1 = require("../components/AproposModal");
 var Login_1 = require("../components/Login");
@@ -55,6 +56,8 @@ var Header = function (_a) {
                 react_1["default"].createElement("li", null,
                     react_1["default"].createElement("button", { onClick: function () { return handleAproposModal(); } }, "\u00C0 propos")),
                 react_1["default"].createElement("li", null,
-                    react_1["default"].createElement("button", { onClick: function () { return handleContactModal(); } }, "Contact"))))));
+                    react_1["default"].createElement("button", { onClick: function () { return handleContactModal(); } }, "Contact")),
+                react_1["default"].createElement("li", null,
+                    react_1["default"].createElement(link_1["default"], { href: "/HookHomePage" }, "HookHomePage"))))));
 };
 exports["default"] = Header;

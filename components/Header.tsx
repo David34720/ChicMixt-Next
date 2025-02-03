@@ -5,6 +5,7 @@ import { useSession, signOut } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useSectionContext } from "./AppWrapper";
 import { ModalContext } from "../contexts/ModalContext";
+import Link from 'next/link';
 
 import ContactModal from "../components/ContactModal"
 import AproposModal from "../components/AproposModal"
@@ -93,6 +94,11 @@ const Header: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => {
           </li>
           <li>
             <button onClick={() => handleContactModal()}>Contact</button>
+          </li>
+          <li>
+            <Link href="/HookHomePage">
+              HookHomePage
+            </Link>
           </li>
         </ul>
       </nav>

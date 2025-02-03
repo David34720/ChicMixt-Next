@@ -163,7 +163,7 @@ export default function Home() {
   };
 
   const facebookVideoUrl =
-    "https://fb.watch/wnKKLCcmQ2/";
+    "https://fb.watch/xgvTdqbHcb/";
 
   useEffect(() => {
     // Si l'utilisateur est connecté et a le rôle admin
@@ -544,7 +544,7 @@ export default function Home() {
                 </div>
               </div>
               <div className="right-col">
-                <a href="https://www.facebook.com/profile.php?id=61555657774462" target="_blank" rel="noopener noreferrer">
+                <a href="https://fb.watch/xgvTdqbHcb/" target="_blank" rel="noopener noreferrer">
                   <div className="content-box" ref={contentBox}>
                     <div className="logo-fb-container" ref={imageRefFB}>
                       <Image
