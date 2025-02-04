@@ -19,11 +19,15 @@ const MasonryGridGallery = dynamic(() => import('../../components/MasonGridGaler
   ssr: false,
   loading: () => <p>Loading...</p>,
 })
+
+import HookHomePage from "../../components/HookHomePage/HookHomePage";  
+import Section1Content from "../../components/Section1Content/Section1Content";
 import ReassuranceSection from "../../components/ReassuranceSection";
 import { CarouselComments } from "../../components/CarouselComments";
 import CommentForm from "../../components/CommentForm";  // Ajout du formulaire de commentaires
 import SubscriberForm from "../../components/SubscriberForm";
 import UnsubscribeModal from "../../components/UnsubscribeModal";
+import Section1 from "../../components/Section1Content/Section1Content";
 
 
 interface User {
@@ -31,38 +35,38 @@ interface User {
 }
 
 
-// Fonction d'easing élastique, inspirée d'easings.net (easeOutElastic)
-// const easedProgress = easeOutElastic(progress);
-function easeOutElastic(t: number): number {
-  const c4 = (2 * Math.PI) / 3.5;
-  return t === 0
-    ? 0
-    : t === 1
-      ? 1
-      : Math.pow(2, -8 * t) * Math.sin((t * 4 - 0.75) * c4) + 1;
-}
-function smoothScrollTo(element: HTMLElement, duration = 1000) {
-  const start = window.scrollY;
-  const end = element.getBoundingClientRect().top + start - 120;
-  const distance = end - start;
-  let startTime: number | null = null;
+// // Fonction d'easing élastique, inspirée d'easings.net (easeOutElastic)
+// // const easedProgress = easeOutElastic(progress);
+// function easeOutElastic(t: number): number {
+//   const c4 = (2 * Math.PI) / 3.5;
+//   return t === 0
+//     ? 0
+//     : t === 1
+//       ? 1
+//       : Math.pow(2, -8 * t) * Math.sin((t * 4 - 0.75) * c4) + 1;
+// }
+// function smoothScrollTo(element: HTMLElement, duration = 1000) {
+//   const start = window.scrollY;
+//   const end = element.getBoundingClientRect().top + start - 120;
+//   const distance = end - start;
+//   let startTime: number | null = null;
 
-  function animation(currentTime: number) {
-    if (startTime === null) startTime = currentTime;
-    const timeElapsed = currentTime - startTime;
-    const progress = Math.min(timeElapsed / duration, 1);
+//   function animation(currentTime: number) {
+//     if (startTime === null) startTime = currentTime;
+//     const timeElapsed = currentTime - startTime;
+//     const progress = Math.min(timeElapsed / duration, 1);
 
-    // Application de l'easing élastique sur la progression
-    const easedProgress = easeOutElastic(progress);
+//     // Application de l'easing élastique sur la progression
+//     const easedProgress = easeOutElastic(progress);
 
-    window.scrollTo(0, start + distance * easedProgress);
-    if (timeElapsed < duration) {
-      requestAnimationFrame(animation);
-    }
-  }
+//     window.scrollTo(0, start + distance * easedProgress);
+//     if (timeElapsed < duration) {
+//       requestAnimationFrame(animation);
+//     }
+//   }
 
-  requestAnimationFrame(animation);
-}
+//   requestAnimationFrame(animation);
+// }
 
 export default function Home() {
   const { openModal, closeModal } = useContext(ModalContext);
@@ -132,35 +136,33 @@ export default function Home() {
   }, [searchParams, openModal, handleCloseModal]);
 
 
-  const [sectionPosition, setSectionPosition] = useState<number>(1);
-   const sectionsRef = useMemo(
-    () => [section1, section2, section3, section4, section5],
-    []
-  ); 
+  // const [sectionPosition, setSectionPosition] = useState<number>(1);
+  //  const sectionsRef = useMemo(
+  //   () => [section1, section2, section3, section4, section5],
+  //   []
+  // ); 
 
-  useEffect(() => {
-    // Enregistrer les références dans le contexte
-    sectionsRef.forEach((section, index) => {
-      setSectionRef(index, section.current);
-    });
-  }, [setSectionRef, sectionsRef]);
+  // useEffect(() => {
+  //   // Enregistrer les références dans le contexte
+  //   sectionsRef.forEach((section, index) => {
+  //     setSectionRef(index, section.current);
+  //   });
+  // }, [setSectionRef, sectionsRef]);
 
 
-  useEffect(() => {
-    const currentSectionRef = sectionsRef[sectionPosition - 1];
-    if (currentSectionRef?.current) {
-      // Durée plus longue pour apprécier l'effet élastique, par exemple 2000ms
-      smoothScrollTo(currentSectionRef.current, 1500); 
-    }
-  }, [sectionPosition, sectionsRef]);
+  // useEffect(() => {
+  //   const currentSectionRef = sectionsRef[sectionPosition - 1];
+  //   if (currentSectionRef?.current) {
+  //     // Durée plus longue pour apprécier l'effet élastique, par exemple 2000ms
+  //     smoothScrollTo(currentSectionRef.current, 500); 
+  //   }
+  // }, [sectionPosition, sectionsRef]);
 
 
   const handleSectionClickPlus = () => {
-    setSectionPosition((prev) => Math.min(prev + 1, sectionsRef.length));
+    console.log("Plus");
   };
-  const handleSectionClickMinus = () => {
-    setSectionPosition((prev) => Math.max(prev - 1, 1));
-  };
+ 
 
   const facebookVideoUrl =
     "https://fb.watch/xgvTdqbHcb/";
@@ -208,15 +210,7 @@ export default function Home() {
         trigger: sect1,
         start: "top center",
         end: "bottom 30%",
-        onEnter: () => setSectionPosition(1),
-        onEnterBack: () => {
-          setSectionPosition(1);
-          gsap.fromTo(
-            sect1Content,
-            { y: 0 }, // État initial
-            { y: -20, duration: 2, ease: "elastic.out(2, 0.3)" } // État final
-          );
-        },
+               
       });
     }
     if (sect2) {
@@ -224,8 +218,6 @@ export default function Home() {
         trigger: sect2,
         start: "top 70%",
         end: "bottom 30%",
-        onEnter: () => setSectionPosition(2),
-        onEnterBack: () => setSectionPosition(2),
       });
     }
     if (sect3) {
@@ -233,8 +225,6 @@ export default function Home() {
         trigger: sect3,
         start: "top 70%",
         end: "bottom 30%",
-        onEnter: () => setSectionPosition(3),
-        onEnterBack: () => setSectionPosition(3),
         
       });
     }
@@ -243,8 +233,7 @@ export default function Home() {
         trigger: sect4,
         start: "top 70%",
         end: "bottom 30%",
-        onEnter: () => setSectionPosition(4),
-        onEnterBack: () => setSectionPosition(4),
+        
       });
     }  
     if (sect5) {
@@ -252,7 +241,7 @@ export default function Home() {
         trigger: sect5,
         start: "top center",
         end: "bottom 30%",
-        onEnter: () => setSectionPosition(5),
+        
       });
     }
     if (sect1 && sect1Content) {
@@ -470,71 +459,17 @@ export default function Home() {
 
   return (
     <> 
-       { !isMobile && (      
-        
-        <div >
-          {/* Boutons de navigation */}
-          
-          <div className=" flex flex-col gap-2 button-nav-section "
-          >
-            {sectionPosition !== 1 && (
-              <button 
-                onClick={handleSectionClickMinus} 
-                className="button-nav-section-up"
-                aria-label="Aller à la section précédente"
-
-              >
-                <RiScrollToBottomLine />
-                {/* <span>{sectionPosition}</span> */}
-              </button>
-            )}
-            {sectionPosition !== sectionsRef.length && (
-              <button 
-                onClick={handleSectionClickPlus} 
-                className="button-nav-section-down"
-                aria-label="Aller à la section suivante"
-              >
-                <RiScrollToBottomLine />
-                {/* <span>{sectionPosition}</span> */}
-              </button>
-            )}
-          </div>
+       { !isMobile && (
+        <div >          
           {/* Section 1 */}
           <section
             ref={section1}
             className="section1"
           >
             <div className="section1-div" >
-              <Image
-                src="/images/s-boutique-live-chicmixt-facebook-vente-vetement-fanny-herault-34-2.jpg"
-                alt="Live shopping Facebook Mode pas chère en ligne"
-                fill
-                style={{ objectFit: 'cover' }}
-                quality={100}
-                loading="lazy"
-              />
+              <HookHomePage />
             </div>
-              {/* Contenu de la section */}
-              <div ref={section1Content} className="section1-content font-aboreto">
-                <h1 className="section1-title tracking-wide">Bienvenue sur Chic&#39;Mixt</h1>
-                <div className="content-hook">
-                  <div className="section1-left">
-                    <p className="section1-description" style={{color:'#de277b'}}>Live shopping tous les lundis à partir de 20h30</p>
-                    <p className="section1-description">Plongez dans l&#39;univers de la mode tendance avec notre boutique de vêtements en live. </p>
-
-                  </div>
-                  <div className="section1-right">
-                    <p style={{width:"100%"}} className="section1-description">Nous proposons une large sélection de vêtements femme, homme, enfant et accessoires de mode pour tous les styles et toutes les occasions.</p>
-                    <button
-                      onClick={handleSectionClickPlus}
-                      aria-label="Aller à la section suivante, découvrir Chic'mixt"
-                    >
-                      Découvrir
-                    </button>
-                  </div>
-                </div>
-
-              </div>
+            <Section1Content handleSectionClickPlus={handleSectionClickPlus} />
           </section>    
         {/* Section 2 */}
           <section ref={section2} className="section2">

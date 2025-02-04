@@ -9,7 +9,16 @@
   perspective: 3500px;
   perspective-origin: bottom;
 }
-
+.titleH1{
+  position: absolute;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 5rem;
+  text-align: center;
+  font-weight: 900;
+  color: pink;
+}
 /* L’image de fond en fill (assurée par Next Image) */
 .bgImage {
   object-fit: cover;
@@ -22,13 +31,14 @@
 /* Le wrapper du smartphone */
 .phoneWrapper {
   position: absolute;
-  bottom: -90px;
+  bottom: -90px;       /* ou la valeur souhaitée */
   left: 50%;
-  width: 60vw; 
-  pointer-events: none; 
+  width: 60vw;
+  pointer-events: none;
   z-index: 2;
-
-  /* Autorise la 3D interne */
+  /* Centrage horizontal de base */
+  transform: translate(-50%, 0);
+  /* Active la 3D pour la rotation */
   transform-style: preserve-3d;
 
   @media screen and (max-width: 768px) {

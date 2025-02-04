@@ -12,7 +12,6 @@ var gsap_1 = require("gsap");
 var react_3 = require("@gsap/react");
 var ScrollTrigger_1 = require("gsap/ScrollTrigger");
 var fc_1 = require("react-icons/fc");
-var ri_1 = require("react-icons/ri");
 var FacebookLiveVideo_1 = require("../../components/FacebookLiveVideo");
 var FacebookLiveVideoMobile_1 = require("../../components/FacebookLiveVideoMobile");
 var ReactShare_1 = require("../../components/ReactShare");
@@ -20,41 +19,41 @@ var MasonryGridGallery = dynamic_1["default"](function () { return Promise.resol
     ssr: false,
     loading: function () { return React.createElement("p", null, "Loading..."); }
 });
+var HookHomePage_1 = require("../../components/HookHomePage/HookHomePage");
+var Section1Content_1 = require("../../components/Section1Content/Section1Content");
 var ReassuranceSection_1 = require("../../components/ReassuranceSection");
 var CarouselComments_1 = require("../../components/CarouselComments");
 var CommentForm_1 = require("../../components/CommentForm"); // Ajout du formulaire de commentaires
 var SubscriberForm_1 = require("../../components/SubscriberForm");
 var UnsubscribeModal_1 = require("../../components/UnsubscribeModal");
-// Fonction d'easing élastique, inspirée d'easings.net (easeOutElastic)
-// const easedProgress = easeOutElastic(progress);
-function easeOutElastic(t) {
-    var c4 = (2 * Math.PI) / 3.5;
-    return t === 0
-        ? 0
-        : t === 1
-            ? 1
-            : Math.pow(2, -8 * t) * Math.sin((t * 4 - 0.75) * c4) + 1;
-}
-function smoothScrollTo(element, duration) {
-    if (duration === void 0) { duration = 1000; }
-    var start = window.scrollY;
-    var end = element.getBoundingClientRect().top + start - 120;
-    var distance = end - start;
-    var startTime = null;
-    function animation(currentTime) {
-        if (startTime === null)
-            startTime = currentTime;
-        var timeElapsed = currentTime - startTime;
-        var progress = Math.min(timeElapsed / duration, 1);
-        // Application de l'easing élastique sur la progression
-        var easedProgress = easeOutElastic(progress);
-        window.scrollTo(0, start + distance * easedProgress);
-        if (timeElapsed < duration) {
-            requestAnimationFrame(animation);
-        }
-    }
-    requestAnimationFrame(animation);
-}
+// // Fonction d'easing élastique, inspirée d'easings.net (easeOutElastic)
+// // const easedProgress = easeOutElastic(progress);
+// function easeOutElastic(t: number): number {
+//   const c4 = (2 * Math.PI) / 3.5;
+//   return t === 0
+//     ? 0
+//     : t === 1
+//       ? 1
+//       : Math.pow(2, -8 * t) * Math.sin((t * 4 - 0.75) * c4) + 1;
+// }
+// function smoothScrollTo(element: HTMLElement, duration = 1000) {
+//   const start = window.scrollY;
+//   const end = element.getBoundingClientRect().top + start - 120;
+//   const distance = end - start;
+//   let startTime: number | null = null;
+//   function animation(currentTime: number) {
+//     if (startTime === null) startTime = currentTime;
+//     const timeElapsed = currentTime - startTime;
+//     const progress = Math.min(timeElapsed / duration, 1);
+//     // Application de l'easing élastique sur la progression
+//     const easedProgress = easeOutElastic(progress);
+//     window.scrollTo(0, start + distance * easedProgress);
+//     if (timeElapsed < duration) {
+//       requestAnimationFrame(animation);
+//     }
+//   }
+//   requestAnimationFrame(animation);
+// }
 function Home() {
     var _a = react_1.useContext(ModalContext_1.ModalContext), openModal = _a.openModal, closeModal = _a.closeModal;
     var searchParams = navigation_1.useSearchParams();
@@ -106,26 +105,26 @@ function Home() {
             window.history.replaceState(null, "", newUrl);
         }
     }, [searchParams, openModal, handleCloseModal]);
-    var _d = react_1.useState(1), sectionPosition = _d[0], setSectionPosition = _d[1];
-    var sectionsRef = react_1.useMemo(function () { return [section1, section2, section3, section4, section5]; }, []);
-    react_1.useEffect(function () {
-        // Enregistrer les références dans le contexte
-        sectionsRef.forEach(function (section, index) {
-            setSectionRef(index, section.current);
-        });
-    }, [setSectionRef, sectionsRef]);
-    react_1.useEffect(function () {
-        var currentSectionRef = sectionsRef[sectionPosition - 1];
-        if (currentSectionRef === null || currentSectionRef === void 0 ? void 0 : currentSectionRef.current) {
-            // Durée plus longue pour apprécier l'effet élastique, par exemple 2000ms
-            smoothScrollTo(currentSectionRef.current, 1500);
-        }
-    }, [sectionPosition, sectionsRef]);
+    // const [sectionPosition, setSectionPosition] = useState<number>(1);
+    //  const sectionsRef = useMemo(
+    //   () => [section1, section2, section3, section4, section5],
+    //   []
+    // ); 
+    // useEffect(() => {
+    //   // Enregistrer les références dans le contexte
+    //   sectionsRef.forEach((section, index) => {
+    //     setSectionRef(index, section.current);
+    //   });
+    // }, [setSectionRef, sectionsRef]);
+    // useEffect(() => {
+    //   const currentSectionRef = sectionsRef[sectionPosition - 1];
+    //   if (currentSectionRef?.current) {
+    //     // Durée plus longue pour apprécier l'effet élastique, par exemple 2000ms
+    //     smoothScrollTo(currentSectionRef.current, 500); 
+    //   }
+    // }, [sectionPosition, sectionsRef]);
     var handleSectionClickPlus = function () {
-        setSectionPosition(function (prev) { return Math.min(prev + 1, sectionsRef.length); });
-    };
-    var handleSectionClickMinus = function () {
-        setSectionPosition(function (prev) { return Math.max(prev - 1, 1); });
+        console.log("Plus");
     };
     var facebookVideoUrl = "https://fb.watch/xgvTdqbHcb/";
     react_1.useEffect(function () {
@@ -137,7 +136,7 @@ function Home() {
             setIsAdmin(false);
         }
     }, [session]);
-    var _e = react_1.useState(false), isMobile = _e[0], setIsMobile = _e[1];
+    var _d = react_1.useState(false), isMobile = _d[0], setIsMobile = _d[1];
     react_1.useEffect(function () {
         var handleResize = function () {
             setIsMobile(window.innerWidth <= 768);
@@ -166,49 +165,35 @@ function Home() {
                 ScrollTrigger_1.ScrollTrigger.create({
                     trigger: sect1,
                     start: "top center",
-                    end: "bottom 30%",
-                    onEnter: function () { return setSectionPosition(1); },
-                    onEnterBack: function () {
-                        setSectionPosition(1);
-                        gsap_1.gsap.fromTo(sect1Content, { y: 0 }, // État initial
-                        { y: -20, duration: 2, ease: "elastic.out(2, 0.3)" } // État final
-                        );
-                    }
+                    end: "bottom 30%"
                 });
             }
             if (sect2) {
                 ScrollTrigger_1.ScrollTrigger.create({
                     trigger: sect2,
                     start: "top 70%",
-                    end: "bottom 30%",
-                    onEnter: function () { return setSectionPosition(2); },
-                    onEnterBack: function () { return setSectionPosition(2); }
+                    end: "bottom 30%"
                 });
             }
             if (sect3) {
                 ScrollTrigger_1.ScrollTrigger.create({
                     trigger: sect3,
                     start: "top 70%",
-                    end: "bottom 30%",
-                    onEnter: function () { return setSectionPosition(3); },
-                    onEnterBack: function () { return setSectionPosition(3); }
+                    end: "bottom 30%"
                 });
             }
             if (sect4) {
                 ScrollTrigger_1.ScrollTrigger.create({
                     trigger: sect4,
                     start: "top 70%",
-                    end: "bottom 30%",
-                    onEnter: function () { return setSectionPosition(4); },
-                    onEnterBack: function () { return setSectionPosition(4); }
+                    end: "bottom 30%"
                 });
             }
             if (sect5) {
                 ScrollTrigger_1.ScrollTrigger.create({
                     trigger: sect5,
                     start: "top center",
-                    end: "bottom 30%",
-                    onEnter: function () { return setSectionPosition(5); }
+                    end: "bottom 30%"
                 });
             }
             if (sect1 && sect1Content) {
@@ -413,23 +398,10 @@ function Home() {
     }, [isMobile, section1, section1Content]);
     return (React.createElement(React.Fragment, null,
         !isMobile && (React.createElement("div", null,
-            React.createElement("div", { className: " flex flex-col gap-2 button-nav-section " },
-                sectionPosition !== 1 && (React.createElement("button", { onClick: handleSectionClickMinus, className: "button-nav-section-up", "aria-label": "Aller \u00E0 la section pr\u00E9c\u00E9dente" },
-                    React.createElement(ri_1.RiScrollToBottomLine, null))),
-                sectionPosition !== sectionsRef.length && (React.createElement("button", { onClick: handleSectionClickPlus, className: "button-nav-section-down", "aria-label": "Aller \u00E0 la section suivante" },
-                    React.createElement(ri_1.RiScrollToBottomLine, null)))),
             React.createElement("section", { ref: section1, className: "section1" },
                 React.createElement("div", { className: "section1-div" },
-                    React.createElement(image_1["default"], { src: "/images/s-boutique-live-chicmixt-facebook-vente-vetement-fanny-herault-34-2.jpg", alt: "Live shopping Facebook Mode pas ch\u00E8re en ligne", fill: true, style: { objectFit: 'cover' }, quality: 100, loading: "lazy" })),
-                React.createElement("div", { ref: section1Content, className: "section1-content font-aboreto" },
-                    React.createElement("h1", { className: "section1-title tracking-wide" }, "Bienvenue sur Chic'Mixt"),
-                    React.createElement("div", { className: "content-hook" },
-                        React.createElement("div", { className: "section1-left" },
-                            React.createElement("p", { className: "section1-description", style: { color: '#de277b' } }, "Live shopping tous les lundis \u00E0 partir de 20h30"),
-                            React.createElement("p", { className: "section1-description" }, "Plongez dans l'univers de la mode tendance avec notre boutique de v\u00EAtements en live. ")),
-                        React.createElement("div", { className: "section1-right" },
-                            React.createElement("p", { style: { width: "100%" }, className: "section1-description" }, "Nous proposons une large s\u00E9lection de v\u00EAtements femme, homme, enfant et accessoires de mode pour tous les styles et toutes les occasions."),
-                            React.createElement("button", { onClick: handleSectionClickPlus, "aria-label": "Aller \u00E0 la section suivante, d\u00E9couvrir Chic'mixt" }, "D\u00E9couvrir"))))),
+                    React.createElement(HookHomePage_1["default"], null)),
+                React.createElement(Section1Content_1["default"], { handleSectionClickPlus: handleSectionClickPlus })),
             React.createElement("section", { ref: section2, className: "section2" },
                 React.createElement("div", { className: "left-col" },
                     React.createElement("div", { className: "image-wrapper", ref: imageRef1 },
