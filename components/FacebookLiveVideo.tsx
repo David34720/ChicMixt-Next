@@ -45,7 +45,7 @@ export default function FacebookLiveVideo({
       <div
         style={{
           width: "100%",
-          height: "90%",
+          height: "80%",
           borderRadius: "20px",
           overflow: "hidden",
           background: "#f0f0f0"
@@ -66,7 +66,7 @@ export default function FacebookLiveVideo({
           data-allowfullscreen="true"
           style={{
             width: "100%",
-            height: "90%",
+            height: "80%",
             border: "none",
             borderRadius: "20px",
             overflow: "hidden",
@@ -76,7 +76,7 @@ export default function FacebookLiveVideo({
         <div
           style={{
             width: "100%",
-            height: "90%",
+            height: "80%",
             borderRadius: "20px",
             overflow: "hidden",
           }}
@@ -86,7 +86,7 @@ export default function FacebookLiveVideo({
             alt="Image de remplacement si la vidéo ne fonctionne pas"
             style={{
               width: "100%",
-              height: "100%",
+              height: "80%",
               objectFit: "cover",
               borderRadius: "20px",
               objectPosition: "top",

@@ -27,7 +27,7 @@ function FacebookLiveVideo(_a) {
     if (!isClient) {
         return (react_1["default"].createElement("div", { style: {
                 width: "100%",
-                height: "90%",
+                height: "80%",
                 borderRadius: "20px",
                 overflow: "hidden",
                 background: "#f0f0f0"
@@ -36,19 +36,19 @@ function FacebookLiveVideo(_a) {
     // Côté client, on peut désormais afficher la vidéo ou l'image selon le navigateur
     return (react_1["default"].createElement(react_1["default"].Fragment, null, !isSafari ? (react_1["default"].createElement("div", { className: "fb-video", "data-href": videoUrl, "data-allowfullscreen": "true", style: {
             width: "100%",
-            height: "90%",
+            height: "80%",
             border: "none",
             borderRadius: "20px",
             overflow: "hidden"
         } })) : (react_1["default"].createElement("div", { style: {
             width: "100%",
-            height: "90%",
+            height: "80%",
             borderRadius: "20px",
             overflow: "hidden"
         } },
         react_1["default"].createElement("img", { src: fallbackImageUrl, alt: "Image de remplacement si la vid\u00E9o ne fonctionne pas", style: {
                 width: "100%",
-                height: "100%",
+                height: "80%",
                 objectFit: "cover",
                 borderRadius: "20px",
                 objectPosition: "top"

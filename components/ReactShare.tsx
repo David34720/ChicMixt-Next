@@ -47,7 +47,7 @@ export function ReactShare({iconSize}: ReactShareProps) {
     <div className="Demo__container">
 
       {/* Bouton personnalisé pour copier le lien */}
-      <div className="network enter-animation">
+      <div className="network">
         <button onClick={handleCopy} aria-label="Copier le lien de cette page" className="network__share-button" style={{ color: 'deeppink', border: 'none', background: 'transparent', cursor: 'pointer' }}>
           <FaCopy size={iconSize} />
         </button>
@@ -61,7 +61,7 @@ export function ReactShare({iconSize}: ReactShareProps) {
       </div> */}
 
 
-      <div className="network enter-animation">
+      <div className="network">
         <TwitterShareButton
           url={shareUrl}
           title={title}
@@ -71,7 +71,7 @@ export function ReactShare({iconSize}: ReactShareProps) {
         </TwitterShareButton>
       </div>
 
-      <div className="network enter-animation">
+      <div className="network">
         <TelegramShareButton
           url={shareUrl}
           title={title}
@@ -81,7 +81,7 @@ export function ReactShare({iconSize}: ReactShareProps) {
         </TelegramShareButton>
       </div>
 
-      <div className="network enter-animation">
+      <div className="network">
         <WhatsappShareButton
           url={shareUrl}
           title={title}
@@ -92,13 +92,13 @@ export function ReactShare({iconSize}: ReactShareProps) {
         </WhatsappShareButton>
       </div>
 
-      <div className="network enter-animation">
+      <div className="network ">
         <LinkedinShareButton url={shareUrl} className="network__share-button">
           <LinkedinIcon size={iconSize} round />
         </LinkedinShareButton>
       </div>
 
-      <div className="network enter-animation">
+      <div className="network">
         <PinterestShareButton
           url={shareUrl}
           media={`${exampleImage}`}
@@ -109,7 +109,7 @@ export function ReactShare({iconSize}: ReactShareProps) {
       </div>
 
 
-      <div className="network enter-animation">
+      <div className="network">
         <RedditShareButton
           url={shareUrl}
           title={title}
@@ -121,7 +121,7 @@ export function ReactShare({iconSize}: ReactShareProps) {
         </RedditShareButton>
       </div>
 
-      <div className="network enter-animation">
+      <div className="network">
         <TumblrShareButton
           url={shareUrl}
           title={title}
@@ -132,7 +132,7 @@ export function ReactShare({iconSize}: ReactShareProps) {
 
       </div>
 
-      <div className="network enter-animation">
+      <div className="network">
         <EmailShareButton
           url={shareUrl}
           subject={title}
