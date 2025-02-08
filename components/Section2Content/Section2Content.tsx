@@ -3,9 +3,10 @@ import { useRef } from 'react'
 import Image from "next/image";
 
 import { useSectionRefs } from "../../hooks/useSectionRefs";
+import { useScrollEnterAnimation } from "../../hooks/useScrollEnterAnimation";
 
 import FacebookLiveVideo from "../../components/FacebookLiveVideo";
-import { ReactShare } from "../../components/ReactShare";
+import { ReactShare } from "../ReactShare/ReactShare";
 
 interface Section2ContentProps {
    
@@ -16,14 +17,31 @@ const Section2Content = ({  }: Section2ContentProps) => {
 
   const facebookVideoUrl = "https://fb.watch/xgvTdqbHcb/";
 
+  useScrollEnterAnimation(".section2Animation", {
+    duration: 0.8,
+    y: 50,
+    start: "top 80%",
+    end: "top 10%",
+    ease: "power2.out",
+    markers: false
+  });
+  useScrollEnterAnimation(".section2AnimationContainer", {
+    duration: 0.8,
+    y: 50,
+    start: "top 80%",
+    end: "80% 20%",
+    ease: "power2.out",
+    markers: true
+  });
+
   return (  
     <>
-      <div className={styles.leftCol}>
+      <div className={`${styles.leftCol} section2AnimationContainer`}>
           <div className={styles.imageWrapper} ref={desktopRefs.imageRef1}>
             <FacebookLiveVideo videoUrl={facebookVideoUrl} />
           </div>
       </div>
-      <div className={`${styles.rightCol} enter-animation`}>
+      <div className={`${styles.rightCol} section2AnimationContainer`}>
         <a href="https://fb.watch/xgvTdqbHcb/" target="_blank" rel="noopener noreferrer">
           <div className={styles.contentBox} ref={desktopRefs.contentBox}>
             <div className={styles.logoFbContainer} ref={desktopRefs.imageRefFB}>
@@ -36,7 +54,7 @@ const Section2Content = ({  }: Section2ContentProps) => {
                 loading="eager"
               />
             </div>
-            <div className="enter-animation"> {/* Ajoutez un conteneur pour l'animation */}
+            <div className="section2Animation"> {/* Ajoutez un conteneur pour l'animation */}
               <h2 ref={desktopRefs.section2Title1}>
                 RETROUVEZ-NOUS EN LIVE SUR FACEBOOK
               </h2>
@@ -47,7 +65,7 @@ const Section2Content = ({  }: Section2ContentProps) => {
           </div>
         </a>
         <div className={styles.share}>
-          <div className={`${styles.share} enter-animation`}>
+          <div className={`${styles.share} section2Animation`}>
             <span className={styles.shareText}>
               Partagez à vos amis et profitez des bons plans Mode Chic'Mixt sur vos réseaux préférés !
             </span>

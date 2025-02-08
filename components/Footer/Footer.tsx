@@ -1,7 +1,7 @@
 "use client";
 import styles from "./Footer.module.scss";
 import React, { useContext } from "react";
-import { ReactShare } from "../ReactShare";
+import { ReactShare } from "../ReactShare/ReactShare";
 import { ModalActionsContext } from "../../contexts/ModalContext";
 
 const Footer: React.FC = () => {

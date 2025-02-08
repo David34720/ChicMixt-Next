@@ -1,0 +1,21 @@
+.RSContainer {
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+
+  .network {
+    vertical-align: top;
+    display: inline-block;
+    margin-right: 10px;
+    text-align: center;
+  }
+  
+  .shareButton {
+    cursor: pointer;
+  }
+  .shareButton:hover:not(:active) {
+    opacity: 0.75;
+  }
+}

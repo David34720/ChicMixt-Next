@@ -2,29 +2,29 @@
 import React, { useEffect, useState, useContext, useCallback } from "react";
 import dynamic from "next/dynamic";
 import { useSession } from "next-auth/react";
+import { useSearchParams } from "next/navigation";
+
+import { ModalActionsContext } from "../../contexts/ModalContext";
+
 import { useSectionRefs } from "../../hooks/useSectionRefs";
 import { useScrollEnterAnimation } from "../../hooks/useScrollEnterAnimation";
 import { useDesktopAnimations } from "../../hooks/useDesktopAnimations";
-import Image from "next/image";
-import { useSearchParams } from "next/navigation";
-import { ModalActionsContext } from "../../contexts/ModalContext";
-import { FcCalendar } from "react-icons/fc";
+
 
 import FacebookLiveVideoMobile from "../../components/FacebookLiveVideoMobile";
+import HookHomePage from "../../components/HookHomePage/HookHomePage";
+import Section1Content from "../../components/Section1Content/Section1Content";
+import Section2Content from "../../components/Section2Content/Section2Content";
+import Section3Content from "../../components/Section3Content/Section3Content";
+import SliderFullWidth from "../../components/SliderFullWidth/SliderFullWidth";
 const MasonryGridGalery = dynamic(() => import("../../components/MasonryGridGalery/MasonryGridGalery"), {
   ssr: false,
   loading: () => <p>Loading...</p>,
 });
-import HookHomePage from "../../components/HookHomePage/HookHomePage";
-import Section1Content from "../../components/Section1Content/Section1Content";
-import Section2Content from "../../components/Section2Content/Section2Content";
-import { ReactShare } from "../../components/ReactShare";
-import Section3Content from "../../components/Section3Content/Section3Content";
-import SliderFullWidth from "../../components/SliderFullWidth/SliderFullWidth";
 import ReassuranceSection from "../../components/ReassuranceSection";
 import { CarouselComments } from "../../components/CarouselComments/CarouselComments";
 import CommentForm from "../../components/CarouselComments/CommentForm";
-import SubscriberForm from "../../components/NewsletterAdmin/SubscriberForm";
+import NewsletterSectionFront from "../../components/NewsletterAdmin/NewsletterSectionFront";
 import UnsubscribeModal from "../../components/NewsletterAdmin/UnsubscribeModal";
 
 interface User {
@@ -63,7 +63,7 @@ export default function Home() {
     }
   }, [showMasonry, hasMasonryLoaded]);
 
-  useScrollEnterAnimation();
+  // useScrollEnterAnimation();
   useDesktopAnimations(desktopRefs, setShowMasonry);
 
 
@@ -72,10 +72,6 @@ export default function Home() {
   const handleCloseModal = useCallback(() => {
     closeModal();
   }, [closeModal]);
-
-  const handleUnsubscribeModal = () => {
-    openModal(<UnsubscribeModal onClose={handleCloseModal} />);
-  };
 
   // Gestion du paramètre dans l'URL
   useEffect(() => {
@@ -158,30 +154,7 @@ export default function Home() {
 
 
       <div ref={desktopRefs.section51} className="section7">
-        <div className="section7-left">
-          <Image
-            src="/images/boutique-live-chicmixt-vetement-herault-34-newsletter.png"
-            alt="Meilleure boutique de mode en ligne"
-            width={400}
-            height={400}
-            quality={80}
-            onLoad={(e) => {
-              if (e.target instanceof HTMLImageElement) {
-                e.target.dataset.loaded = 'true';
-              }
-            }}
-            loading="eager"
-          />
-        </div>
-        <div className="section7-right">
-          <SubscriberForm />
-          <p
-            style={{ cursor: "pointer", fontStyle: "italic", marginTop: "10px", opacity: "0.6" }}
-            onClick={handleUnsubscribeModal}
-          >
-            Se désabonner de la newsletter
-          </p>
-        </div>
+        <NewsletterSectionFront />
       </div>
       
     </div>

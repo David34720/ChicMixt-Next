@@ -1,5 +1,6 @@
 //https://github.com/nygardk/react-share#readme
 "use client"
+import styles from './ReactShare.module.scss'
 import React, { useState } from 'react';
 import { FaCopy } from "react-icons/fa";
 import {
@@ -44,100 +45,100 @@ export function ReactShare({iconSize}: ReactShareProps) {
 
   return (
 
-    <div className="Demo__container">
+    <div className={styles.RSContainer}>
 
       {/* Bouton personnalisé pour copier le lien */}
-      <div className="network">
-        <button onClick={handleCopy} aria-label="Copier le lien de cette page" className="network__share-button" style={{ color: 'deeppink', border: 'none', background: 'transparent', cursor: 'pointer' }}>
+      <div className={styles.network}>
+        <button onClick={handleCopy} aria-label="Copier le lien de cette page" className={styles.shareButton} style={{ color: 'deeppink', border: 'none', background: 'transparent', cursor: 'pointer' }}>
           <FaCopy size={iconSize} />
         </button>
         {copied && <span style={{ marginLeft: '10px', color: 'green' }}>Lien copié!</span>}
       </div>
 
       {/* <div className="network enter-animation">
-        <FacebookShareButton url={shareUrl} className="network__share-button">
+        <FacebookShareButton url={shareUrl} className={styles.shareButton}>
           <FacebookIcon size={iconSize} round />
         </FacebookShareButton>
       </div> */}
 
 
-      <div className="network">
+      <div className={styles.network}>
         <TwitterShareButton
           url={shareUrl}
           title={title}
-          className="network__share-button"
+          className={styles.shareButton}
         >
           <XIcon size={iconSize} round />
         </TwitterShareButton>
       </div>
 
-      <div className="network">
+      <div className={styles.network}>
         <TelegramShareButton
           url={shareUrl}
           title={title}
-          className="network__share-button"
+          className={styles.shareButton}
         >
           <TelegramIcon size={iconSize} round />
         </TelegramShareButton>
       </div>
 
-      <div className="network">
+      <div className={styles.network}>
         <WhatsappShareButton
           url={shareUrl}
           title={title}
           separator=":: "
-          className="network__share-button"
+          className={styles.shareButton}
         >
           <WhatsappIcon size={iconSize} round />
         </WhatsappShareButton>
       </div>
 
-      <div className="network ">
-        <LinkedinShareButton url={shareUrl} className="network__share-button">
+      <div className={styles.network}>
+        <LinkedinShareButton url={shareUrl} className={styles.shareButton}>
           <LinkedinIcon size={iconSize} round />
         </LinkedinShareButton>
       </div>
 
-      <div className="network">
+      <div className={styles.network}>
         <PinterestShareButton
           url={shareUrl}
           media={`${exampleImage}`}
-          className="network__share-button"
+          className={styles.shareButton}
         >
           <PinterestIcon size={iconSize} round />
         </PinterestShareButton>
       </div>
 
 
-      <div className="network">
+      <div className={styles.network}>
         <RedditShareButton
           url={shareUrl}
           title={title}
           windowWidth={660}
           windowHeight={460}
-          className="network__share-button"
+          className={styles.shareButton}
         >
           <RedditIcon size={iconSize} round />
         </RedditShareButton>
       </div>
 
-      <div className="network">
+      <div className={styles.network}>
         <TumblrShareButton
           url={shareUrl}
           title={title}
-          className="network__share-button"
+          className={styles.shareButton}
         >
           <TumblrIcon size={iconSize} round />
         </TumblrShareButton>
 
       </div>
 
-      <div className="network">
+      <div className={styles.network}>
         <EmailShareButton
           url={shareUrl}
           subject={title}
           body={title}
-          className="network__share-button"
+          className={styles.shareButton}
         >
           <EmailIcon size={iconSize} round />
         </EmailShareButton>

@@ -1,0 +1,28 @@
+.section7Left {
+    width: 30%;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    animation: scrollUpDwn 3s ease-in-out infinite;
+    
+    img {
+      animation: scrollUpDwnShadow 3s ease-in-out infinite;
+    }    
+  }
+  
+  .section7Right {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+
+    .news-form-M {
+      box-sizing: content-box;
+    }
+  }

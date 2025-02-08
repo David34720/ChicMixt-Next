@@ -53,17 +53,22 @@
           max-width: 200px;          
         }
       }
+      h2, p {
+        max-width: 400px;
+      }
     }   
+    
+    .share {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;   
+  
+      .shareText {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        text-align: center;
+        max-width: 400px;
+      }
+    } 
   }
-  .share {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;   
-
-    .shareText {
-      font-size: 1.2rem;
-      margin-bottom: 0.5rem;
-      text-align: center;
-    }
-  } 
