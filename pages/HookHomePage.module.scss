@@ -1,69 +1,71 @@
-/* Le conteneur global */
-.container {
-  position: relative;
+.sliderContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100vh;
   overflow: hidden;
+  background-color: black;
 
-  /* Perspective pour l’effet 3D */
-  perspective: 3500px;
-  perspective-origin: bottom;
-}
+  .slide {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(
+        circle at center,
+        transparent 10%,
+        rgba(0, 0, 0, 0.4) 45%,
+        rgba(0, 0, 0, 0.8) 70%,
+        rgba(0, 0, 0, 0.9) 85%,
+        rgba(0, 0, 0, 1) 100%
+      );
+      pointer-events: none;
+    }
 
-/* L’image de fond en fill (assurée par Next Image) */
-.bgImage {
-  object-fit: cover;
-  top: 0;
-  left: 0;
-  z-index: 0;
-  scale: 1.2;
-}
+    .imageWrapper {
+      position: absolute;
+      inset: 0;
+      
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
 
-/* Le wrapper du smartphone */
-.phoneWrapper {
-  position: absolute;
-  bottom: -90px;
-  left: 50%;
-  width: 60vw; 
-  pointer-events: none; 
-  z-index: 2;
+    .content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      z-index: 10;
+      width: 100%;
+      padding: 2rem;
+      
+      .title {
+        font-size: clamp(4rem, 12vw, 10rem);
+        font-weight: 800;
+        line-height: 1;
+        letter-spacing: -0.02em;
+        color: white;
+        margin-bottom: 1rem;
+        text-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+      }
 
-  /* Autorise la 3D interne */
-  transform-style: preserve-3d;
-
-  @media screen and (max-width: 768px) {
-    width: 120vw;
-  }
-}
-
-/* Le conteneur interne (PNG + GIF) */
-.phoneContainer {
-  position: relative;
-  width: 100%;
-  height: auto;
-}
-
-/* L’image PNG du smartphone */
-.phoneImg {
-  width: 100%;
-  height: auto;
-  display: block;
-  position: relative;
-  z-index: 1;
-}
-
-/* La zone qui contient le GIF */
-.phoneScreen {
-  position: absolute;
-  top: 6%;    
-  left: 37%;
-  width: 32%;
-  height: 68%;
-  border-radius: 50px;
-  object-fit: cover;
-  pointer-events: none; 
-
-  @media screen and (max-width: 768px) {
-    border-radius: 15px;
+      .slogan {
+        font-size: clamp(1.2rem, 3vw, 2rem);
+        font-weight: 300;
+        color: white;
+        text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+        opacity: 0.9;
+      }
+    }
   }
 }

@@ -55,7 +55,7 @@ export default function HookHomePage() {
     const bgY = -y / 10;
 
     // Rotation smartphone
-    const rotateX = y / 10;
+    const rotateX = y / 50;
     const rotateY = -x / 60;
 
     // Décalage du téléphone (léger, dans le sens inverse ou non)
@@ -106,6 +106,7 @@ export default function HookHomePage() {
             width={300}
             height={600}
             className={styles.phoneImg}
+            priority
           />
           
           {/* GIF (ou vidéo) dans l’écran */}
@@ -115,6 +116,7 @@ export default function HookHomePage() {
             width={300}
             height={600}
             className={styles.phoneScreen}
+            priority
           />
         </div>
       </div>

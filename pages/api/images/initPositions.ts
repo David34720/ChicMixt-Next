@@ -14,7 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     // Récupérer toutes les images triées par createdAt (ou tout autre critère)
     const images = await prisma.image.findMany({
       orderBy: {
-        createdAt: 'asc',
+        createdAt: 'desc',
       },
     });
 

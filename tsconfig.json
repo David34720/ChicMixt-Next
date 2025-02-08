@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "ESNext",
     "lib": ["dom", "dom.iterable", "esnext"],
     "allowJs": true,
@@ -20,10 +21,12 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@components/*": ["components/*"],
+      "@src/*": ["src/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "scripts/updatePositions.js", "extensions/**/*.ts",
-    "extensions/**/*.d.ts", "extensions/**/*.tsx", "extensions/**/*.jsx"],
+    "extensions/**/*.d.ts", "extensions/**/*.tsx", "extensions/**/*.jsx", "types/scss.d.ts"],
   "exclude": ["node_modules", "dist", ".next"]
 }

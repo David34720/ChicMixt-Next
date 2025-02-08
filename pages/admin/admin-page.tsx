@@ -4,17 +4,17 @@ import { SessionProvider } from "next-auth/react";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import React, { useState } from "react";
-import "../../src/app/globals.scss";
+import "@src/app/globals.scss";
 import dynamic from "next/dynamic";
-import AdminHeader from "../../components/AdminHeader";
+import AdminHeader from "@components/AdminHeader";
 
 
 const NewsletterAdmin = dynamic(
-  () => import("../../components/NewsletterAdmin"),
+  () => import("@components/NewsletterAdmin/NewsletterAdmin"),
   { ssr: false }
 );
 const UsersAdmin = dynamic(
-  () => import("../../components/UsersAdmin"),
+  () => import("@components/NewsletterAdmin/UsersAdmin"),
   { ssr: false }
 );
 interface User {

@@ -1,12 +1,12 @@
 "use client";
 import { useEffect, useContext } from "react";
 import { useSearchParams } from "next/navigation";
-import { ModalContext } from "../contexts/ModalContext";
-import UnsubscribeModal from "./UnsubscribeModal";
+import { ModalActionsContext } from "../contexts/ModalContext";
+import UnsubscribeModal from "./NewsletterAdmin/UnsubscribeModal";
 
 export default function SearchParamsHandler() {
   const searchParams = useSearchParams();
-  const { openModal, closeModal } = useContext(ModalContext);
+  const { openModal, closeModal } = useContext(ModalActionsContext);
 
   useEffect(() => {
     const showUnsubscribeModal = searchParams?.get("showUnsubscribeModal");

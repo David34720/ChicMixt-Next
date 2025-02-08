@@ -1,5 +1,5 @@
 // hooks/useDesktopAnimations.ts
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -19,131 +19,114 @@ export function useDesktopAnimations(
     gsap.registerPlugin(ScrollTrigger);
     const mm = gsap.matchMedia();
 
-    // On se crée un tableau pour stocker les triggers créés
     const scrollTriggers: ScrollTrigger[] = [];
-
     const { section1, section2, section3, section4 } = refs;
 
     mm.add("(min-width: 769px)", () => {
-      // Section2 apparaît, Section1 disparaît
+      // Animations existantes pour les sections 1 et 2
       if (section1.current && section2.current) {
+        const overlay2 = section2.current.querySelector(".section2-overlay");
         const tl1 = gsap.timeline({
           scrollTrigger: {
             trigger: section1.current,
             start: "bottom bottom",
-            end: "bottom 200px",
+            end: "bottom 40%",
             scrub: true,
           },
-        })
-          .fromTo(section2.current, { opacity: 0.7 }, { opacity: 1, duration: 1 });
+        }).fromTo(overlay2, { opacity: 1 }, { opacity: 0 });
 
-        // On push le scrollTrigger associé
         if (tl1.scrollTrigger) {
           scrollTriggers.push(tl1.scrollTrigger);
         }
 
-        const tl2 = gsap.timeline({
-          scrollTrigger: {
-            trigger: section2.current,
-            start: "top center",
-            end: "top 200px",
-            scrub: true,
-          },
-        })
-          .to(section1.current, { opacity: 0, duration: 1 });
-
-        if (tl2.scrollTrigger) {
-          scrollTriggers.push(tl2.scrollTrigger);
+        const overlay1 = section1.current.querySelector(".section1overlay");
+        if (overlay1) {
+          const tl2 = gsap.timeline({
+            scrollTrigger: {
+              trigger: section2.current,
+              start: "top center",
+              end: "top 200px",
+              scrub: true,
+            },
+          }).to(overlay1, { opacity: 1, duration: 1 });
+          
+          if (tl2.scrollTrigger) {
+            scrollTriggers.push(tl2.scrollTrigger);
+          }
         }
       }
 
-      // Section3 apparaît, Section2 disparaît
+      // Animations pour les sections 2 et 3
       if (section2.current && section3.current) {
-        const tl3 = gsap.timeline({
-          scrollTrigger: {
-            trigger: section2.current,
-            start: "bottom bottom",
-            end: "bottom 200px",
-            scrub: true,
-          },
-        })
-          .fromTo(section3.current, { opacity: 0 }, { opacity: 1, duration: 1 });
-
-        if (tl3.scrollTrigger) {
-          scrollTriggers.push(tl3.scrollTrigger);
+        const overlay2 = section2.current.querySelector(".section2-overlay");
+        const overlay3 = section3.current.querySelector(".section3-overlay");
+        
+        if (overlay2) {
+          const tl4 = gsap.timeline({
+            scrollTrigger: {
+              trigger: section3.current,
+              start: "top center",
+              end: "top 200px",
+              scrub: true,
+            },
+          }).to(overlay2, { opacity: 1, duration: 1 });
+          
+          if (tl4.scrollTrigger) {
+            scrollTriggers.push(tl4.scrollTrigger);
+          }
         }
 
-        const tl4 = gsap.timeline({
-          scrollTrigger: {
-            trigger: section3.current,
-            start: "top center",
-            end: "top 200px",
-            scrub: true,
-          },
-        })
-          .to(section2.current, { opacity: 0, duration: 1 });
+        if (overlay3) {
+          const tl3 = gsap.timeline({
+            scrollTrigger: {
+              trigger: section2.current,
+              start: "bottom 80%",
+              end: "bottom 20%",
+              scrub: true,
+            },
+          }).fromTo(overlay3, { opacity: 1 }, { opacity: 0, duration: 1 });
 
-        if (tl4.scrollTrigger) {
-          scrollTriggers.push(tl4.scrollTrigger);
+          if (tl3.scrollTrigger) {
+            scrollTriggers.push(tl3.scrollTrigger);
+          }
         }
       }
 
-      // ... Idem pour Section4 ...
-      if (section3.current && section4.current) {
+
+     
+      if (section4.current) {
+        const overlaySlider = document.querySelector(".slider-overlay");
+
+        // Timeline pour l’overlay
         const tl5 = gsap.timeline({
           scrollTrigger: {
-            trigger: section3.current,
-            start: "bottom bottom",
-            end: "bottom 200px",
-            scrub: true,
-          },
+            trigger: section4.current,
+            start: "top center",
+            end: "top 200px",
+            scrub: true
+          }
         })
-          .fromTo(section4.current, { opacity: 0 }, { opacity: 1, duration: 1 });
+        .fromTo(
+          overlaySlider,
+          { opacity: 0 },
+          { opacity: 0.7, duration: 1 }
+        );
 
         if (tl5.scrollTrigger) {
           scrollTriggers.push(tl5.scrollTrigger);
         }
 
-        if (section3.current) {
-        // Timeline (ou direct) pour déclencher showMasonry = true quand top de section3 arrive au center
-        const tlShowMasonry = gsap.timeline({
-          scrollTrigger: {
-            trigger: section3.current,
-            start: "top center",   // ou "center center", selon la zone souhaitée
-            onEnter: () => {
-              // On set showMasonry à true
-              setShowMasonry(true);
-            },
-            // Optionnel: si tu veux que showMasonry repasse à false quand on remonte tout en haut
-            onLeaveBack: () => {
-              setShowMasonry(false);
-            },
-          },
+        // ScrollTrigger distinct uniquement pour déclencher le masonry
+        const stMasonry = ScrollTrigger.create({
+          trigger: section4.current,
+          start: "top bottom-=100", // => Le bas de section4 à 100px avant le bas du viewport
+          onEnter: () => setShowMasonry(true),
         });
-
-        if (tlShowMasonry.scrollTrigger) {
-          scrollTriggers.push(tlShowMasonry.scrollTrigger);
-        }
-      }
-
-        const tl6 = gsap.timeline({
-          scrollTrigger: {
-            trigger: section4.current,
-            start: "top center",
-            end: "top 200px",
-            scrub: true,
-          },
-        })
-          .to(section3.current, { opacity: 0, duration: 1 });
-
-        if (tl6.scrollTrigger) {
-          scrollTriggers.push(tl6.scrollTrigger);
-        }
+        scrollTriggers.push(stMasonry);
       }
     });
 
     return () => {
-      // On tue juste nos triggers et on revert le matchMedia
       scrollTriggers.forEach((st) => st.kill());
       mm.revert();
     };

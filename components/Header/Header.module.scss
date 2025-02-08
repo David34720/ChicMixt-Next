@@ -1,0 +1,128 @@
+
+.login {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  width: max-content;
+  height: auto;
+  border-radius: 50%;
+  padding: 5px;
+  font-size: 24px;
+  cursor: pointer;
+  text-align: center;
+  color: #de277c18;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  
+}
+.admin {
+  background: none;
+  
+}
+.admin button, .admin a {
+  border: none;
+  color: var(--tertiary-color);
+}
+
+.header {
+  padding: 16px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  color: rgb(0, 0, 0);  
+  .nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.2rem; 
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem; /* Espace entre le logo et le titre */
+      filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));     
+      justify-content: center;
+      
+    }
+    
+    ul {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      
+      li {
+        width: max-content;
+        
+      }
+      
+      li a, button {
+        display: block;
+        height: 45px;
+        background: rgba(255,255,255,0.60);
+          -webkit-backdrop-filter: blur(5px);
+          backdrop-filter: blur(5px);
+          border: 1px solid rgba(255,255,255,0.70);
+        padding: 10px;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-size: clamp(0.6rem, 2.5vw, 1rem);
+        &:hover {
+          color: #718096;
+        }
+      }
+    }
+    .dekstop {
+      @media screen and (max-width: 768px) {
+        display: none;
+        
+      }
+    }
+  }
+  
+  .logoXl {
+    width: 240px;
+    border-radius: 10px;
+    background: rgba(255,255,255,0.60);
+      -webkit-backdrop-filter: blur(5px);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255,255,255,0.70);
+  }
+  
+  .logoTxt {
+    font-family: "Aboreto", cursive;
+    // border: 1px solid var(--tertiary-color);
+    border-radius: 10px;
+    color: var(--secondary-color);
+    font-size: 2.5rem;
+    padding: 10px;
+    // mix-blend-mode: difference;
+    position: relative;
+  
+    &::after {
+          content: "BY Fanny";
+      position: absolute;
+      bottom: 0px;
+      right: 70px;
+      font-size: 1.4rem;
+      font-family: cursive;
+      font-style: italic;
+      color: #de277b;
+    }
+  
+    @media screen and (max-width: 768px) {
+       border-radius: 5px;
+        font-size: 1.5rem;
+        padding: 5px;
+  
+        &::after {
+          bottom: -4px;
+          right: 30px;
+          font-size: 1rem;
+        }
+    }
+  }
+}

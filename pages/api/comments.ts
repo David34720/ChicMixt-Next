@@ -9,7 +9,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
   if (method === 'GET') {
     try {
       // Récupérer les commentaires depuis la base de données
-      const comments = await prisma.comment.findMany();
+      const comments = await prisma.comment.findMany({
+        orderBy: {
+          createdAt: 'desc',
+        },
+      });
       res.status(200).json(comments);
     } catch (error: unknown) {
       if (error instanceof Error) {

@@ -7,7 +7,6 @@ interface Section1ContentProps {
 
 const Section1Content = ({ handleSectionClickPlus }: Section1ContentProps) => {
   const section1Content = useRef<HTMLDivElement | null>(null);
-  console.log('styles', styles);
 
 
   return (  
@@ -25,6 +24,20 @@ const Section1Content = ({ handleSectionClickPlus }: Section1ContentProps) => {
           Découvrir
         </button>
       </div>
+      <div
+          className="section1overlay"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "#fff", // ou la couleur de fond souhaitée
+            opacity: 0,
+            pointerEvents: "none",
+            zIndex: 5,
+          }}
+        />
     </>
   )
 }

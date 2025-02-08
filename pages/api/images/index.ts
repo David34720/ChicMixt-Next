@@ -13,7 +13,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       case 'GET': // Récupérer toutes les images
         try {
           const images = await prisma.image.findMany({
-            orderBy: { position: "asc" }, // Tri par position
+            orderBy: { position: "desc" }, // Tri par position
           });
           res.status(200).json(images);
         } catch (error) {

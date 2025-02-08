@@ -1,0 +1,93 @@
+
+.section3Left {
+  height: 100%;
+  width: 40%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+
+  .infoCard {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+    width: 33vw;
+  }
+
+  .section3Title {
+    font-size: 1.3rem;
+    color: var(--tertiary-color);
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  .section3Text {
+    font-size: 1.2rem;
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+
+  .section3Text strong {
+    font-weight: 600;
+  }
+  .textLink {
+    color: var(--tertiary-color);
+    text-decoration: underline;
+    transition: color 0.3s;
+  }
+
+  .textLink:hover {
+    color: var(--tertiary-color-hover, #e0457b); /* Ajustez la couleur hover */
+  }
+
+  .ctaArea {
+    text-align: center;
+    background: #fff;
+    margin-top: 10px;
+  }
+
+  .section3TextCta {
+    font-size: 1.1rem;
+    color: var(--tertiary-color);
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+
+  .calendarLink {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--tertiary-color);
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 1.1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: background-color 0.3s;
+  }
+
+  .calendarLink:hover {
+    background-color: var(--tertiary-color-hover, #e0457b);
+  }
+
+  .calendarIconWrapper {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 10px;
+  }
+}
+.section3Right {
+  height: 100%;
+  width: 60%;
+  right: 0;
+  background-repeat: no-repeat;
+  background-size: auto;
+  background-position: right;
+  background-attachment: fixed;
+}  
+

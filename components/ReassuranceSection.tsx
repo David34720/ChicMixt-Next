@@ -27,7 +27,7 @@ export default function ReassuranceSection() {
   ];
 
   return (
-    <section className="mx-auto max-w-6xl px-4 bg-white rounded-lg shadow hover:shadow-lg transition-shadow reassurance-content">
+    <section className="mx-auto max-w-6xl px-4 bg-white rounded-lg  reassurance-content">
       <h2 className="text-1xl md:text-1xl font-bold text-center mb-8 enter-animation">
         Pourquoi Choisir Chic&#39;Mixt ?
       </h2>
