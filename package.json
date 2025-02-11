@@ -8,6 +8,7 @@
     "clean-dist": "find . -type d -name 'dist' -exec rm -rf {} +",
     "build": "npm run clean && next build",
     "start": "next start",
+    "prod": "npm run clean && next build && next start",
     "lint": "next lint",
     "admin": "node seed-admins.js",
     "update-all": "pnpm update && pnpm install && pnpm run build"

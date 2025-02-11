@@ -5,13 +5,14 @@ import Image from "next/image";
 import { useSectionRefs } from "../../hooks/useSectionRefs";
 import { useScrollEnterAnimation } from "../../hooks/useScrollEnterAnimation";
 
-import FacebookLiveVideo from "../../components/FacebookLiveVideo";
+import FacebookLiveVideo from "./FacebookLiveVideo";
+import FacebookLiveVideoMobile from '@components/Section2Content/FacebookLiveVideoMobile';
 import { ReactShare } from "../ReactShare/ReactShare";
 
 interface Section2ContentProps {
-   
+   isMobile: boolean
 }
-const Section2Content = ({  }: Section2ContentProps) => {
+const Section2Content = ({ isMobile }: Section2ContentProps) => {
    
   const { desktopRefs } = useSectionRefs();
 
@@ -31,15 +32,17 @@ const Section2Content = ({  }: Section2ContentProps) => {
     start: "top 80%",
     end: "80% 20%",
     ease: "power2.out",
-    markers: true
+    markers: false
   });
 
   return (  
     <>
       <div className={`${styles.leftCol} section2AnimationContainer`}>
+        {!isMobile && (
           <div className={styles.imageWrapper} ref={desktopRefs.imageRef1}>
             <FacebookLiveVideo videoUrl={facebookVideoUrl} />
           </div>
+        )}
       </div>
       <div className={`${styles.rightCol} section2AnimationContainer`}>
         <a href="https://fb.watch/xgvTdqbHcb/" target="_blank" rel="noopener noreferrer">
@@ -69,7 +72,7 @@ const Section2Content = ({  }: Section2ContentProps) => {
             <span className={styles.shareText}>
               Partagez à vos amis et profitez des bons plans Mode Chic'Mixt sur vos réseaux préférés !
             </span>
-            <ReactShare iconSize={40} />
+            <ReactShare iconSize={40} classAnimation="section2ShareAnimation" />
           </div>
         </div>
       </div>

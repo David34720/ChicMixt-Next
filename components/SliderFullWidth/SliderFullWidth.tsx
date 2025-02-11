@@ -45,118 +45,152 @@ const slidesData: SliderFullWidthProps[] = [
 ];
 
 const SliderFullWidth: React.FC = () => {
+  // Ref sur le container de scroll (outer)
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
-
     const container = containerRef.current;
     if (!container) return;
 
-    const slides = gsap.utils.toArray<HTMLElement>(
-      container.querySelectorAll(`.${styles.slide}`)
-    );
+    // Définir la hauteur minimale du container de scroll pour générer le scroll (4 fois la hauteur de la fenêtre)
+    container.style.minHeight = `${window.innerHeight * slidesData.length}px`;
 
-    // Paramètres de timeline
-    const holdPercent = 0.9; // Augmentez ce pourcentage pour allonger le temps de maintien d'une diapositive
-    const transitionPercent = 1 - holdPercent; // 0.2
-
-    // Timeline principale
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: container,
-        pin: true,
-        pinSpacing: true,
-        start: "top top",
-        // end: "100%", // À ajuster si besoin, ex: end: () => "+=" + slides.length * 100 + "%"
-        end: "100%",
-        scrub: 4, // on veut un contrôle pixel-perfect avec le scroll
-        snap: {
-          snapTo: 1 / (slides.length - 1),
-          duration: 1, 
-          inertia: false
-        },
-        onUpdate: (self) => {
-          // Mise à jour de l'indicateur "dot" en fonction de la progression
-          const progress = self.progress;
-          const currentIndex = Math.round(progress * (slides.length - 1));
-          document.querySelectorAll(`.${styles.dot}`).forEach((dot, index) => {
-            if (index === currentIndex) {
-              dot.classList.add(styles.active);
-            } else {
-              dot.classList.remove(styles.active);
-            }
-          });
-        },
-      },
-    });
-
-    // Initialisation des slides (la première est visible, les autres masquées / floues)
-    slides.forEach((slide, i) => {
-      gsap.set(slide, {
-        autoAlpha: i === 0 ? 1 : 0,
-        filter: i === 0 ? "blur(0px)" : "blur(8px)",
-        zIndex: slides.length - i,
+    // Attendre le chargement de toutes les images
+    const imgs = container.querySelectorAll("img");
+    const imgPromises = Array.from(imgs).map((img) => {
+      if (img.complete) return Promise.resolve();
+      return new Promise<void>((resolve) => {
+        img.addEventListener("load", () => resolve());
+        img.addEventListener("error", () => resolve());
       });
     });
 
-    // Construction de l'animation
-    slides.forEach((slide, i) => {
-      const slogan2El = slide.querySelector(`.${styles.slogan2}`);
-      const sloganEl = slide.querySelector(`.${styles.slogan}`);
-
-      // Animation des slogans : de y=80 à y=-80 (scrub: true), sur la durée holdPercent
-      tl.fromTo(
-        [slogan2El, sloganEl],
-        { y: 200, autoAlpha: 0 },
-        {
-          y: -250,
-          autoAlpha: 1,
-          ease: "none", // pas d'easing, le scroll contrôle entièrement le mouvement
-          duration: holdPercent,
-        },
-        i // début à i
-      ).to(
-        [slogan2El, sloganEl],
-        { autoAlpha: 0 },
-        i + holdPercent // on les masques avant la transition
-      );
-
-      // Transition slide précédente -> slide actuelle
-      if (i !== 0) {
-        tl.to(
-          slides[i - 1],
-          {
-            autoAlpha: 0,
-            y: -200,
-            filter: "blur(8px)",
-            duration: transitionPercent,
-            ease: "power2.inOut", 
-          },
-          i - transitionPercent
-        ).fromTo(
-          slides[i],
-          { autoAlpha: 0, filter: "blur(8px)" },
-          {
-            autoAlpha: 1,
-            filter: "blur(0px)",
-            duration: transitionPercent,
-            ease: "power2.inOut",
-          },
-          i - transitionPercent
-        );
-      }
+    Promise.all(imgPromises).then(() => {
+      createTimeline();
     });
 
+    const createTimeline = () => {
+      // Le container à pinner est l'élément interne (sliderContainer)
+      const sliderContainer = container.querySelector(`.${styles.sliderContainer}`);
+      if (!sliderContainer) return;
+      
+      const slides = gsap.utils.toArray<HTMLElement>(
+        sliderContainer.querySelectorAll(`.${styles.slide}`)
+      );
+      const totalUnits = slides.length; // ici 4 slides
+      const fadeDuration = 0.5;
+      const holdDuration = 1 - fadeDuration; // 0.5
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: container, // container de scroll
+          pin: sliderContainer, // on pin le container interne
+          pinSpacing: true,
+          anticipatePin: 1,
+          start: "top top",
+          end: () => "+=" + window.innerHeight * (totalUnits - 1),
+          markers: false,
+          scrub: 8,
+          snap: {
+            snapTo: 1 / (totalUnits - 1),
+            duration: 1.5,
+            inertia: false,
+          },
+          onUpdate: (self) => {
+            const progress = self.progress;
+            const currentIndex = Math.min(
+              Math.round(progress * totalUnits),
+              totalUnits - 1
+            );
+            document.querySelectorAll(`.${styles.dot}`).forEach((dot, index) => {
+              if (index === currentIndex) {
+                dot.classList.add(styles.active);
+              } else {
+                dot.classList.remove(styles.active);
+              }
+            });
+          },
+        },
+      });
+
+      // Initialisation des slides
+      slides.forEach((slide, i) => {
+        gsap.set(slide, {
+          autoAlpha: i === 0 ? 1 : 0,
+          filter: i === 0 ? "blur(0px)" : "blur(8px)",
+          zIndex: 5000 + totalUnits - i,
+        });
+      });
+
+      // Animation de chaque slide
+      slides.forEach((slide, i) => {
+        const slogan2El = slide.querySelector(`.${styles.slogan2}`);
+        const sloganEl = slide.querySelector(`.${styles.slogan}`);
+
+        tl.fromTo(
+          [slogan2El, sloganEl],
+          { y: 200, autoAlpha: 0 },
+          {
+            y: -250,
+            autoAlpha: 1,
+            ease: "none",
+            duration: holdDuration,
+          },
+          i
+        ).to(
+          [slogan2El, sloganEl],
+          { autoAlpha: 0 },
+          i + holdDuration
+        );
+
+        if (i !== 0) {
+          tl.to(
+            slides[i - 1],
+            {
+              autoAlpha: 0,
+              y: -200,
+              filter: "blur(8px)",
+              duration: fadeDuration,
+              ease: "power2.inOut",
+            },
+            i - fadeDuration
+          ).fromTo(
+            slides[i],
+            { autoAlpha: 0, filter: "blur(8px)" },
+            {
+              autoAlpha: 1,
+              filter: "blur(0px)",
+              duration: fadeDuration,
+              ease: "power2.inOut",
+            },
+            i - fadeDuration
+          );
+        }
+      });
+
+      // Verrouiller l'état final du dernier slide
+      tl.addLabel("final", totalUnits);
+      tl.to(
+        slides[totalUnits - 1],
+        { autoAlpha: 1, filter: "blur(0px)", duration: 0.1 },
+        "final"
+      );
+
+      // Rafraîchir ScrollTrigger
+      ScrollTrigger.refresh();
+    };
+
     return () => {
-      tl.kill();
       ScrollTrigger.getAll().forEach((st) => st.kill());
     };
   }, []);
 
   return (
-    <>
-      <div ref={containerRef} className={`${styles.sliderContainer} sliderContainer`}>
+    // Container de scroll (outer)
+    <div ref={containerRef} className={styles.sliderScroll}>
+      {/* Container à pinner (inner) */}
+      <div className={styles.sliderContainer}>
         {slidesData.map((slide, index) => (
           <section key={slide.id} data-slide={index} className={styles.slide}>
             <div className={styles.imageWrapper}>
@@ -171,13 +205,9 @@ const SliderFullWidth: React.FC = () => {
         ))}
         <div className={styles.progress}>
           {slidesData.map((_, index) => (
-            <div
-              key={index}
-              className={`${styles.dot} ${index === 0 ? styles.active : ""}`}
-            />
+            <div key={index} className={`${styles.dot} ${index === 0 ? styles.active : ""}`} />
           ))}
         </div>
-        {/* Overlay qui masque la section si besoin */}
         <div
           className="slider-overlay"
           style={{
@@ -193,7 +223,7 @@ const SliderFullWidth: React.FC = () => {
           }}
         />
       </div>
-    </>
+    </div>
   );
 };
 

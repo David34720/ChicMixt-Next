@@ -1,5 +1,6 @@
 import styles from './Section3Content.module.scss';
 import { useSectionRefs } from "../../hooks/useSectionRefs";
+import { useScrollEnterAnimation } from "../../hooks/useScrollEnterAnimation";
 import { FcCalendar } from "react-icons/fc";
 
 
@@ -12,21 +13,27 @@ const Section3Content = ({  }: Section3ContentProps) => {
    
   const { desktopRefs } = useSectionRefs();
 
-
-
-
+  useScrollEnterAnimation(".section3Animation", {
+    duration: 0.8,
+    y: 50,
+    start: "top 80%",
+    end: "top 10%",
+    ease: "power2.out",
+    stagger: 0.2,
+    markers: false
+  })
   return (  
     <>
       <div ref={desktopRefs.section3Title1} className={styles.section3Left}>
           <div className={`${styles.infoCard}`}>
-            <h2 className={`${styles.section3Title} enter-animation`}>
+            <h2 className={`${styles.section3Title} section3Animation`}>
               Tous les lundis soirs 
             </h2>
-            <p className={`${styles.section3Text} enter-animation`}>
+            <p className={`${styles.section3Text} section3Animation`}>
               <br />
               Venez vous détendre et découvrez notre sélection mode à tout petit prix !
             </p>
-            <p className={`${styles.section3Text} enter-animation`}>
+            <p className={`${styles.section3Text} section3Animation`}>
               Suivez-nous sur{" "}
               <a
                 href="https://www.facebook.com/profile.php?id=61555657774462"
@@ -41,8 +48,8 @@ const Section3Content = ({  }: Section3ContentProps) => {
             
           </div>
           <div className={`${styles.ctaArea} `}>
-            <p className={`${styles.section3TextCta} enter-animation`}>Prochain Live : lundi 20h30 !</p>
-            <a className={`${styles.calendarLink} enter-animation`} href="/calendrier.ics" download>
+            <p className={`${styles.section3TextCta} section3Animation`}>Prochain Live : lundi 20h30 !</p>
+            <a className={`${styles.calendarLink} section3Animation`} href="/calendrier.ics" download>
               <span className={`${styles.calendarIconWrapper} `}>
                 <FcCalendar className={`${styles.calendarIcon} `} />
               </span>

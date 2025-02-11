@@ -80,14 +80,23 @@
     align-items: center;
     margin-right: 10px;
   }
+
+  @media screen and (max-width: 768px) {
+    width: 100%;
+
+    .infoCard {
+      width: 100%;
+    }
+  }
 }
 .section3Right {
   height: 100%;
   width: 60%;
   right: 0;
   background-repeat: no-repeat;
-  background-size: auto;
+  background-size: cover;
   background-position: right;
   background-attachment: fixed;
+  
 }  
 

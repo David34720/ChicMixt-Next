@@ -1,31 +1,24 @@
 "use client";
-import React, { useState } from "react";
 import styles from "./ReactShare.module.scss";
+import React, { useState } from "react";
 import { useScrollEnterAnimation } from "../../hooks/useScrollEnterAnimation";
 import { FaCopy } from "react-icons/fa";
-
-// Importation centralisée des boutons wrapper
-import {
-  TwitterShareButton,
-  TelegramShareButton,
-  WhatsappShareButton,
-  LinkedinShareButton,
-  PinterestShareButton,
-  RedditShareButton,
-  TumblrShareButton,
-  EmailShareButton,
-} from "./WrappedShareButtons"; // ! remettre juste react-share à la 5.3
-
-// Importation des icônes depuis react-share
 import {
   EmailIcon,
+  EmailShareButton,
   LinkedinIcon,
+  LinkedinShareButton,
   PinterestIcon,
+  PinterestShareButton,
   RedditIcon,
+  RedditShareButton,
   TelegramIcon,
+  TelegramShareButton,
   TumblrIcon,
-  TwitterIcon,
+  TumblrShareButton,
+  TwitterShareButton,
   WhatsappIcon,
+  WhatsappShareButton,
   XIcon,
 } from "react-share";
 
@@ -40,6 +33,7 @@ export interface ReactShareProps {
 export function ReactShare({ iconSize, classAnimation = "", onceAnimation }: ReactShareProps) {
   const shareUrl = "https://www.facebook.com/profile.php?id=61555657774462";
   const title = "La meilleure boutique de mode en live Facebook";
+
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
@@ -47,21 +41,22 @@ export function ReactShare({ iconSize, classAnimation = "", onceAnimation }: Rea
       .writeText(shareUrl)
       .then(() => {
         setCopied(true);
-        setTimeout(() => setCopied(false), 2000);
+        setTimeout(() => setCopied(false), 2000); // Masquer le message après 2s
       })
       .catch(err => console.error("Failed to copy text: ", err));
   };
 
   if (classAnimation) {
-    useScrollEnterAnimation(`.${classAnimation}`, {
-      duration: 0.8,
-      y: 50,
-      start: "bottom 100%",
-      end: "top 10%",
-      ease: "power2.out",
-      stagger: 0.2,
-      markers: false,
-    });
+    // Le hook va cibler tous les éléments qui possèdent la classe passée (par ex. "footerShareAnimation")
+  useScrollEnterAnimation(`.${classAnimation}`, {
+    duration: 0.8,
+    y: 50,
+    start: "bottom 100%",
+    end: "top 10%",
+    ease: "power2.out",
+    stagger: 0.2,
+    markers: false,
+  });
   }
 
   return (

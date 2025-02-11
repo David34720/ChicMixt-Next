@@ -48,7 +48,10 @@ export default function FacebookLiveVideo({
           height: "80%",
           borderRadius: "20px",
           overflow: "hidden",
-          background: "#f0f0f0"
+          background: "#f0f0f0",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }}
       >
         Chargement...
@@ -70,6 +73,9 @@ export default function FacebookLiveVideo({
             border: "none",
             borderRadius: "20px",
             overflow: "hidden",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center"
           }}
         ></div>
       ) : (

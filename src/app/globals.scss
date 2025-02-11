@@ -200,59 +200,6 @@ h1 {
   align-items: center;  
 }
 
-.section2M {
-  background-color: #ffffff;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 20px;
-  padding: 20px;
-  position: relative;
-  z-index: 10;
-
-  .section2M-facebook {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-  }
-  .section2M-content {
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-
-    .logo-fb-container {
-      width: 100%;
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-
-      h1 {
-        padding: 10px;
-      }
-    }
-    .share {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      
-      .Demo__container {
-        margin-top: 20px;
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-      }
-    }
-  }
-}
 
 .section3 {
   height: calc(100vh - 50px - 120px);
@@ -271,58 +218,43 @@ h1 {
   }
 }
 
-.section3M {
-  padding: 20px;
-  position: relative;
-  z-index: 10;
+.section4 {
+  height: 50vh;
 
-  strong {
-    font-weight: bold;
-  }
-
-  .section3M-content {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    padding: 5px;
-
-    .collection-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px
-    }
-  }
-
-  .cta-area {
-    margin: 20px 0;
-    .section3-text-cta {
-      text-align: center;
-
-  }
+  @media screen and (max-width: 768px) {
+    height: 70vh;
   }
 }
+
 .section4-container {
   position: relative;
   width: 100%;
   background-color: white;
   padding: 20px 0;
 
-  
+  .section4-masonry {
+    height: 50vh;
 
+    @media screen and (max-width: 768px) {
+      height: 70vh;
+    }
+  }
 
   .reassurance {
     padding: 20px 0;
-    @media screen and (max-width: 768px) {
-      margin-top: 20px 0 10px 0;
-      .reassurance-content {
-        padding-top: 10px;
-        padding-bottom: 10px;
-      }      
-    }
   }
 }
+@media screen and (max-width: 768px) {
+  .reassurance-content {
+    padding-top: 10px;
+    padding-bottom: 10px;
+  }      
+}
+
+.slider-container {
+  height: 400vh;
+}
+
 .section5 {
   width: 100%;
   overflow: hidden; 
@@ -404,10 +336,6 @@ h1 {
   position: relative;
 }
 
-
-
-
-
 .network {
   vertical-align: top;
   display: inline-block;
@@ -444,7 +372,12 @@ h1 {
   align-items: center;
   flex-direction: row;
   padding: 20px 0 120px 0;
-  
+  @media screen and (max-width: 768px) {
+    margin-bottom: 100px;
+  }
+}
+.mobile-section7 {
+  margin-bottom: 50px;
 }
 
 // Admin

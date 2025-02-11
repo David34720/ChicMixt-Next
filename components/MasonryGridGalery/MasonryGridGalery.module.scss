@@ -43,26 +43,8 @@
   // Pour Firefox
   scrollbar-width: thin; 
   scrollbar-color: #f5f5f5 var(--tertiary-color-hover);
-}
 
-.section4M {
-  position: relative;
-  z-index: 10;
-  height: 70vh;
-  overflow-y: auto;
-  background-color: var(--tertiary-color);
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  position: relative;
-  padding: 0 10px;
-  border-top: 20px solid var(--tertiary-color);
-  border-bottom: 20px solid var(--tertiary-color);
-  border-radius: 20px;
-  margin: 0 10px; 
-}
 
-.masonryGalery { 
   .myMasonryGrid {
     display: flex;
     margin-left: -10px; /* Réduit l'espace entre les colonnes */
@@ -86,14 +68,70 @@
         cursor: pointer;
       }
     }
+    .myMasonryGridColumn {
+      padding-left: 10px; /* Réduit l'espace entre les colonnes */
+      background-clip: padding-box;
+    }
+  
+    .myMasonryGridColumn > div {
+      margin-bottom: 10px; /* Réduit l'espace entre les images */
+    }
   }
 
-  .myMasonryGridColumn {
-    padding-left: 10px; /* Réduit l'espace entre les colonnes */
-    background-clip: padding-box;
-  }
+}
 
-  .myMasonryGridColumn > div {
-    margin-bottom: 10px; /* Réduit l'espace entre les images */
+@media screen and (max-width: 768px) {
+  
+  .section4 {
+    position: relative;
+    z-index: 10;
+    height: 70vh;
+    overflow-y: auto;
+    background-color: var(--tertiary-color);
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative;
+    padding: 0 10px;
+    border-top: 20px solid var(--tertiary-color);
+    border-bottom: 20px solid var(--tertiary-color);
+    border-radius: 20px;
+    margin: 0 10px; 
+  }
+  
+  .masonryGalery { 
+    .myMasonryGrid {
+      display: flex;
+      margin-left: -10px; /* Réduit l'espace entre les colonnes */
+      width: auto;
+      padding: 10px;
+      position: relative;
+      z-index: 10;
+      
+      .cardGalery {
+        position: relative;
+        transition: transform 200ms ease, opacity 200ms ease;
+  
+        button {
+          position: absolute;
+          top: 5px;
+          right: 5px;
+          background: red;
+          color: white;
+          border-radius: 10px;
+          font-size: 24px;
+          cursor: pointer;
+        }
+      }
+    }
+  
+    .myMasonryGridColumn {
+      padding-left: 10px; /* Réduit l'espace entre les colonnes */
+      background-clip: padding-box;
+    }
+  
+    .myMasonryGridColumn > div {
+      margin-bottom: 10px; /* Réduit l'espace entre les images */
+    }
   }
 }

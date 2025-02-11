@@ -7,11 +7,11 @@ import { useSearchParams } from "next/navigation";
 import { ModalActionsContext } from "../../contexts/ModalContext";
 
 import { useSectionRefs } from "../../hooks/useSectionRefs";
-import { useScrollEnterAnimation } from "../../hooks/useScrollEnterAnimation";
 import { useDesktopAnimations } from "../../hooks/useDesktopAnimations";
+import { useMobileAnimations } from "../../hooks/useMobileAnimations";
 
 
-import FacebookLiveVideoMobile from "../../components/FacebookLiveVideoMobile";
+import FacebookLiveVideoMobile from "../../components/Section2Content/FacebookLiveVideoMobile";
 import HookHomePage from "../../components/HookHomePage/HookHomePage";
 import Section1Content from "../../components/Section1Content/Section1Content";
 import Section2Content from "../../components/Section2Content/Section2Content";
@@ -21,7 +21,7 @@ const MasonryGridGalery = dynamic(() => import("../../components/MasonryGridGale
   ssr: false,
   loading: () => <p>Loading...</p>,
 });
-import ReassuranceSection from "../../components/ReassuranceSection";
+import ReassuranceSection from "../../components/ReassuranceSection/ReassuranceSection";
 import { CarouselComments } from "../../components/CarouselComments/CarouselComments";
 import CommentForm from "../../components/CarouselComments/CommentForm";
 import NewsletterSectionFront from "../../components/NewsletterAdmin/NewsletterSectionFront";
@@ -43,18 +43,6 @@ export default function Home() {
   const [showMasonry, setShowMasonry] = useState(false);
   const [hasMasonryLoaded, setHasMasonryLoaded] = useState(false);
 
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [contentLoaded, setContentLoaded] = useState(false);
-
-  useEffect(() => {
-    const onLoad = () => setIsLoaded(true);
-    if (document.readyState === 'complete') {
-      setIsLoaded(true);
-    } else {
-      window.addEventListener('load', onLoad);
-    }
-    return () => window.removeEventListener('load', onLoad);
-  }, []);
 
   // Dès que showMasonry devient true, on le verrouille
   useEffect(() => {
@@ -62,11 +50,6 @@ export default function Home() {
       setHasMasonryLoaded(true);
     }
   }, [showMasonry, hasMasonryLoaded]);
-
-  // useScrollEnterAnimation();
-  useDesktopAnimations(desktopRefs, setShowMasonry);
-
-
 
   // Gestion de la modale
   const handleCloseModal = useCallback(() => {
@@ -106,19 +89,32 @@ export default function Home() {
 
 
   // Rendu pour la version Desktop
-  const DesktopView = () => (
+  const DesktopView = () => {
+
+    const handleSectionClickPlus = () => {
+      window.scrollBy({
+        top: window.innerHeight - 100, // Descend d'une hauteur d'écran
+        left: 0,
+        behavior: "smooth",
+      });
+    };
+
+    useDesktopAnimations(desktopRefs, setShowMasonry);
+
+    return (
+
     <div>
       {/* Section 1 */}
       <section ref={desktopRefs.section1} className="section1">
         <div className="section1-div">
           <HookHomePage />
         </div>
-        <Section1Content handleSectionClickPlus={() => console.log("Plus")} />
+        <Section1Content handleSectionClickPlus={handleSectionClickPlus} />
       </section>
 
       {/* Section 2 */}
       <section ref={desktopRefs.section2} className="section2">
-        <Section2Content />
+        <Section2Content isMobile={false} />
       </section>
 
       {/* Section 3 */}
@@ -126,13 +122,13 @@ export default function Home() {
         <Section3Content />
       </section>
 
-      <section>
+      <section className="slider-container">
         <SliderFullWidth />
       </section>
 
       {/* Section 4 */}
       <section ref={desktopRefs.section4} className="section4-container">
-        <div >{(showMasonry || hasMasonryLoaded) && <MasonryGridGalery />}</div>
+        <div className="section4-masonry">{(showMasonry || hasMasonryLoaded) && <MasonryGridGalery />}</div>
         <div ref={desktopRefs.section41} className="reassurance">
           <ReassuranceSection />
         </div>
@@ -158,12 +154,66 @@ export default function Home() {
       </div>
       
     </div>
-  );
+  )};
 
   // Rendu pour la version Mobile, en utilisant mobileRefs du hook
-  const MobileView = () => (
-    <></>
-  );
+  const MobileView = () => {
+
+    useMobileAnimations(mobileRefs, setShowMasonry);
+    const handleSectionClickPlus = () => {
+      window.scrollBy({
+        top: window.innerHeight - 100, // Descend d'une hauteur d'écran - 100px
+        left: 0,
+        behavior: "smooth",
+      });
+    };
+
+    return (
+
+    <>
+      <div>
+        {/* Section 1 */}
+        <section ref={mobileRefs.section1M} className="section1">
+          <HookHomePage />
+          <Section1Content handleSectionClickPlus={handleSectionClickPlus} />
+        </section>
+
+        {/* Section 2 */}
+        <section ref={mobileRefs.section2M} className="mobile-section2">
+          <Section2Content isMobile />
+        </section>
+
+        {/* Section 3 */}
+        <section ref={mobileRefs.section3M} className="mobile-section3">
+          <Section3Content />
+        </section>
+
+        {/* Slider / Galerie */}
+        <section className="slider-container">
+          <SliderFullWidth />
+        </section>
+
+        {/* Section Reassurance */}
+        <section ref={mobileRefs.section4M} className="section4">
+          <div >{(showMasonry || hasMasonryLoaded) && <MasonryGridGalery />}</div>
+        </section>
+
+        <section ref={mobileRefs.section41M} className="section4-reassurance">
+          <ReassuranceSection />
+        </section>
+
+        {/* Section Carousel des commentaires */}
+        <section ref={mobileRefs.section5M} className="mobile-section5">
+          <CarouselComments />
+        </section>
+
+        {/* Section Newsletter */}
+        <section ref={mobileRefs.section51M} className="mobile-section7">
+          <NewsletterSectionFront />
+        </section>
+      </div>
+    </>
+  )};
 
   return <>{!isMobile ? <DesktopView /> : <MobileView />}</>;
 }

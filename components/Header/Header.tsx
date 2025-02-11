@@ -86,9 +86,9 @@ const Header: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => {
           <li>
             <button onClick={handleContactModal}>Contact</button>
           </li>
-          <li>
+          {/* <li>
             <Link href="/HookHomePage">HookHomePage</Link>
-          </li>
+          </li> */}
         </ul>
       </nav>
     </header>

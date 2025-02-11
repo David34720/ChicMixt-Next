@@ -121,7 +121,7 @@ const Footer: React.FC = () => {
       <ReactShare iconSize={30} />
 
       <div>
-        Site créé avec <span role="img" aria-label="heart">❤️</span> par  
+        Site créé avec &nbsp;<span role="img" aria-label="heart">❤️</span>&nbsp; 
         <a href="https://www.okiweb.fr" target="_blank" rel="noopener">
           Okiweb.fr
         </a>
