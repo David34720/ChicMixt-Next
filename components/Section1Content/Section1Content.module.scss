@@ -13,7 +13,7 @@
   justify-content: space-around;  
   gap: 10px;
   z-index: 2;
-  margin-bottom: 10px;
+  margin-bottom: 30px;
   background: rgba(255,255,255,0.5);
   -webkit-backdrop-filter: blur(5px);
   backdrop-filter: blur(5px);
@@ -53,20 +53,21 @@
     }
   }
   @media screen and (max-width: 768px) {
-    height: 35vh;
-    width: 80vw;
-    overflow-y: auto;
-    justify-content: flex-start;
-    margin-bottom: 20px;
+    
+    position: absolute;
+    top: 200px;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
 
     .section1Title {
-      text-align: center;
-      width: 100%;
-      font-size: 1.1rem; /* Taille énorme */
+      font-size: 1.2rem;
+      
     }
     .section1Description {
+      font-size: 0.8rem;
 
-      font-size: 1rem;
+      
     }      
   }
 }

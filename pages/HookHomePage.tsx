@@ -1,107 +1,191 @@
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
+'use client';
+
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './HookHomePage.module.scss';
+import { gsap } from 'gsap';
 
-export default function HookHomePage() {
-  // État pour le décalage de la BG (parallaxe)
-  const [bgOffset, setBgOffset] = useState({ x: 0, y: 0 });
-  // État pour l’inclinaison du smartphone
-  const [phoneRotation, setPhoneRotation] = useState({ x: 0, y: 0 });
-  // État pour le scale (zoom arrière initial)
-  const [bgScale, setBgScale] = useState(1.4);
-  // État pour le blur (flou au démarrage)
-  const [bgBlur, setBgBlur] = useState(5); // 10 = 10px de flou initial
+interface Slide {
+  id: number;
+  title: string;
+  slogan: string;
+  image: string;
+  link: string;
+}
 
-  // === 1) Animer le scale de l’image de fond et le blur sur 2s au chargement ===
-  useEffect(() => {
-    let startTime = 0;
-    const duration = 1500; // 2 secondes
+const slides: Slide[] = [
+  {
+    id: 1,
+    title: 'FEMME',
+    slogan: 'L\'élégance à l\'état pur',
+    image: '/images/diaporamaDressing/diapo-femme-ia-2.jpeg',
+    link: '#femme'
+  },
+  {
+    id: 2,
+    title: 'ENFANT',
+    slogan: 'Le style dès le plus jeune âge',
+    image: '/images/diaporamaDressing/diapo-enfant-ia.jpeg',
+    link: '#enfant'
+  },
+  {
+    id: 3,
+    title: 'HOMME',
+    slogan: 'Le raffinement au masculin',
+    image: '/images/diaporamaDressing/diapo-homme-ia.jpeg',
+    link: '#homme'
+  },
+  {
+    id: 4,
+    title: 'ACCESSOIRES',
+    slogan: 'Les détails qui font la différence',
+    image: '/images/diaporamaDressing/diapo-accessoire-ia.jpeg',
+    link: '#accessoires'
+  }
+];
 
-    function animateZoom(timestamp: number) {
-      if (!startTime) {
-        startTime = timestamp;
-      }
-      const elapsed = timestamp - startTime;
-      const progress = Math.min(elapsed / duration, 1); // entre 0 et 1
+const Slider: React.FC = () => {
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+  const sliderRef = useRef<HTMLDivElement | null>(null);
+  const isAnimating = useRef<boolean>(false);
+  const gsapInstance = useRef<typeof gsap | null>(null);
+  const timeline = useRef<gsap.core.Timeline | null>(null);
 
-      // De scale(3.4) à scale(1.0) => écart de 2.4
-      const newScale = 3.4 - 2.4 * progress;
-      setBgScale(newScale);
+  const animateSlide = (index: number, isInitial: boolean = false): void => {
+    if (!gsapInstance.current || !sliderRef.current) return;
+    const gsap = gsapInstance.current;
 
-      // De blur(10px) à blur(0px)
-      const newBlur = 5 - 5 * progress;
-      setBgBlur(newBlur);
+    const currentSlide = sliderRef.current.children[index] as HTMLElement;
+    const title = currentSlide.querySelector(`.${styles.title}`) as HTMLElement;
+    const slogan = currentSlide.querySelector(`.${styles.slogan}`) as HTMLElement;
+    const image = currentSlide.querySelector(`.${styles.imageWrapper}`) as HTMLElement;
 
-      if (progress < 1) {
-        requestAnimationFrame(animateZoom);
-      }
+    if (timeline.current) {
+      timeline.current.kill();
     }
 
-    requestAnimationFrame(animateZoom);
+    timeline.current = gsap.timeline({
+      onComplete: () => {
+        isAnimating.current = false;
+      }
+    });
+
+    // Reset autres slides
+    slides.forEach((_, i) => {
+      if (i !== index) {
+        const slide = sliderRef.current?.children[i] as HTMLElement;
+        gsap.set(slide, { display: 'none' });
+      }
+    });
+
+    // Afficher slide active
+    gsap.set(currentSlide, { display: 'block' });
+
+    if (isInitial) {
+      timeline.current
+        .fromTo(image, 
+          { opacity: 0, scale: 1.1 },
+          { opacity: 1, scale: 1, duration: 1 }
+        )
+        .fromTo(title,
+          { y: 50, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.7 },
+          '-=0.3'
+        )
+        .fromTo(slogan,
+          { y: 20, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.7 },
+          '-=0.5'
+        );
+    } else {
+      timeline.current
+        .fromTo(image,
+          { opacity: 0, scale: 1.1 },
+          { opacity: 1, scale: 1, duration: 0.8 }
+        )
+        .fromTo([title, slogan],
+          { y: 30, opacity: 0 },
+          { y: 0, opacity: 1, duration: 0.5, stagger: 0.1 },
+          '-=0.4'
+        );
+    }
+  };
+
+  useEffect(() => {
+    let ctx: gsap.Context | undefined;
+    
+    const initGSAP = async () => {
+      const { gsap } = await import('gsap');
+      gsapInstance.current = gsap;
+      
+      ctx = gsap.context(() => {
+        animateSlide(0, true);
+      }, sliderRef);
+    };
+
+    initGSAP();
+    
+    return () => {
+      ctx?.revert();
+    };
   }, []);
 
-  // === 2) Gérer la parallaxe / rotation au mouvement de la souris ===
-  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
-    const { innerWidth, innerHeight } = window;
-    const x = e.clientX - innerWidth / 2;
-    const y = e.clientY - innerHeight / 2;
+  useEffect(() => {
+    const handleWheel = (e: WheelEvent): void => {
+      e.preventDefault();
+      
+      if (isAnimating.current) return;
+      
+      const direction = e.deltaY > 0 ? 1 : -1;
+      const nextIndex = activeIndex + direction;
+      
+      if (nextIndex >= 0 && nextIndex < slides.length) {
+        isAnimating.current = true;
+        setActiveIndex(nextIndex);
+        animateSlide(nextIndex);
+      }
+    };
 
-    const bgX = -x / 10;
-    const bgY = -y / 10;
+    const container = sliderRef.current;
+    if (container) {
+      container.addEventListener('wheel', handleWheel, { passive: false });
+    }
 
-    const rotateX = y / 10;
-    const rotateY = -x / 60;
-
-    setBgOffset({ x: bgX, y: bgY });
-    setPhoneRotation({ x: rotateX, y: rotateY });
-  }
+    return () => {
+      if (container) {
+        container.removeEventListener('wheel', handleWheel);
+      }
+    };
+  }, [activeIndex]);
 
   return (
-    <div className={styles.container} onMouseMove={handleMouseMove}>
-      {/* L’image de fond qui se "zoom out", se translate et passe de blur(10px) à blur(0px) */}
-      <Image
-        src="/images/HookHomePage/DALL·E2025-02-0120.42.17-Showroom-Next_Chicmixt.webp"
-        alt="Showroom"
-        fill
-        priority
-        className={styles.bgImage}
-        style={{
-          transform: `translate(${bgOffset.x}px, ${bgOffset.y}px) scale(${bgScale})`,
-          filter: `blur(${bgBlur}px)`,
-        }}
-      />
-
-      {/* Le smartphone qui s’incline légèrement */}
-      <div
-        className={styles.phoneWrapper}
-        style={{
-          transform: `
-            translate(-50%, 0) 
-            rotateX(${phoneRotation.x}deg) 
-            rotateY(${phoneRotation.y}deg)
-          `,
-        }}
-      >
-        <div className={styles.phoneContainer}>
-          {/* PNG transparent du smartphone */}
-          <Image
-            src="/images/HookHomePage/mochup_Chicmixt-live.png"
-            alt="Smartphone mockup"
-            width={300}
-            height={600}
-            className={styles.phoneImg}
-          />
-          
-          {/* GIF (ou vidéo) dans l’écran du smartphone */}
-          <Image
-            src="/images/HookHomePage/Live-mockup-Chicmixt-Hook-3.gif"
-            alt="GIF in phone screen"
-            width={300}
-            height={600}
-            className={styles.phoneScreen}
-          />
-        </div>
-      </div>
+    <div ref={sliderRef} className={styles.sliderContainer}>
+      {slides.map((slide, index) => (
+        <section
+          key={slide.id}
+          className={styles.slide}
+          style={{ display: index === 0 ? 'block' : 'none' }}
+        >
+          <a href={slide.link} className="block w-full h-full">
+            <div className={styles.imageWrapper}>
+              <img 
+                src={slide.image} 
+                alt={slide.title}
+              />
+            </div>
+            
+            <div className={styles.content}>
+              <h2 className={styles.title}>
+                {slide.title}
+              </h2>
+              <p className={styles.slogan}>
+                {slide.slogan}
+              </p>
+            </div>
+          </a>
+        </section>
+      ))}
     </div>
   );
-}
+};
+
+export default Slider;

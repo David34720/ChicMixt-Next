@@ -1,123 +1,146 @@
-import { useState, useEffect } from 'react';
-import Image from 'next/image';
-import styles from './HookHomePage.module.scss';
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import Image from "next/image";
+import LazyLoadImage from "../LazyLoadImage/LazyLoadImage";
+import styles from "./HookHomePage.module.scss";
+import { gsap } from "gsap";
 
 export default function HookHomePage() {
-  // État pour le décalage de la BG (parallaxe)
-  const [bgOffset, setBgOffset] = useState({ x: 0, y: 0 });
-  // État pour l’inclinaison du smartphone
-  const [phoneRotation, setPhoneRotation] = useState({ x: 0, y: 0 });
-  // État pour le décalage du téléphone (autour du centrage CSS)
-  const [phoneOffset, setPhoneOffset] = useState({ x: 0, y: 0 });
-  // État pour le scale (zoom arrière initial)
-  const [bgScale, setBgScale] = useState(1.4);
-  // État pour le blur (flou au démarrage)
-  const [bgBlur, setBgBlur] = useState(5); // part de 5px et finit à 0px
+  // Références pour l'image de fond, le container et le bloc du smartphone
+  const bgImageRef = useRef<HTMLImageElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const phoneRef = useRef<HTMLDivElement>(null);
 
-  // === 1) Animer le scale de l’image de fond et le blur sur 1,5s au chargement ===
+  // Contrôle du rendu du smartphone (retardé)
+  const [showPhone, setShowPhone] = useState(false);
+
+  // Animation de l'image de fond : zoom et déflout progressif
   useEffect(() => {
-    let startTime = 0;
-    const duration = 2500;
-
-    function animateZoom(timestamp: number) {
-      if (!startTime) {
-        startTime = timestamp;
-      }
-      const elapsed = timestamp - startTime;
-      const progress = Math.min(elapsed / duration, 1); // 0 → 1
-
-      // De scale(3.4) à scale(1.0)
-      const newScale = 3.4 - 2.4 * progress;
-      setBgScale(newScale);
-
-      // De blur(5px) à blur(0px)
-      const newBlur = 5 - 5 * progress;
-      setBgBlur(newBlur);
-
-      if (progress < 1) {
-        requestAnimationFrame(animateZoom);
-      }
+    if (bgImageRef.current) {
+      gsap.fromTo(
+        bgImageRef.current,
+        { scale: 3.4, filter: "blur(5px)" },
+        { scale: 1.2, filter: "blur(0px)", duration: 2.5, ease: "power2.out" }
+      );
     }
-
-    requestAnimationFrame(animateZoom);
   }, []);
 
-  // === 2) Gérer la parallaxe / rotation au mouvement de la souris ===
-  function handleMouseMove(e: React.MouseEvent<HTMLDivElement>) {
-    const { innerWidth, innerHeight } = window;
-    // Distance entre la souris et le centre de l’écran
-    const x = e.clientX - innerWidth / 2;
-    const y = e.clientY - innerHeight / 2;
+  // Retarder le rendu du smartphone après 2 secondes
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setShowPhone(true);
+    }, 2000);
+    return () => clearTimeout(timer);
+  }, []);
 
-    // Parallaxe BG (déplacement dans le même sens que la souris)
-    // Ajuste la division pour un effet plus ou moins fort
-    const bgX = -x / 10;
-    const bgY = -y / 10;
+  // Animation d'apparition du smartphone (smooth, remontée + fondu + perspective)
+  useEffect(() => {
+    if (showPhone && phoneRef.current) {
+      gsap.fromTo(
+        phoneRef.current,
+        {
+          y: 100,             // L'élément part de 100px en dessous
+          opacity: 0,         // Transparence initiale
+          scale: 0.95,        // Un léger scale pour renforcer l'effet
+          rotationX: 15,      // Une légère rotation sur l'axe X pour un effet de perspective
+          transformPerspective: 800
+        },
+        {
+          y: 0,
+          opacity: 1,
+          scale: 1,
+          rotationX: 0,
+          duration: 1.2,
+          ease: "power2.out"
+        }
+      );
+    }
+  }, [showPhone]);
 
-    // Rotation smartphone
-    const rotateX = y / 10;
-    const rotateY = -x / 60;
+  // Parallaxe pour l'image de fond (mouvement réactif à la souris)
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const handleMouseMove = (e: MouseEvent) => {
+      const { innerWidth, innerHeight } = window;
+      const x = e.clientX - innerWidth / 2;
+      const y = e.clientY - innerHeight / 2;
+      const bgX = -x / 10;
+      const bgY = -y / 10;
+      gsap.to(bgImageRef.current, {
+        x: bgX,
+        y: bgY,
+        duration: 0.3,
+        ease: "power2.out"
+      });
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, []);
 
-    // Décalage du téléphone (léger, dans le sens inverse ou non)
-    // Ici, on va faire un mouvement inverse plus discret => -x/50
-    // Ou x/50 si tu préfères le même sens
-    const phoneX = (x / 10);
-    // On peut aussi faire varier un peu la hauteur si on veut
-    const phoneY = 0;
-
-    setBgOffset({ x: bgX, y: bgY });
-    setPhoneRotation({ x: rotateX, y: rotateY });
-    setPhoneOffset({ x: phoneX, y: phoneY });
-  }
+  // Parallaxe pour le smartphone : effet inverse et légère inclinaison lors du mouvement de la souris
+  useEffect(() => {
+    if (!showPhone || !phoneRef.current) return;
+    const handlePhoneMouseMove = (e: MouseEvent) => {
+      const { innerWidth, innerHeight } = window;
+      const x = e.clientX - innerWidth / 2;
+      const y = e.clientY - innerHeight / 2;
+      // Calculer un décalage et une rotation plus discrets pour le smartphone
+      const offsetX = x / 20; // décalage moins prononcé que pour le fond
+      const offsetY = y / 20;
+      const rotateX = -y / 100; // rotation inversée pour un effet réaliste
+      const rotateY = x / 100;
+      gsap.to(phoneRef.current, {
+        x: offsetX,
+        y: offsetY,
+        rotationX: rotateX,
+        rotationY: rotateY,
+        duration: 0.3,
+        ease: "power2.out"
+      });
+    };
+    window.addEventListener("mousemove", handlePhoneMouseMove);
+    return () => window.removeEventListener("mousemove", handlePhoneMouseMove);
+  }, [showPhone]);
 
   return (
-    <div className={styles.container} onMouseMove={handleMouseMove}>
-      {/* Image de fond : "zoom out" + flou initial */}
+    <div ref={containerRef} className={styles.container}>
+      {/* Image de fond animée directement par GSAP */}
       <Image
-        src="/images/HookHomePage/DALL·E2025-02-0120.42.17-Showroom-Next_Chicmixt.webp"
+        ref={bgImageRef as any} // Next.js Image n'accepte pas toujours la ref directement
+        src="/images/HookHomePage/webpeditor_DALL·E2025-02-0120.42.17-Showroom-Next_Chicmixt.webp"
+        placeholder="blur"
+        blurDataURL="/images/HookHomePage/webpeditor_DALL·E2025-02-0120.42.17-Showroom-Next_Chicmixt-PH.webp"
         alt="Showroom"
         fill
         priority
         className={styles.bgImage}
-        style={{
-          transform: `translate(${bgOffset.x}px, ${bgOffset.y}px) scale(${bgScale})`,
-          filter: `blur(${bgBlur}px)`,
-        }}
       />
 
-      {/* Téléphone : ancré en bas + centré (CSS),
-          et on ajoute le phoneOffset + la rotation */}
-      <div
-        className={styles.phoneWrapper}
-        style={{
-          transform: `
-            translate(-50%, 0)
-            translate(${phoneOffset.x}px, ${phoneOffset.y}px)
-            rotateX(${phoneRotation.x}deg) 
-            rotateY(${phoneRotation.y}deg)
-          `,
-        }}
-      >
-        <div className={styles.phoneContainer}>
-          {/* PNG transparent du smartphone */}
-          <Image
-            src="/images/HookHomePage/mochup_Chicmixt-live.png"
-            alt="Smartphone mockup"
-            width={300}
-            height={600}
-            className={styles.phoneImg}
-          />
-          
-          {/* GIF (ou vidéo) dans l’écran */}
-          <Image
-            src="/images/HookHomePage/Live-mockup-Chicmixt-Hook-3.gif"
-            alt="GIF in phone screen"
-            width={300}
-            height={600}
-            className={styles.phoneScreen}
-          />
+      {/* Le smartphone (mockup + GIF) ne s'affiche qu'après le délai */}
+      {showPhone && (
+        <div ref={phoneRef} className={styles.phoneWrapper}>
+          <div className={styles.phoneContainer}>
+            <Image
+              src="/images/HookHomePage/mochup_Chicmixt-live.webp"
+              alt="Smartphone mockup"
+              width={400}
+              height={600}
+              className={styles.phoneImg}
+              priority
+            />
+            <LazyLoadImage
+              placeholderSrc="/images/HookHomePage/webpeditor_placeHolderHook-ChicMixt-mode-live.webp"
+              actualSrc="/images/HookHomePage/Live-mockup-Chicmixt-Hook-3.gif"
+              alt="GIF in phone screen"
+              width={400}
+              height={600}
+              className={styles.phoneScreen}
+              delay={2000} // Le GIF est chargé avec un délai supplémentaire
+            />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

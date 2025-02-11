@@ -1,9 +1,9 @@
 import { useContext } from "react";
 import { signIn } from "next-auth/react";
-import { ModalContext } from "../contexts/ModalContext";
+import { ModalActionsContext } from "../contexts/ModalContext";
 
 export default function Login() {
-  const { closeModal } = useContext(ModalContext);
+  const { closeModal } = useContext(ModalActionsContext);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -1,40 +1,50 @@
 // ModalContext.tsx
 "use client";
+import { createContext, useState, useCallback, useMemo } from "react";
 import type { FC, ReactNode } from "react";
 
-import { createContext, useState } from "react";
-
-interface ModalContextProps {
-	isOpen: boolean;
-	content: ReactNode;
-	openModal: (content: ReactNode) => void;
-	closeModal: () => void;
+interface ModalState {
+  isOpen: boolean;
+  content: ReactNode;
 }
 
-export const ModalContext = createContext<ModalContextProps>({
-	isOpen: false,
-	content: null,
-	openModal: () => {},
-	closeModal: () => {},
+interface ModalActions {
+  openModal: (content: ReactNode) => void;
+  closeModal: () => void;
+}
+
+export const ModalStateContext = createContext<ModalState>({
+  isOpen: false,
+  content: null,
+});
+
+export const ModalActionsContext = createContext<ModalActions>({
+  openModal: () => {},
+  closeModal: () => {},
 });
 
 export const ModalProvider: FC<{ children: ReactNode }> = ({ children }) => {
-	const [isOpen, setIsOpen] = useState(false);
-	const [content, setContent] = useState<ReactNode>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [content, setContent] = useState<ReactNode>(null);
 
-	const openModal = (modalContent: ReactNode) => {
-		setContent(modalContent);
-		setIsOpen(true);
-	};
+  const openModal = useCallback((modalContent: ReactNode) => {
+    setContent(modalContent);
+    setIsOpen(true);
+  }, []);
 
-	const closeModal = () => {
-		setIsOpen(false);
-		setContent(null);
-	};
+  const closeModal = useCallback(() => {
+    setIsOpen(false);
+    setContent(null);
+  }, []);
 
-	return (
-		<ModalContext.Provider value={{ isOpen, content, openModal, closeModal }}>
-			{children}
-		</ModalContext.Provider>
-	);
+  const modalState = useMemo(() => ({ isOpen, content }), [isOpen, content]);
+  const modalActions = useMemo(() => ({ openModal, closeModal }), [openModal, closeModal]);
+
+  return (
+    <ModalStateContext.Provider value={modalState}>
+      <ModalActionsContext.Provider value={modalActions}>
+        {children}
+      </ModalActionsContext.Provider>
+    </ModalStateContext.Provider>
+  );
 };

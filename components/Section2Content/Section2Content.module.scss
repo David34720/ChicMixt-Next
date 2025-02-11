@@ -1,0 +1,77 @@
+.leftCol {
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #ffffff;
+
+    .imageWrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 9/16;/* l'iframe pourra maintenant prendre toute la hauteur */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden; 
+      max-height: 93vh;
+      border-radius: 20px;
+
+      iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        overflow: hidden;
+      }
+      img {
+        border-radius: 10px;
+      }
+    }
+  }
+  .rightCol {
+    width: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    .contentBox {
+      background: var(--tertiary-color);
+      padding: 1rem 2rem;
+      border-radius: 0.5rem;
+      text-align: center;
+      color: #fff;
+      .logoFbContainer {
+        margin-bottom: 1rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .logoFbImg {
+          border-radius: 10px;
+          box-shadow: 0px 4px 4px rgba(0,0,0,0.25);
+          max-width: 200px;          
+        }
+      }
+      h2, p {
+        max-width: 400px;
+      }
+    }   
+    
+    .share {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;   
+      
+      .shareText {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        text-align: center;
+        max-width: 400px;
+      }
+    } 
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
+  }
