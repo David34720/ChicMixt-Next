@@ -87,25 +87,27 @@ export default function Home() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Refresh de la page lors d'un changement de taille de la fenêtre (debounce de 500ms)
+  // Refresh de la page lors d'un changement de taille de la fenêtre (debounce de 500ms) uniquement sur desktop
   useEffect(() => {
-    let resizeTimer: ReturnType<typeof setTimeout> | null = null;
-    const handleResizeReload = () => {
-      if (resizeTimer !== null) {
-        clearTimeout(resizeTimer);
-      }
-      resizeTimer = setTimeout(() => {
-        window.location.reload();
-      }, 500);
-    };
-    window.addEventListener("resize", handleResizeReload);
-    return () => {
-      window.removeEventListener("resize", handleResizeReload);
-      if (resizeTimer !== null) {
-        clearTimeout(resizeTimer);
-      }
-    };
-  }, []);
+    if (!isMobile) {
+      let resizeTimer: ReturnType<typeof setTimeout> | null = null;
+      const handleResizeReload = () => {
+        if (resizeTimer !== null) {
+          clearTimeout(resizeTimer);
+        }
+        resizeTimer = setTimeout(() => {
+          window.location.reload();
+        }, 500);
+      };
+      window.addEventListener("resize", handleResizeReload);
+      return () => {
+        window.removeEventListener("resize", handleResizeReload);
+        if (resizeTimer !== null) {
+          clearTimeout(resizeTimer);
+        }
+      };
+    }
+  }, [isMobile]);
 
   // Rendu pour la version Desktop
   const DesktopView = () => {
