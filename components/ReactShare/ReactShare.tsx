@@ -7,6 +7,7 @@ import { FaCopy } from "react-icons/fa";
 // Importation centralisée des boutons wrapper
 import {
   TwitterShareButton,
+  FacebookShareButton,
   TelegramShareButton,
   WhatsappShareButton,
   LinkedinShareButton,
@@ -19,6 +20,7 @@ import {
 // Importation des icônes depuis react-share
 import {
   EmailIcon,
+  FacebookIcon,
   LinkedinIcon,
   PinterestIcon,
   RedditIcon,
@@ -70,52 +72,67 @@ export function ReactShare({ iconSize, classAnimation = "", onceAnimation }: Rea
       <div className={`${styles.network} ${classAnimation}`}>
         <button
           onClick={handleCopy}
+          title={title}
           aria-label="Copier le lien de cette page"
-          className={styles.shareButton}
+          className={`${styles.shareButton}  ${styles.tooltip}`}
           style={{ color: "deeppink", border: "none", background: "transparent", cursor: "pointer" }}
         >
           <FaCopy size={iconSize} />
         </button>
         {copied && <span style={{ marginLeft: "10px", color: "green" }}>Lien copié!</span>}
+        <span className={styles.tooltipText}>Partager sur X</span>
+      </div>
+
+      {/* Facebook */}
+      <div className={`${styles.network} ${classAnimation}  ${styles.tooltip}`}>
+        <FacebookShareButton url={shareUrl} title={title} className={styles.shareButton}>
+          <FacebookIcon size={iconSize} round />
+        </FacebookShareButton>
+        <span className={styles.tooltipText}>Partager sur Facebook</span>
       </div>
 
       {/* Twitter */}
-      <div className={`${styles.network} ${classAnimation}`}>
+      <div className={`${styles.network} ${classAnimation} ${styles.tooltip}`}>
         <TwitterShareButton url={shareUrl} title={title} className={styles.shareButton}>
           <XIcon size={iconSize} round />
         </TwitterShareButton>
+        <span className={styles.tooltipText}>Partager sur X</span>
       </div>
 
       {/* Telegram */}
-      <div className={`${styles.network} ${classAnimation}`}>
+      <div className={`${styles.network} ${classAnimation} ${styles.tooltip}`}>
         <TelegramShareButton url={shareUrl} title={title} className={styles.shareButton}>
           <TelegramIcon size={iconSize} round />
         </TelegramShareButton>
+        <span className={styles.tooltipText}>Partager sur Telegram</span>
       </div>
 
       {/* Whatsapp */}
-      <div className={`${styles.network} ${classAnimation}`}>
+      <div className={`${styles.network} ${classAnimation} ${styles.tooltip}`}>
         <WhatsappShareButton url={shareUrl} title={title} separator=":: " className={styles.shareButton}>
           <WhatsappIcon size={iconSize} round />
         </WhatsappShareButton>
+        <span className={styles.tooltipText}>Partager sur Whatsapp</span>
       </div>
 
       {/* Linkedin */}
-      <div className={`${styles.network} ${classAnimation}`}>
-        <LinkedinShareButton url={shareUrl} className={styles.shareButton}>
+      <div className={`${styles.network} ${classAnimation} ${styles.tooltip}`}>
+        <LinkedinShareButton url={shareUrl} title={title} className={styles.shareButton}>
           <LinkedinIcon size={iconSize} round />
         </LinkedinShareButton>
+        <span className={styles.tooltipText}>Partager sur Linkendin</span>
       </div>
 
       {/* Pinterest */}
-      <div className={`${styles.network} ${classAnimation}`}>
-        <PinterestShareButton url={shareUrl} media={exampleImage} className={styles.shareButton}>
+      <div className={`${styles.network} ${classAnimation} ${styles.tooltip}`}>
+        <PinterestShareButton url={shareUrl} title={title} media={exampleImage} className={styles.shareButton}>
           <PinterestIcon size={iconSize} round />
         </PinterestShareButton>
+        <span className={styles.tooltipText}>Partager sur Pinterest</span>
       </div>
 
       {/* Reddit */}
-      <div className={`${styles.network} ${classAnimation}`}>
+      <div className={`${styles.network} ${classAnimation} ${styles.tooltip}`}>
         <RedditShareButton
           url={shareUrl}
           title={title}
@@ -125,21 +142,23 @@ export function ReactShare({ iconSize, classAnimation = "", onceAnimation }: Rea
         >
           <RedditIcon size={iconSize} round />
         </RedditShareButton>
+        <span className={styles.tooltipText}>Partager sur Reddit</span>
       </div>
 
       {/* Tumblr */}
-      <div className={`${styles.network} ${classAnimation}`}>
+      <div className={`${styles.network} ${classAnimation} ${styles.tooltip}`}>
         <TumblrShareButton url={shareUrl} title={title} className={styles.shareButton}>
           <TumblrIcon size={iconSize} round />
         </TumblrShareButton>
+        <span className={styles.tooltipText}>Partager sur Tumblr</span>
       </div>
 
-      {/* Email */}
+      {/* Email
       <div className={`${styles.network} ${classAnimation}`}>
         <EmailShareButton url={shareUrl} subject={title} body={title} className={styles.shareButton}>
           <EmailIcon size={iconSize} round />
         </EmailShareButton>
-      </div>
+      </div> */}
     </div>
   );
 }

@@ -118,7 +118,7 @@ export function useDesktopAnimations(
 
         // ScrollTrigger distinct uniquement pour déclencher le masonry
         const stMasonry = ScrollTrigger.create({
-          trigger: section4.current,
+          trigger: section3.current,
           start: "top bottom-=100px", // => Le bas de section4 à 100px avant le bas du viewport
           onEnter: () => setShowMasonry(true),
         });
