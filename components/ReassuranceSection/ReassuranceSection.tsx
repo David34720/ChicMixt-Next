@@ -9,7 +9,7 @@ export default function ReassuranceSection() {
       end: "top 10%",
       ease: "power2.out",
       stagger: 0.2,
-      markers: true
+      markers: false
     })
 
   const features = [
