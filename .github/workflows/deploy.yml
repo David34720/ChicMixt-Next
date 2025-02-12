@@ -10,6 +10,22 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+      - name: Install telnet
+        run: sudo apt-get install -y telnet
+
+      - name: Test with telnet
+        run: |
+          echo "Testing telnet connection..."
+          timeout 5 telnet ${{ secrets.SSH_HOST }} ${{ secrets.SSH_PORT }} 2>&1 || true
+          
+      - name: Detailed SSH verbose connection
+        run: |
+          ssh -vvv -o ConnectTimeout=5 -o BatchMode=yes -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 2>&1 || true
+
+      - name: Check route
+        run: |
+          traceroute ${{ secrets.SSH_HOST }}
+          
       - name: Echo SSH Host (masked)
         run: |
           echo "Testing connection to host ending with: $(echo ${{ secrets.SSH_HOST }} | sed 's/.*\([0-9]\{1,3\}\.[0-9]\{1,3\}\)$/\1/')"
@@ -18,7 +34,7 @@ jobs:
       - name: Test connection with timeout
         run: |
           timeout 10 bash -c '</dev/tcp/${{ secrets.SSH_HOST }}/${{ secrets.SSH_PORT }}' && echo "Port is open" || echo "Port is closed"
-          
+
       - name: Debug SSH connection
         run: |
           echo "Testing connection to ${{ secrets.SSH_HOST }} on port ${{ secrets.SSH_PORT }}"
