@@ -11,6 +11,7 @@ export default function HookHomePage() {
   const bgImageRef = useRef<HTMLImageElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const phoneRef = useRef<HTMLDivElement>(null);
+  
 
   // Contrôle du rendu du smartphone (retardé)
   const [showPhone, setShowPhone] = useState(false);
