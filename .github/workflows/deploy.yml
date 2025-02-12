@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Test de connectivité
+        run: nc -vz ${{ secrets.SSH_HOST }} ${{ secrets.SSH_PORT }}
+
       - name: Checkout code
         uses: actions/checkout@v3
 
