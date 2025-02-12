@@ -25,7 +25,7 @@ export default function HookHomePage() {
       );
     } 
   }, []); 
-//tetst
+//tetst 146
 
   // Retarder le rendu du smartphone après 2 secondes
   useEffect(() => {
