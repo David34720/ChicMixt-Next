@@ -23,7 +23,7 @@ export default function HookHomePage() {
         { scale: 3.4, filter: "blur(5px)" },
         { scale: 1.2, filter: "blur(0px)", duration: 2.5, ease: "power2.out" }
       );
-    }  
+    }   
   }, []); 
 //tetst 146
 
