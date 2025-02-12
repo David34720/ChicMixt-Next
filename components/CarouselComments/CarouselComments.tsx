@@ -39,7 +39,7 @@ export function CarouselComments() {
   }
 
   return (
-    <section className={`${styles.carouselContent} mx-auto  py-4 px-20 rounded-lg `}>
+    <section className={`${styles.carouselContent} mx-auto  py-4  rounded-lg `}>
       <h2 className="text-1xl md:text-1xl font-bold text-center mb-4">
         Nos clients parlent de nous...
       </h2>

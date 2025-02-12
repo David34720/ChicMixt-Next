@@ -87,14 +87,14 @@
     z-index: 10;
     height: 70vh;
     overflow-y: auto;
-    background-color: var(--tertiary-color);
+    background-color: #de277b80;
     display: flex;
     justify-content: center;
     align-items: flex-start;
     position: relative;
     padding: 0 10px;
-    border-top: 20px solid var(--tertiary-color);
-    border-bottom: 20px solid var(--tertiary-color);
+    border-top: 20px solid #de277b80;
+    border-bottom: 20px solid #de277b80;
     border-radius: 20px;
     margin: 0 10px; 
   }
