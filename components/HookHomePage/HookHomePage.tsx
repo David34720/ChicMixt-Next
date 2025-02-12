@@ -54,7 +54,6 @@ export default function HookHomePage() {
           rotationX: 0,
           duration: 1.2,
           ease: "power2.out"
-
         }
       );
     }
