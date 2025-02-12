@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-       - name: Install tools
+      - name: Install tools
         run: |
           sudo apt-get update
           sudo apt-get install -y nmap netcat-traditional
@@ -56,8 +56,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup SSH agent and add deploy key
-        uses: webfactory/ssh-agent@v0.5.3
+      - name: Setup SSH agent
+        uses: webfactory/ssh-agent@v0.7.0
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
@@ -66,12 +66,6 @@ jobs:
           ssh-add -l
           ssh -v -o StrictHostKeyChecking=no -p "${{ secrets.SSH_PORT }}" ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'echo "SSH connection successful"'
 
-      - name: Test de connectivité
-        run: nc -vz ${{ secrets.SSH_HOST }} ${{ secrets.SSH_PORT }}
-
-      - name: Checkout code
-        uses: actions/checkout@v3
-
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
@@ -79,14 +73,6 @@ jobs:
 
       - name: Install PNPM globally
         run: npm install -g pnpm
-
-      - name: Setup SSH agent and add deploy key
-        uses: webfactory/ssh-agent@v0.5.3
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
-      - name: Verify SSH key added
-        run: ssh-add -l
 
       - name: Deploy to VPS
         run: |
