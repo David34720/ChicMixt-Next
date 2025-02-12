@@ -24,6 +24,7 @@ export default function HookHomePage() {
         { scale: 1.2, filter: "blur(0px)", duration: 2.5, ease: "power2.out" }
       );
     }
+    
   }, []);
 
 
