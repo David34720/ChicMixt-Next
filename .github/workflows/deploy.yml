@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest 
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
@@ -21,16 +21,17 @@ jobs:
       - name: Install PNPM globally
         run: npm install -g pnpm
 
-      - name: Setup SSH agent
+      - name: Setup SSH agent and add deploy key
         uses: webfactory/ssh-agent@v0.5.3
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 
+      - name: Verify SSH key added
+        run: ssh-add -l
+
       - name: Deploy to VPS
         run: |
           ssh -o StrictHostKeyChecking=no -p "${{ secrets.SSH_PORT }}" ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} <<'EOF'
-            # Charger l'environnement pour récupérer le PATH (si nécessaire)
-            source ~/.bashrc
             cd /var/www/chicmixt
             git pull origin main
             pnpm install
