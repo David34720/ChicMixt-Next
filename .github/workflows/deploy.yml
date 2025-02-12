@@ -17,8 +17,6 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: '18'
-          # On a supprimé l'option de cache pour pnpm
-          # cache: 'pnpm'
 
       - name: Install PNPM globally
         run: npm install -g pnpm
@@ -31,7 +29,7 @@ jobs:
       - name: Deploy to VPS
         run: |
           ssh -o StrictHostKeyChecking=no -p "${{ secrets.SSH_PORT }}" ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} <<'EOF'
-            # Charge l'environnement (pour que pnpm soit dans le PATH)
+            # Charger l'environnement pour récupérer le PATH (si nécessaire)
             source ~/.bashrc
             cd /var/www/chicmixt
             git pull origin main
