@@ -218,6 +218,12 @@ h1 {
   }
 }
 
+.slider-container {
+  background-color: white;
+  position: relative;
+  z-index: 999;
+}
+
 .section4 {
   height: 50vh;
   margin: 20px 0;
@@ -253,9 +259,7 @@ h1 {
   }      
 }
 
-.slider-container {
-  height: 400vh;
-}
+
 
 .section5 {
   width: 100%;
