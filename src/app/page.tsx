@@ -128,7 +128,7 @@ export default function Home() {
           <div className="section1-div">
             <HookHomePage />
           </div>
-          <Section1Content handleSectionClickPlus={handleSectionClickPlus} />
+          <Section1Content isMobile={isMobile} handleSectionClickPlus={handleSectionClickPlus} />
         </section>
 
         {/* Section 2 */}

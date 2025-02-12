@@ -2,10 +2,11 @@ import styles from './Section1Content.module.scss'
 import { useRef } from 'react'
 
 interface Section1ContentProps {
+  isMobile: boolean,
   handleSectionClickPlus: () => void
 }
 
-const Section1Content = ({ handleSectionClickPlus }: Section1ContentProps) => {
+const Section1Content = ({ isMobile, handleSectionClickPlus }: Section1ContentProps) => {
   const section1Content = useRef<HTMLDivElement | null>(null);
 
 
@@ -16,13 +17,13 @@ const Section1Content = ({ handleSectionClickPlus }: Section1ContentProps) => {
         <p className={styles.section1Description}>
           Tendance & Offres Exclusives !
         </p>
-        <button
+        {isMobile && <button
           onClick={handleSectionClickPlus}
           aria-label="Aller à la section suivante, découvrir Chic'mixt"
           className={styles.button}
         >
           Découvrir
-        </button>
+        </button> }
       </div>
       <div
           className="section1overlay"
