@@ -220,9 +220,11 @@ h1 {
 
 .section4 {
   height: 50vh;
+  margin: 20px 0;
 
   @media screen and (max-width: 768px) {
     height: 70vh;
+    margin: 20px 0;
   }
 }
 
@@ -320,7 +322,7 @@ h1 {
 .section6 {
   position: relative;
   width: 100%;
-  background-color: var(--tertiary-color);
+  background-color: white;
   padding: 20px 0;
   
 }
