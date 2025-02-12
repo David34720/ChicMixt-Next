@@ -93,30 +93,7 @@ body {
   100% { transform: rotate(360deg); }
 }
 
-@keyframes scrollUpDwn {
-  0% {
-    transform: translateY(0);
-  }
-  50% {
-    transform: translateY(15px);
-  }
-  100% {
-    transform: translateY(0);
-  }
-}
 
-@keyframes scrollUpDwnShadow {
-  0% {
-    filter: drop-shadow(-9px 67px 18px #00000030);
-  }
-  50% {
-    filter: drop-shadow(-11px 52px 05px #00000030);
-  }
-  100% {
-    filter: drop-shadow(-9px 67px 18px #00000030);
-    
-  }
-}
 
 h2 {
   font-size: 1.3rem;
@@ -327,7 +304,7 @@ h1 {
   position: relative;
   width: 100%;
   background-color: white;
-  
+  margin: 0 20px;
 }
 .upload-form {
   pointer-events: auto !important;
