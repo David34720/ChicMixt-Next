@@ -17,7 +17,7 @@ const Section1Content = ({ isMobile, handleSectionClickPlus }: Section1ContentPr
         <p className={styles.section1Description}>
           Tendance & Offres Exclusives !
         </p>
-        {isMobile && <button
+        {!isMobile && <button
           onClick={handleSectionClickPlus}
           aria-label="Aller à la section suivante, découvrir Chic'mixt"
           className={styles.button}
