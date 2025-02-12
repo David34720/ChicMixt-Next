@@ -30,10 +30,11 @@ jobs:
       - name: Deploy to VPS
         run: |
           ssh -o StrictHostKeyChecking=no -p "${{ secrets.SSH_PORT }}" ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} <<'EOF'
+            # Charger les variables d'environnement définies dans .bashrc
+            source ~/.bashrc
             cd /var/www/chicmixt
             git pull origin main
             pnpm install
             pnpm run build
             npx pm2 restart ecosystem.config.js
           EOF
-
