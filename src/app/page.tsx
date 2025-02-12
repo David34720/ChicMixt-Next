@@ -195,7 +195,7 @@ export default function Home() {
           {/* Section 1 */}
           <section ref={mobileRefs.section1M} className="section1">
             <HookHomePage />
-            <Section1Content handleSectionClickPlus={handleSectionClickPlus} />
+            <Section1Content isMobile={isMobile} handleSectionClickPlus={handleSectionClickPlus} />
           </section>
 
           {/* Section 2 */}
