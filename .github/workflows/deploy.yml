@@ -2,14 +2,32 @@ name: Deploy to VPS
 
 on:
   push:
-    branches: 
+    branches:
       - main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    
     steps:
+      - name: Debug SSH connection
+        run: |
+          echo "Testing connection to ${{ secrets.SSH_HOST }} on port ${{ secrets.SSH_PORT }}"
+          nc -zv ${{ secrets.SSH_HOST }} ${{ secrets.SSH_PORT }} -w 5
+          
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup SSH agent and add deploy key
+        uses: webfactory/ssh-agent@v0.5.3
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Debug SSH key
+        run: |
+          ssh-add -l
+          ssh -v -o StrictHostKeyChecking=no -p "${{ secrets.SSH_PORT }}" ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'echo "SSH connection successful"'
+          
       - name: Test de connectivité
         run: nc -vz ${{ secrets.SSH_HOST }} ${{ secrets.SSH_PORT }}
 
