@@ -30,7 +30,7 @@ import NewsletterSectionFront from "../../components/NewsletterAdmin/NewsletterS
 import UnsubscribeModal from "../../components/NewsletterAdmin/UnsubscribeModal";
 
 interface User {
-  role?: string;
+  role?: string; 
 }
 
 export default function Home() {
