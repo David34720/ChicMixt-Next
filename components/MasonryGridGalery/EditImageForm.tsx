@@ -1,5 +1,4 @@
 "use client";
-
 import React, { FormEvent, useState } from "react";
 import { useSession, signIn } from "next-auth/react";
 
@@ -9,18 +8,25 @@ interface EditImageFormProps {
     url: string;
     title: string;
     description: string;
+    price: number;
+    reference: string;
+    promotion: boolean;
+    nouveaute: boolean;
   };
-  onSuccess: () => void; // callback pour rafraîchir la liste, ou fermer la modale
+  onSuccess: () => void; // callback pour rafraîchir la liste ou fermer la modale
 }
 
 export default function EditImageForm({ image, onSuccess }: EditImageFormProps) {
   const { data: session } = useSession();
   const [title, setTitle] = useState(image.title);
   const [description, setDescription] = useState(image.description);
+  const [price, setPrice] = useState(String(image.price));
+  const [reference, setReference] = useState(image.reference);
+  const [promotion, setPromotion] = useState(image.promotion);
+  const [nouveaute, setNouveaute] = useState(image.nouveaute);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // Vérifiez la session avant de permettre la soumission
   if (!session) {
     return (
       <div>
@@ -40,20 +46,22 @@ export default function EditImageForm({ image, onSuccess }: EditImageFormProps) 
     e.preventDefault();
     setLoading(true);
     setError("");
-    console.log("session", session);
-
     try {
       const response = await fetch("/api/images", {
         method: "PUT",
         headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json", // Ajout de ce header pour éviter les conflits
-      },
-        credentials: "include", // Assurez-vous que le cookie de session est envoyé
+          "Content-Type": "application/json",
+          "Accept": "application/json",
+        },
+        credentials: "include",
         body: JSON.stringify({
           id: image.id,
           title,
           description,
+          price,
+          reference,
+          promotion,
+          nouveaute,
         }),
       });
 
@@ -61,8 +69,6 @@ export default function EditImageForm({ image, onSuccess }: EditImageFormProps) 
         const data = await response.json();
         throw new Error(data.error || "Erreur lors de la mise à jour.");
       }
-
-      // Success => on peut éventuellement fermer la modale ou rafraîchir la liste
       onSuccess();
     } catch (err: any) {
       setError(err.message || "Erreur inconnue.");
@@ -104,6 +110,52 @@ export default function EditImageForm({ image, onSuccess }: EditImageFormProps) 
             value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
+        </div>
+
+        <div>
+          <label htmlFor="price" className="block font-medium">Prix</label>
+          <input
+            id="price"
+            name="price"
+            type="number"
+            className="border border-gray-300 rounded w-full px-2 py-1"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+          />
+        </div>
+
+        <div>
+          <label htmlFor="reference" className="block font-medium">Référence</label>
+          <input
+            id="reference"
+            name="reference"
+            type="text"
+            className="border border-gray-300 rounded w-full px-2 py-1"
+            value={reference}
+            onChange={(e) => setReference(e.target.value)}
+          />
+        </div>
+
+        <div className="flex items-center gap-2">
+          <input
+            id="promotion"
+            type="checkbox"
+            checked={promotion}
+            onChange={(e) => setPromotion(e.target.checked)}
+            className="border border-gray-300 rounded"
+          />
+          <label htmlFor="promotion">En promotion</label>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <input
+            id="nouveaute"
+            type="checkbox"
+            checked={nouveaute}
+            onChange={(e) => setNouveaute(e.target.checked)}
+            className="border border-gray-300 rounded"
+          />
+          <label htmlFor="nouveaute">Nouveauté</label>
         </div>
 
         <button

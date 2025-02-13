@@ -15,12 +15,15 @@ export default function UploadForm({ refreshImages }: UploadFormProps) {
   const { closeModal } = useContext(ModalActionsContext);
   const { data: session } = useSession();
 
-  // Vérification de type pour session.user
   const user = session?.user as User | undefined;
 
   const [image, setImage] = useState<File | null>(null);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
+  const [price, setPrice] = useState<string>("0");
+  const [reference, setReference] = useState("");
+  const [promotion, setPromotion] = useState<boolean>(false);
+  const [nouveaute, setNouveaute] = useState<boolean>(false);
   const [uploadStatus, setUploadStatus] = useState("");
 
   if (!session) {
@@ -33,10 +36,9 @@ export default function UploadForm({ refreshImages }: UploadFormProps) {
   }
 
   if (user?.role !== "admin") {
-    return <p>Vous n&#39;avez pas les permissions pour uploader des images.</p>;
+    return <p>Vous n'avez pas les permissions pour uploader des images.</p>;
   }
 
-  // Gestion du changement d'image
   const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
@@ -44,7 +46,6 @@ export default function UploadForm({ refreshImages }: UploadFormProps) {
     }
   };
 
-  // Gestion de la soumission du formulaire
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -57,6 +58,10 @@ export default function UploadForm({ refreshImages }: UploadFormProps) {
     formData.append("image", image);
     formData.append("title", title);
     formData.append("description", description);
+    formData.append("price", price);
+    formData.append("reference", reference);
+    formData.append("promotion", String(promotion));
+    formData.append("nouveaute", String(nouveaute));
 
     try {
       const response = await fetch("/api/upload", {
@@ -101,6 +106,50 @@ export default function UploadForm({ refreshImages }: UploadFormProps) {
             onChange={(e) => setDescription(e.target.value)}
             className="border rounded p-2 w-full"
           ></textarea>
+        </div>
+
+        <div>
+          <label htmlFor="price">Prix :</label>
+          <input
+            id="price"
+            type="number"
+            value={price}
+            onChange={(e) => setPrice(e.target.value)}
+            className="border rounded p-2 w-full"
+          />
+        </div>
+
+        <div>
+          <label htmlFor="reference">Référence :</label>
+          <input
+            id="reference"
+            type="text"
+            value={reference}
+            onChange={(e) => setReference(e.target.value)}
+            className="border rounded p-2 w-full"
+          />
+        </div>
+
+        <div className="flex items-center gap-2">
+          <input
+            id="promotion"
+            type="checkbox"
+            checked={promotion}
+            onChange={(e) => setPromotion(e.target.checked)}
+            className="border rounded p-2"
+          />
+          <label htmlFor="promotion">En promotion</label>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <input
+            id="nouveaute"
+            type="checkbox"
+            checked={nouveaute}
+            onChange={(e) => setNouveaute(e.target.checked)}
+            className="border rounded p-2"
+          />
+          <label htmlFor="nouveaute">Nouveauté</label>
         </div>
 
         <div>

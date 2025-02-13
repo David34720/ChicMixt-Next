@@ -7,7 +7,6 @@
   scrollbar-color: #f5f5f5 var(--tertiary-color-hover);
   background-color: var(--tertiary-color);
   padding: 0 20px;
-  margin: 0 40px;
   // Styles pour scrollbars sur les navigateurs WebKit (Chrome, Safari, Edge basé sur Chromium)
   &::-webkit-scrollbar {
     width: 8px; /* largeur de la scrollbar */

@@ -25,6 +25,7 @@ import {
   arrayMove,
 } from "@dnd-kit/sortable";
 import SortableItem from "../SortableItem";
+import { parse } from "path";
 
 interface User {
   role?: string;
@@ -34,6 +35,10 @@ interface ImageData {
   id: number;
   url: string;
   title: string;
+  price: string;
+  reference: string;
+  promotion: boolean;
+  nouveaute: boolean;
   description: string;
   position: number;
 }
@@ -149,19 +154,32 @@ const MasonryGridGalery: React.FC = () => {
           />
           <h2 className="mt-4 text-center">{image.title}</h2>
           <p className="mt-4 text-center">{image.description}</p>
-          <p className="mt-4 text-center">ID : {image.id}</p>
+          <p className="mt-4 text-center">Référence commande : {image.reference}</p>
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded"
+            onClick={() => {
+              const email = "chicmixt@gmail.com"; // Remplace par l'email du vendeur
+              const subject = encodeURIComponent(`Commande pour le produit ${image.reference} ${image.title}`);
+              const body = encodeURIComponent(
+                `Bonjour,\n\nJe suis intéressé(e) par le produit suivant :\n\n` +
+                `🛍️ **Produit** : ${image.title}\n` +
+                `🔖 **Référence** : ${image.reference}\n` +
+                (image.price ? `💰 **Prix** : ${parseFloat(image.price).toFixed(2)} €\n` : '') +
+                `📸 **Description** : ${image.description}\n\n` +
+                `Pouvez-vous me donner plus d'informations sur ce produit ?\n\nMerci !`
+              );
+
+              window.location.href = `mailto:${email}?subject=${subject}&body=${body}`;
+            }}
+          >
+            Commander par Email
+          </button>
         </div>
       );
     } else {
       openModal(
         <div className="flex flex-col items-center">
-          <Image
-            src={image.url}
-            alt={`gallery-photo-${image.id}`}
-            width={200}
-            height={200}
-            className="rounded-lg"
-          />
+          
           <EditImageForm
             image={image}
             onSuccess={() => refreshImages()}
@@ -288,6 +306,7 @@ const MasonryGridGalery: React.FC = () => {
                   ref={(el) => {
                     if (el) cardsRef.current[index] = el;
                   }}
+                  style={{ position: "relative" }} // pour que les éléments en position absolute se placent par rapport à cette div
                 >
                   <Image
                     src={image.url}
@@ -298,8 +317,26 @@ const MasonryGridGalery: React.FC = () => {
                     onClick={() => handleImageClick(image)}
                     loading="lazy"
                   />
+
+                  {/* Badges pour nouveauté et promotion */}
+                  {(image.nouveaute || image.promotion) && (
+                    <div className="absolute top-2 left-2 flex flex-col gap-1">
+                      {image.nouveaute && (
+                        <span className="bg-blue-500 text-white px-2 py-1 text-xs rounded">
+                          Nouveauté
+                        </span>
+                      )}
+                      {image.promotion && (
+                        <span className="bg-green-500 text-white px-2 py-1 text-xs rounded">
+                          Promo
+                        </span>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Bouton de suppression repositionné en haut à droite */}
                   <button
-                    className="absolute top-2 left-2 bg-red-500 text-white px-2 py-1 text-sm rounded"
+                    className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 text-sm rounded"
                     onClick={(e) => {
                       e.stopPropagation();
                       handleDeleteImage(image.id);
@@ -307,9 +344,22 @@ const MasonryGridGalery: React.FC = () => {
                   >
                     Suppr
                   </button>
+
+                  {/* Prix affiché en bas à droite */}
+                  { image.price && 
+                    image.price !== "" && 
+                    image.price !== null && 
+                    parseFloat(image.price) !== 0 &&
+                    !isNaN(parseFloat(image.price)) && 
+                    parseFloat(image.price) > 0 && (
+                      <div className="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 text-sm rounded">
+                        {parseFloat(image.price).toFixed(2)} €
+                      </div>
+                  )}
                 </div>
               ))}
             </Masonry>
+
           )}
         </div>
       </div>
@@ -330,6 +380,7 @@ const MasonryGridGalery: React.FC = () => {
             ref={(el) => {
               if (el) cardsRef.current[index] = el;
             }}
+            style={{ position: "relative" }} 
           >
             <Image
               src={image.url}
@@ -340,6 +391,33 @@ const MasonryGridGalery: React.FC = () => {
               onClick={() => handleImageClick(image)}
               loading="lazy"
             />
+            {/* Badges pour nouveauté et promotion */}
+            {(image.nouveaute || image.promotion) && (
+              <div className="absolute top-2 left-2 flex flex-col gap-1">
+                {image.nouveaute && (
+                  <span className="bg-blue-500 text-white px-2 py-1 text-xs rounded">
+                    Nouveauté
+                  </span>
+                )}
+                {image.promotion && (
+                  <span className="bg-green-500 text-white px-2 py-1 text-xs rounded">
+                    Promo
+                  </span>
+                )}
+              </div>
+            )}
+            {/* Prix affiché en bas à droite */}
+            { image.price && 
+              image.price !== "" && 
+              image.price !== null && 
+              parseFloat(image.price) !== 0 &&
+              !isNaN(parseFloat(image.price)) && 
+              parseFloat(image.price) > 0 && (
+                <div className="absolute bottom-2 right-2 bg-black bg-opacity-70 text-white px-2 py-1 text-sm rounded">
+                  {parseFloat(image.price).toFixed(2)} €
+                </div>
+            )}
+
           </div>
         ))}
       </Masonry>

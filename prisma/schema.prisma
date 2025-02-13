@@ -12,47 +12,51 @@ model Image {
   title       String
   description String?
   url         String
+  price       Float    @default(0)       // nouveau champ pour le prix
+  reference   String   @default("")      // nouveau champ pour la référence
+  promotion   Boolean  @default(false)   // case à cocher "en promotion"
+  nouveaute   Boolean  @default(false)   // case à cocher "nouveauté"
   createdAt   DateTime @default(now())
-  position    Int      @default(0) // Nouveau champ pour l'ordre
+  position    Int      @default(0)       // ordre dans le carousel
 }
-
 
 model User {
   id        String   @id @default(uuid())
   email     String   @unique
   password  String
   name      String?
-  role      String   @default("user") // Rôles possibles : "admin", "user", etc.
+  role      String   @default("user")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
 model Comment {
-  id          String   @id @default(cuid()) // ID unique du commentaire
-  createdAt   DateTime @default(now()) // Date de création du commentaire
-  commentorId String   // ID de l'utilisateur/commentateur
-  commentorName String // Nom de l'utilisateur/commentateur
-  message     String   // Contenu du commentaire
-  facebookId  String   // ID unique du commentaire sur Facebook (pour l'intégration future)
+  id            String   @id @default(cuid())
+  createdAt     DateTime @default(now())
+  commentorId   String
+  commentorName String
+  message       String
+  facebookId    String
 }
 
 model Subscriber {
-  id          String   @id @default(uuid())
-  email       String   @unique
-  subscribed  Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id         String   @id @default(uuid())
+  email      String   @unique
+  subscribed Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model Newsletter {
   id        String   @id @default(uuid())
-  subject   String   // Objet de la newsletter
-  content   String   // Contenu HTML de la newsletter
-  theme     String   // Theme pour la newsletter
+  subject   String
+  content   String
+  theme     String
   createdAt DateTime @default(now())
 }
+
 model ImageNewsLetter {
-  id          Int      @id @default(autoincrement())
-  url         String
-  createdAt   DateTime @default(now())
+  id        Int      @id @default(autoincrement())
+  url       String
+  createdAt DateTime @default(now())
 }

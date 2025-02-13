@@ -36,25 +36,23 @@ const upload = multer({
 // Middleware pour gérer l'upload avec Next.js
 const uploadMiddleware = upload.single('image');
 
-// Configuration de Next.js pour désactiver le body parser pour l'upload
+// Désactivation du body parser pour Multer
 export const config = {
   api: {
-    bodyParser: false, // Désactiver le bodyParser pour Multer
+    bodyParser: false,
   },
 };
 
-// Fonction principale pour gérer les requêtes POST et l'authentification
 export default async function handler(req, res) {
-  // Vérifier la session (authentification de l'utilisateur)
+  // Vérifier la session (authentification)
   const session = await getSession({ req });
-
   if (!session || session.user.role !== "admin") {
     return res.status(401).json({ error: "Non autorisé" });
   }
 
   if (req.method === "POST") {
     try {
-      // Utiliser Multer pour traiter le fichier uploadé
+      // Traiter le fichier uploadé avec Multer
       await new Promise((resolve, reject) => {
         uploadMiddleware(req, res, (err) => {
           if (err) reject(err);
@@ -62,14 +60,13 @@ export default async function handler(req, res) {
         });
       });
 
-      // Récupérer les infos du fichier uploadé
+      // Récupérer les informations du fichier uploadé
       const { file } = req;
-
       if (!file) {
         return res.status(400).json({ error: 'Aucun fichier uploadé.' });
       }
 
-      // Réduire et optimiser l'image avec Sharp
+      // Optimiser l'image avec Sharp
       const optimizedPath = path.join(
         process.cwd(),
         'public/uploads/gallery',
@@ -84,20 +81,23 @@ export default async function handler(req, res) {
       // Supprimer l'image originale
       await fs.unlink(file.path);
 
-     // Récupérer la dernière position
+      // Récupérer la dernière position dans le carousel
       const lastImage = await prisma.image.findFirst({
         orderBy: { position: 'desc' },
       });
-
       const newPosition = lastImage ? lastImage.position + 1 : 0;
 
-      // Enregistrer les métadonnées dans la base de données
+      // Enregistrer les métadonnées en base, incluant les nouveaux champs
       const newImage = await prisma.image.create({
         data: {
           title: req.body.title || 'Sans titre',
           description: req.body.description || '',
           url: `/uploads/gallery/optimized-${file.filename}`,
-          position: newPosition, // Attribuer la position
+          position: newPosition,
+          price: req.body.price ? parseFloat(req.body.price) : 0,
+          reference: req.body.reference || '',
+          promotion: req.body.promotion === "true" || req.body.promotion === true,
+          nouveaute: req.body.nouveaute === "true" || req.body.nouveaute === true,
         },
       });
 
