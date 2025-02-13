@@ -20,6 +20,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               description: true,
               position: true,
               createdAt: true,
+              reference: true,
+              promotion: true,
+              nouveaute: true,
               price: true, // <--- Assure-toi que ce champ est bien sélectionné
             },
             orderBy: { position: "desc" }, // Tri par position
@@ -48,7 +51,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           if (!session || !session.user || (session.user as { role?: string }).role !== "admin") {
             return res.status(403).json({ error: "Accès interdit. Vous n'êtes pas administrateur." });
           }
-
+          console.log('post', req.body)
           const { title, description, url, price, reference, promotion, nouveaute } = req.body;
 
           if (!title || !url) {
@@ -62,8 +65,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               url,
               price: price ? parseFloat(price) : 0,
               reference: reference || "",
-              promotion: promotion === true || promotion === "true",
-              nouveaute: nouveaute === true || nouveaute === "true",
+              promotion: promotion === true || promotion === "false",
+              nouveaute: nouveaute === true || nouveaute === "false",
             },
           });
 
@@ -91,7 +94,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
           // Récupérer l'id, le title, et la description depuis req.body
           const { id, title, description, price, reference, promotion, nouveaute } = req.body;
-
+          console.log('put', req.body);
           if (!id || !title) {
             return res.status(400).json({ error: "ID et Titre obligatoires pour la mise à jour." });
           }
