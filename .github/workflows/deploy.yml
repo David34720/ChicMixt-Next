@@ -83,7 +83,7 @@ jobs:
             # Génère le client Prisma
             pnpm prisma generate
             # Applique les migrations si nécessaire (décommente la ligne suivante si tu utilises les migrations)
-            # pnpm prisma migrate deploy
+            pnpm prisma migrate deploy
             pnpm run build
             npx pm2 restart ecosystem.config.js
           EOF

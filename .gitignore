@@ -21,6 +21,7 @@
 
 # production
 /build
+prisma/dev.db
 
 # misc
 .DS_Store
@@ -41,3 +42,4 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 dist/
+prisma/dev.db
