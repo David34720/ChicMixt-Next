@@ -8,7 +8,7 @@ interface EditImageFormProps {
     url: string;
     title: string;
     description: string;
-    price: number;
+    price: string;
     reference: string;
     promotion: boolean;
     nouveaute: boolean;
@@ -120,7 +120,7 @@ export default function EditImageForm({ image, onSuccess }: EditImageFormProps) 
             type="number"
             className="border border-gray-300 rounded w-full px-2 py-1"
             value={price}
-            onChange={(e) => setPrice(e.target.value)}
+            onChange={(e) => setPrice(String(e.target.value))}
           />
         </div>
 
@@ -132,7 +132,7 @@ export default function EditImageForm({ image, onSuccess }: EditImageFormProps) 
             type="text"
             className="border border-gray-300 rounded w-full px-2 py-1"
             value={reference}
-            onChange={(e) => setReference(e.target.value)}
+            onChange={(e) => setReference((e.target.value))}
           />
         </div>
 
