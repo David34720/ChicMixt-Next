@@ -13,11 +13,22 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       case 'GET': // Récupérer toutes les images
         try {
           const images = await prisma.image.findMany({
+            select: {
+              id: true,
+              title: true,
+              url: true,
+              description: true,
+              position: true,
+              createdAt: true,
+              price: true, // <--- Assure-toi que ce champ est bien sélectionné
+            },
             orderBy: { position: "desc" }, // Tri par position
           });
           const sanitizedImages = images.map((image) => ({
             ...image,
-            price: image.price > 0 ? image.price.toString() : "", // Convertit le prix en string et évite les 0
+            price: image.price !== undefined && image.price !== null && image.price > 0 
+              ? image.price.toString() 
+              : "", 
           }));
           res.status(200).json(sanitizedImages);
         } catch (error) {
