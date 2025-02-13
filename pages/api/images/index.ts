@@ -85,7 +85,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
       case 'PUT': {
         // Nouveau handler PUT pour mettre à jour (title, description)
         try {
-          console.log(req.body)
+          console.log('put avant controle session', req.body)
           const session = await getServerSession(req, res, authOptions);
           console.log("session", session);
           if (!session || !session.user || (session.user as { role?: string }).role !== "admin") {
@@ -117,7 +117,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               nouveaute: nouveaute === true || nouveaute === "true",
             },
           });
-
+          console.log("Image mise à jour :", updatedImage);
           return res.status(200).json(updatedImage);
         } catch (error) {
           console.error("Erreur lors de la mise à jour de l'image :", error);

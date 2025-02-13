@@ -26,7 +26,6 @@ export function useScrollEnterAnimation(
     // Sélection de tous les éléments correspondant au sélecteur
     const elements = document.querySelectorAll(selector);
     const total = elements.length;
-    console.log(`Elements trouvés pour "${selector}": ${total}`);
 
     // Valeurs par défaut pour l'animation
     const enterY = options.enterY !== undefined ? options.enterY : (options.y !== undefined ? options.y : 50);
