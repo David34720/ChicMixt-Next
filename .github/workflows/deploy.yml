@@ -78,14 +78,14 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no -p "${{ secrets.SSH_PORT }}" ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} <<'EOF'
             cd /var/www/chicmixt
-            # Sauvegarde temporaire de la DB de production pour éviter les conflits Git
+            # Sauvegarde temporaire de la DB de production dans /tmp pour éviter les conflits Git
             if [ -f prisma/dev.db ]; then
-              mv prisma/dev.db ../dev.db.temp
+              mv prisma/dev.db /tmp/dev.db.temp
             fi
             git pull origin main
             # Restaure la DB si elle a été sauvegardée
-            if [ -f ../dev.db.temp ]; then
-              mv ../dev.db.temp prisma/dev.db
+            if [ -f /tmp/dev.db.temp ]; then
+              mv /tmp/dev.db.temp prisma/dev.db
             fi
             pnpm install
             pnpm prisma generate
