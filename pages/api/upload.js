@@ -1,3 +1,4 @@
+// api/upload.js
 import multer from 'multer';
 import path from 'path';
 import { promises as fs } from 'fs';
@@ -14,7 +15,7 @@ const sanitizeFilename = (filename) => {
     .replace(/[^a-zA-Z0-9.\-_]/g, ""); // retire les caractères spéciaux
 };
 
-// Configurer le dossier de destination avec des logs
+// Configurer le dossier de destination
 const upload = multer({
   storage: multer.diskStorage({
     destination: async (req, file, cb) => {
@@ -81,28 +82,30 @@ export default async function handler(req, res) {
         });
       });
 
-      // Récupérer les informations du fichier uploadé
+      // Récupérer le fichier uploadé
       const { file } = req;
       if (!file) {
         return res.status(400).json({ error: 'Aucun fichier uploadé.' });
       }
 
-      // Optimiser l'image avec Sharp
+      // Convertir le fichier en JPEG et forcer l'extension .jpg
+      const baseName = file.filename.replace(/\.[^.]+$/, ""); // retire l'extension d'origine
+      const optimizedFilename = `optimized-${baseName}.jpg`;
       const optimizedPath = path.join(
         process.cwd(),
         'public/uploads/gallery',
-        `optimized-${file.filename}`
+        optimizedFilename
       );
 
       await sharp(file.path)
         .resize(800) // largeur maximale
-        .jpeg({ quality: 80 }) // compression JPEG
+        .jpeg({ quality: 80 }) // conversion en JPEG
         .toFile(optimizedPath);
 
-      // Supprimer l'image originale
+      // Supprimer le fichier original
       await fs.unlink(file.path);
 
-      // Récupérer la dernière position dans le carousel
+      // Déterminer la position pour la nouvelle image
       const lastImage = await prisma.image.findFirst({
         orderBy: { position: 'desc' },
       });
@@ -113,7 +116,7 @@ export default async function handler(req, res) {
         data: {
           title: req.body.title || 'Sans titre',
           description: req.body.description || '',
-          url: `/uploads/gallery/optimized-${file.filename}`,
+          url: `/uploads/gallery/${optimizedFilename}`,
           position: newPosition,
           price: req.body.price ? parseFloat(req.body.price) : 0,
           reference: req.body.reference || '',

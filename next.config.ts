@@ -3,9 +3,9 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   reactStrictMode: false,
   distDir: ".next",
-  // images: {
-  //   domains: ['images.unsplash.com', 'docs.material-tailwind.com'], // Ajoutez ici les domaines autorisés
-  // },
+  images: {
+    domains: ['www.chicmixt.fr', 'localhost'], // Ajoutez ici les domaines autorisés
+  },
   sassOptions: {
     silenceDeprecations: ['legacy-js-api'],
   },
