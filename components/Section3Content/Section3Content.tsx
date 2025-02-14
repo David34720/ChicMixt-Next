@@ -24,7 +24,7 @@ const Section3Content = ({  }: Section3ContentProps) => {
   })
   return (  
     <>
-      <div ref={desktopRefs.section3Title1} className={styles.section3Left}>
+      <div className={styles.section3Left}>
           <div className={`${styles.infoCard}`}>
             <h2 className={`${styles.section3Title} section3Animation`}>
               Tous les lundis soirs 

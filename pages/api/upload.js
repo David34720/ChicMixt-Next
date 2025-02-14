@@ -5,13 +5,20 @@ import prisma from '../../prisma/client';
 import sharp from 'sharp';
 import { getSession } from "next-auth/react";
 
-// Configurer le dossier de destination
+// Configurer le dossier de destination avec des logs
 const upload = multer({
   storage: multer.diskStorage({
     destination: async (req, file, cb) => {
       const uploadPath = path.join(process.cwd(), 'public/uploads/gallery');
-      await fs.mkdir(uploadPath, { recursive: true });
-      cb(null, uploadPath);
+      console.log("Process CWD :", process.cwd());
+      console.log("Chemin d'upload :", uploadPath);
+      try {
+        await fs.mkdir(uploadPath, { recursive: true });
+        cb(null, uploadPath);
+      } catch (err) {
+        console.error("Erreur lors de la création du dossier :", err);
+        cb(err, uploadPath);
+      }
     },
     filename: (req, file, cb) => {
       const uniqueName = `${Date.now()}-${file.originalname}`;
@@ -55,8 +62,12 @@ export default async function handler(req, res) {
       // Traiter le fichier uploadé avec Multer
       await new Promise((resolve, reject) => {
         uploadMiddleware(req, res, (err) => {
-          if (err) reject(err);
-          else resolve();
+          if (err) {
+            console.error("Erreur lors de l'upload avec Multer :", err);
+            reject(err);
+          } else {
+            resolve();
+          }
         });
       });
 
@@ -87,7 +98,7 @@ export default async function handler(req, res) {
       });
       const newPosition = lastImage ? lastImage.position + 1 : 0;
 
-      // Enregistrer les métadonnées en base, incluant les nouveaux champs
+      // Enregistrer les métadonnées en base
       const newImage = await prisma.image.create({
         data: {
           title: req.body.title || 'Sans titre',

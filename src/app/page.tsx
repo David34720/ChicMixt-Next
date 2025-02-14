@@ -16,13 +16,7 @@ import Section1Content from "../../components/Section1Content/Section1Content";
 import Section2Content from "../../components/Section2Content/Section2Content";
 import Section3Content from "../../components/Section3Content/Section3Content";
 import SliderFullWidth from "../../components/SliderFullWidth/SliderFullWidth";
-const MasonryGridGalery = dynamic(
-  () => import("../../components/MasonryGridGalery/MasonryGridGalery"),
-  {
-    ssr: false,
-    loading: () => <p>Loading...</p>,
-  }
-);
+import MasonryGridLoader from "../../components/MasonryGridGalery/MasonryGridLoader";
 import ReassuranceSection from "../../components/ReassuranceSection/ReassuranceSection";
 import { CarouselComments } from "../../components/CarouselComments/CarouselComments";
 import CommentForm from "../../components/CarouselComments/CommentForm";
@@ -42,16 +36,8 @@ export default function Home() {
   const { openModal, closeModal } = useContext(ModalActionsContext);
   const searchParams = useSearchParams();
   const { data: session } = useSession();
-  const [showMasonry, setShowMasonry] = useState(false);
-  const [hasMasonryLoaded, setHasMasonryLoaded] = useState(false);
-
-  // Dès que showMasonry devient true, on le verrouille
-  useEffect(() => {
-    if (showMasonry && !hasMasonryLoaded) {
-      setHasMasonryLoaded(true);
-    }
-  }, [showMasonry, hasMasonryLoaded]);
-
+  
+  
   // Gestion de la modale
   const handleCloseModal = useCallback(() => {
     closeModal();
@@ -119,7 +105,7 @@ export default function Home() {
       });
     };
 
-    useDesktopAnimations(desktopRefs, setShowMasonry);
+    useDesktopAnimations(desktopRefs);
 
     return (
       <div>
@@ -148,7 +134,7 @@ export default function Home() {
         {/* Section 4 */}
         <section ref={desktopRefs.section4} className="section4-container">
           <div className="section4-masonry">
-            {(showMasonry || hasMasonryLoaded) && <MasonryGridGalery />}
+            <MasonryGridLoader />
           </div>
           <div ref={desktopRefs.section41} className="reassurance">
             <ReassuranceSection />
@@ -180,7 +166,7 @@ export default function Home() {
 
   // Rendu pour la version Mobile, en utilisant mobileRefs du hook
   const MobileView = () => {
-    useMobileAnimations(mobileRefs, setShowMasonry);
+    useMobileAnimations(mobileRefs);
     const handleSectionClickPlus = () => {
       window.scrollBy({
         top: window.innerHeight - 100, // Descend d'une hauteur d'écran - 100px
@@ -216,11 +202,11 @@ export default function Home() {
           {/* Section Reassurance */}
           <section ref={mobileRefs.section4M} className="section4">
             <div>
-              {(showMasonry || hasMasonryLoaded) && <MasonryGridGalery />}
+             <MasonryGridLoader />
             </div>
           </section>
 
-          <section ref={mobileRefs.section41M} className="section4-reassurance">
+          <section className="section4-reassurance">
             <ReassuranceSection />
           </section>
 

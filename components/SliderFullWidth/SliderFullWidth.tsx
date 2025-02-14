@@ -122,6 +122,20 @@ const SliderFullWidth: React.FC = () => {
           </section>
         ))}
       </div>
+      <div
+          className="sliderOverlay"
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "#fff", // ou la couleur de fond souhaitée
+            opacity: 1,
+            pointerEvents: "none",
+            zIndex: 50000,
+          }}
+        />
     </div>
   );
 };

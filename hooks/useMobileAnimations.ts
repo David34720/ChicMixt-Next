@@ -1,6 +1,4 @@
-"use client";
-
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -9,69 +7,187 @@ interface MobileRefs {
   section2M: React.RefObject<HTMLDivElement | null>;
   section3M: React.RefObject<HTMLDivElement | null>;
   section4M: React.RefObject<HTMLDivElement | null>;
-  section5M: React.RefObject<HTMLDivElement | null>;
-  section51M: React.RefObject<HTMLDivElement | null>;
+  section5M?: React.RefObject<HTMLDivElement | null>;
+  section51M?: React.RefObject<HTMLDivElement | null>;
 }
 
-export function useMobileAnimations(
-  refs: MobileRefs,
-  setShowMasonry: React.Dispatch<React.SetStateAction<boolean>>
-) {
+export function useMobileAnimations(refs: MobileRefs) {
+  const animationsInitialized = useRef(false);
+
   useEffect(() => {
+    if (animationsInitialized.current) return;
+
     gsap.registerPlugin(ScrollTrigger);
     const mm = gsap.matchMedia();
+    const scrollTriggers: ScrollTrigger[] = [];
+    const { section1M, section2M, section3M, section4M } = refs;
 
-    mm.add("(max-width: 769px)", () => {
+    mm.add("(max-width: 768px)", () => {
+      // Réinitialisation de l'overlay de la section 1 lorsque l'on remonte
+      // if (section1M.current) {
+      //   const overlay1 = section1M.current.querySelector(".section1overlay");
+      //   if (overlay1) {
+      //     gsap.set(overlay1, { opacity: 0 });
+      //     const tlReset = gsap.timeline({
+      //       scrollTrigger: {
+      //         trigger: section2M.current,
+      //         start: "top top",
+      //         end: "top top",
+      //         onEnterBack: () => {
+      //           gsap.to(overlay1, { opacity: 0, duration: 0.5 });
+      //         },
+      //         invalidateOnRefresh: true,
+      //       }
+      //     });
+      //     if (tlReset.scrollTrigger) scrollTriggers.push(tlReset.scrollTrigger);
+      //   }
+      // }
 
-      const stMasonry = ScrollTrigger.create({
-          trigger: refs.section4M.current,
-          start: "top bottom", // => Le bas de section4 à 100px avant le bas du viewport
-          onEnter: () => setShowMasonry(true),
-        });
-        
+      // Transition Section 1 -> Section 2
+      if (section1M.current && section2M.current) {
+        const overlay2 = section2M.current.querySelector(".section2-overlay");
+        const overlay1 = section1M.current.querySelector(".section1overlay");
 
-      // Fonction d'animation simple pour une section
-      const animateSection = (
-        ref: React.RefObject<HTMLDivElement | null>,
-        delay = 0
-      ) => {
-        if (ref.current) {
-          gsap.fromTo(
-            ref.current,
-            { opacity: 0, y: 30 },
-            { opacity: 1, y: 0, duration: 0.8, ease: "power2.out", delay }
-          );
-        }
-      };
-
-      // Animation de chaque section avec un léger décalage
-      // animateSection(refs.section1M, 0);
-      // animateSection(refs.section2M, 0.2);
-      // animateSection(refs.section3M, 0.4);
-      // animateSection(refs.section4M, 0.6);
-      // animateSection(refs.section5M, 0.8);
-      // animateSection(refs.section51M, 1);
-
-      // Optionnel : si tu souhaites réagir au scroll, tu peux décommenter et ajuster
-      /*
-      [refs.section1M, refs.section2M, refs.section3M, refs.section4M, refs.section5M, refs.section51M].forEach((ref) => {
-        if (ref.current) {
-          ScrollTrigger.create({
-            trigger: ref.current,
-            start: "top 80%",
-            onEnter: () => {
-              gsap.to(ref.current, { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" });
-            },
+        // Animation pour overlay2 (première transition)
+        if (overlay2) {
+          const tl1 = gsap.timeline({
+            scrollTrigger: {
+              trigger: section1M.current,
+              start: "bottom bottom",
+              end: "bottom 70%",
+              scrub: 0.5,
+              onEnterBack: () => {
+                gsap.to(overlay2, { opacity: 1, duration: 0.5 });
+              },
+              onLeave: () => {
+                gsap.to(overlay2, { opacity: 0, duration: 0.5 });
+              },
+              invalidateOnRefresh: true,
+            }
           });
+          if (tl1.scrollTrigger) scrollTriggers.push(tl1.scrollTrigger);
         }
-      });
-      */
+
+        // Animation pour overlay1 (sur la transition via section 2)
+        if (overlay1) {
+          const tl2 = gsap.timeline({
+            scrollTrigger: {
+              trigger: section2M.current,
+              start: "top 30%",
+              end: "top 10%",
+              scrub: 0.5,
+              markers: true,
+              onLeaveBack: () => {
+                gsap.to(overlay1, { opacity: 0, duration: 0.5 });
+              },
+              onEnter: () => {
+                gsap.to(overlay1, { opacity: 1, duration: 0.5 });
+              },
+              onEnterBack: () => {
+                gsap.to(overlay1, { opacity: 1, duration: 0.5 });
+              },
+              invalidateOnRefresh: true,
+            }
+          });
+          if (tl2.scrollTrigger) scrollTriggers.push(tl2.scrollTrigger);
+        }
+      }
+
+      // Transition Section 2 -> Section 3
+      if (section2M.current && section3M.current) {
+        const overlay2 = section2M.current.querySelector(".section2-overlay");
+        const overlay3 = section3M.current.querySelector(".section3-overlay");
+        const overlaySlider = document.querySelector(".sliderOverlay");
+
+        // Animation pour overlay2 (deuxième transition)
+        if (overlay2) {
+          const tl3 = gsap.timeline({
+            scrollTrigger: {
+              trigger: section3M.current,
+              start: "top 30%",
+              end: "top 10%",
+              scrub: 0.5,
+              onLeaveBack: () => {
+                gsap.to(overlay2, { opacity: 0, duration: 0.5 });
+              },
+              onEnter: () => {
+                gsap.to(overlay2, { opacity: 1, duration: 0.5 });
+              },
+              invalidateOnRefresh: true,
+            }
+          });
+          if (tl3.scrollTrigger) scrollTriggers.push(tl3.scrollTrigger);
+        }
+
+        // Animation pour overlay3
+        if (overlay3) {
+          const tl4 = gsap.timeline({
+            scrollTrigger: {
+              trigger: section2M.current,
+              start: "bottom 80%",
+              end: "bottom center",
+              scrub: 0.5,
+              onEnterBack: () => {
+                gsap.to(overlay3, { opacity: 1, duration: 0.5 });
+              },
+              onLeave: () => {
+                gsap.to(overlay3, { opacity: 0, duration: 0.5 });
+              },
+              invalidateOnRefresh: true,
+            }
+          });
+          if (tl4.scrollTrigger) scrollTriggers.push(tl4.scrollTrigger);
+        }
+
+        // Animation pour l'overlay du slider
+        if (overlaySlider) {
+          const tl5 = gsap.timeline({
+            scrollTrigger: {
+              trigger: section3M.current,
+              start: "bottom 70%",
+              end: "bottom center",
+              scrub: 0.5,
+              onLeaveBack: () => {
+                gsap.to(overlaySlider, { opacity: 1, duration: 0.5 });
+              },
+              onEnter: () => {
+                gsap.to(overlaySlider, { opacity: 0, duration: 0.5 });
+              },
+              invalidateOnRefresh: true,
+            }
+          });
+          if (tl5.scrollTrigger) scrollTriggers.push(tl5.scrollTrigger);
+        }
+      }
+
+      // Animation de l'overlay du slider sur la Section 4
+      if (section4M.current) {
+        const overlaySlider = document.querySelector(".sliderOverlay");
+        if (overlaySlider) {
+          const tl6 = gsap.timeline({
+            scrollTrigger: {
+              trigger: section4M.current,
+              start: "top 30%",
+              end: "top 10%",
+              scrub: 0.5,
+              onLeaveBack: () => {
+                gsap.to(overlaySlider, { opacity: 0, duration: 0.5 });
+              },
+              onEnter: () => {
+                gsap.to(overlaySlider, { opacity: 1, duration: 0.5 });
+              },
+              invalidateOnRefresh: true,
+            }
+          });
+          if (tl6.scrollTrigger) scrollTriggers.push(tl6.scrollTrigger);
+        }
+      }
     });
 
-    // Cleanup lors du démontage du composant
+    animationsInitialized.current = true;
     return () => {
+      scrollTriggers.forEach(st => st?.kill());
       mm.revert();
-      ScrollTrigger.getAll().forEach((st) => st.kill());
     };
   }, [refs]);
 }

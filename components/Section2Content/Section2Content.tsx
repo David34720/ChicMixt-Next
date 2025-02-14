@@ -39,15 +39,15 @@ const Section2Content = ({ isMobile }: Section2ContentProps) => {
     <>
       <div className={`${styles.leftCol} section2AnimationContainer`}>
         {!isMobile && (
-          <div className={styles.imageWrapper} ref={desktopRefs.imageRef1}>
+          <div className={styles.imageWrapper}>
             <FacebookLiveVideo videoUrl={facebookVideoUrl} />
           </div>
         )}
       </div>
       <div className={`${styles.rightCol} section2AnimationContainer`}>
         <a href="https://fb.watch/xgvTdqbHcb/" target="_blank" rel="noopener noreferrer">
-          <div className={styles.contentBox} ref={desktopRefs.contentBox}>
-            <div className={styles.logoFbContainer} ref={desktopRefs.imageRefFB}>
+          <div className={styles.contentBox} >
+            <div className={styles.logoFbContainer}>
               <Image
                 className={styles.logoFbImg} // Retirez enter-animation d'ici
                 src="/images/Facebook-logo-chicMixt.jpeg"
@@ -58,7 +58,7 @@ const Section2Content = ({ isMobile }: Section2ContentProps) => {
               />
             </div>
             <div className="section2Animation"> {/* Ajoutez un conteneur pour l'animation */}
-              <h2 ref={desktopRefs.section2Title1}>
+              <h2>
                 RETROUVEZ-NOUS EN LIVE SUR FACEBOOK
               </h2>
               <p>
