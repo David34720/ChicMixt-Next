@@ -5,6 +5,15 @@ import prisma from '../../prisma/client';
 import sharp from 'sharp';
 import { getSession } from "next-auth/react";
 
+// Fonction pour sanitiser le nom de fichier
+const sanitizeFilename = (filename) => {
+  return filename
+    .normalize("NFD") // décompose les caractères accentués
+    .replace(/[\u0300-\u036f]/g, "") // supprime les diacritiques
+    .replace(/\s+/g, "-") // remplace les espaces par des tirets
+    .replace(/[^a-zA-Z0-9.\-_]/g, ""); // retire les caractères spéciaux
+};
+
 // Configurer le dossier de destination avec des logs
 const upload = multer({
   storage: multer.diskStorage({
@@ -21,7 +30,8 @@ const upload = multer({
       }
     },
     filename: (req, file, cb) => {
-      const uniqueName = `${Date.now()}-${file.originalname}`;
+      const sanitizedOriginalName = sanitizeFilename(file.originalname);
+      const uniqueName = `${Date.now()}-${sanitizedOriginalName}`;
       cb(null, uniqueName);
     },
   }),
@@ -85,8 +95,8 @@ export default async function handler(req, res) {
       );
 
       await sharp(file.path)
-        .resize(800) // Largeur maximale
-        .jpeg({ quality: 80 }) // Compression JPEG
+        .resize(800) // largeur maximale
+        .jpeg({ quality: 80 }) // compression JPEG
         .toFile(optimizedPath);
 
       // Supprimer l'image originale

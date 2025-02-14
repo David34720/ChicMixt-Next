@@ -133,18 +133,30 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             return res.status(403).json({ error: "Accès interdit. Vous n'êtes pas administrateur." });
           }
 
-          // Récupérer l'ID à partir de req.query
+          let imageToDelete;
           const { id } = req.query;
 
-          if (!id || Array.isArray(id) || isNaN(parseInt(id, 10))) {
-            return res.status(400).json({ error: 'ID valide obligatoire pour supprimer une image.' });
+          // Si un ID valide est fourni, on supprime directement cette image
+          if (id && !Array.isArray(id) && !isNaN(parseInt(id, 10))) {
+            imageToDelete = await prisma.image.delete({
+              where: { id: parseInt(id, 10) },
+            });
+            console.log(`Image avec ID ${id} supprimée.`);
+          } else {
+            // Sinon, on supprime la dernière image (celle avec l'ID le plus élevé)
+            const lastImage = await prisma.image.findFirst({
+              orderBy: { id: "desc" },
+            });
+            if (!lastImage) {
+              return res.status(404).json({ error: 'Aucune image trouvée à supprimer.' });
+            }
+            imageToDelete = await prisma.image.delete({
+              where: { id: lastImage.id },
+            });
+            console.log(`La dernière image avec ID ${lastImage.id} a été supprimée.`);
           }
 
-          await prisma.image.delete({
-            where: { id: parseInt(id, 10) },
-          });
-
-          res.status(204).end(); // Pas de contenu, suppression réussie
+          res.status(204).end(); // Suppression réussie
         } catch (error) {
           if (error instanceof Error) {
             console.error("Erreur lors de la suppression de l'image :", error.message);
@@ -155,6 +167,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           }
         }
         break;
+
 
       default:
         res.setHeader('Allow', ['GET', 'POST', 'DELETE']);
