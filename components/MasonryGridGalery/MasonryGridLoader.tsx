@@ -59,7 +59,7 @@ const MasonryGridLoader = () => {
       console.error('Error observing container:', error);
       setHasError(true);
     }
-
+ 
     return () => {
       try {
         if (containerRef.current) {
