@@ -69,7 +69,7 @@ const MasonryGridLoader = () => {
         console.error('Error cleaning up observer:', error);
       }
     };
-  }, []); 
+  }, []);  
 
   if (hasError) {
     return (
