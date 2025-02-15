@@ -16,7 +16,7 @@ app.prepare().then(() => {
   // === Statique : pour servir tout le contenu de 'public/uploads' en direct ===
   // Si vous voulez un autre dossier (ex: "uploads" hors de "public"), adaptez ici.
   // Mais puisque vous utilisez "public/uploads/gallery", voici :
-  server.use("/uploads", express.static(path.join(__dirname, "public", "uploads")));
+  server.use("/uploads", express.static(path.join(__dirname, "..", "..", "public", "uploads")));
 
   // (Option) Si vous avez besoin d'un bodyParser ou autre config globale Express,
   // vous pouvez l’ajouter ici.
