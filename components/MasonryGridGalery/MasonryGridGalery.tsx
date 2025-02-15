@@ -218,7 +218,7 @@ const MasonryGridGalery: React.FC<Props> = ({ onImageUploaded }) => {
             }}
           >
             Commander par Email
-          </button>
+          </button> 
         </div>
       );
     } else {
