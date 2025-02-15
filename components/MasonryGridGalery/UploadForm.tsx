@@ -69,6 +69,8 @@ export default function UploadForm({ refreshImages }: UploadFormProps) {
         body: formData,
       });
 
+      console.log("📡 Réponse reçue :", response.status);
+
       if (response.ok) {
         const result = await response.json();
         closeModal();
@@ -77,6 +79,7 @@ export default function UploadForm({ refreshImages }: UploadFormProps) {
         console.log("Résultat :", result);
       } else {
         setUploadStatus("Erreur lors de l'upload.");
+        console.error("❌ Erreur API :", response.status);
       }
     } catch (error) {
       console.error("Erreur :", error);
