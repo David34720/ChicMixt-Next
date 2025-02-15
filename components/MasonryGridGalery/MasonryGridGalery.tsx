@@ -180,7 +180,7 @@ const MasonryGridGalery: React.FC<Props> = ({ onImageUploaded }) => {
     } finally {
       setLoading(false);
     }
-  };
+  }; 
 
   /**
    * Clic sur une image
