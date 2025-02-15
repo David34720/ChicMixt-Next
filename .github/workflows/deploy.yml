@@ -91,5 +91,6 @@ jobs:
             pnpm prisma generate
             pnpm prisma migrate deploy
             pnpm run build
+            pnpm run build:server
             npx pm2 restart ecosystem.config.js
           EOF

@@ -1,3 +1,4 @@
+// tsconfig.server.json
 {
   // On part de la config principale
   "extends": "./tsconfig.json",
