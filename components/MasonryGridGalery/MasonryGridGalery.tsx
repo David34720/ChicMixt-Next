@@ -179,7 +179,7 @@ const MasonryGridGalery: React.FC<Props> = ({ onImageUploaded }) => {
       setError("Erreur lors de la récupération des images.");
     } finally {
       setLoading(false);
-    }
+    } 
   };    
 
   /**
