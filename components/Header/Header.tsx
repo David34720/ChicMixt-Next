@@ -69,7 +69,7 @@ const Header: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => {
             {session?.user.role === "admin" && (
               <button onClick={adminPage}>Admin</button>
             )}
-          </div>
+          </div> 
         ) : (
           <div className={`${styles.login}`}>
             <button onClick={handleLoginClick}>
