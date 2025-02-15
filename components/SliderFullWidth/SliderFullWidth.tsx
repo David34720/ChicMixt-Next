@@ -131,7 +131,7 @@ const SliderFullWidth: React.FC = () => {
             right: 0,
             bottom: 0,
             backgroundColor: "#fff", // ou la couleur de fond souhaitée
-            opacity: 1,
+            opacity: 0,
             pointerEvents: "none",
             zIndex: 50000,
           }}
