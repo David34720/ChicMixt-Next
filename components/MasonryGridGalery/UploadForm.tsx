@@ -78,7 +78,7 @@ export default function UploadForm({ refreshImages }: UploadFormProps) {
         setUploadStatus("Image uploadée avec succès !");
         console.log("Résultat :", result);
       } else {
-        setUploadStatus("Erreur lors de l'upload.");
+        setUploadStatus(`Erreur lors de l'upload. 📡 Réponse reçue :", ${response.status} ${response.json()}`);
         console.error("❌ Erreur API :", response.status);
       }
     } catch (error) {
