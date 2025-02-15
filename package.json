@@ -7,8 +7,10 @@
     "clean": "rm -rf dist .next",
     "clean-dist": "find . -type d -name 'dist' -exec rm -rf {} +",
     "build": "npm run clean && next build",
-    "start": "next start",
-    "prod": "npm run clean && next build && next start",
+    "start": "node server.ts",
+    "build:server": "tsc -p tsconfig.server.json",
+    "start:server": "node dist/server/server.js",
+    "prod": "npm run clean && next build && npm run build:server && npm run start:server",
     "lint": "next lint",
     "admin": "node seed-admins.js",
     "update-all": "pnpm update && pnpm install && pnpm run build"
@@ -35,6 +37,7 @@
     "autoprefixer": "^10.4.20",
     "bcrypt": "^5.1.1",
     "cheerio": "^1.0.0",
+    "express": "^4.21.2",
     "gsap": "^3.12.7",
     "multer": "1.4.5-lts.1",
     "next-auth": "^4.24.11",
@@ -55,6 +58,7 @@
   "devDependencies": {
     "@next/eslint-plugin-next": "^15.1.6",
     "@prisma/client": "^6.3.1",
+    "@types/express": "^5.0.0",
     "@types/multer": "^1.4.12",
     "@types/node": "^22.13.1",
     "@types/nodemailer": "^6.4.17",

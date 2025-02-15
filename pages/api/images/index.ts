@@ -1,4 +1,6 @@
 // api/images/index.ts
+import path from "path";
+import { promises as fs } from "fs"; 
 import prisma from '../../../prisma/client';
 import { getSession } from "next-auth/react";
 import { getServerSession } from "next-auth/next";
@@ -125,10 +127,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         }
       }
 
-      case 'DELETE': // Supprimer une image
+      case 'DELETE': 
         try {
           const session = await getSession({ req });
-          console.log("session", session);
           if (!session || !session.user || (session.user as { role?: string }).role !== "admin") {
             return res.status(403).json({ error: "Accès interdit. Vous n'êtes pas administrateur." });
           }
@@ -136,14 +137,12 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           let imageToDelete;
           const { id } = req.query;
 
-          // Si un ID valide est fourni, on supprime directement cette image
           if (id && !Array.isArray(id) && !isNaN(parseInt(id, 10))) {
             imageToDelete = await prisma.image.delete({
               where: { id: parseInt(id, 10) },
             });
             console.log(`Image avec ID ${id} supprimée.`);
           } else {
-            // Sinon, on supprime la dernière image (celle avec l'ID le plus élevé)
             const lastImage = await prisma.image.findFirst({
               orderBy: { id: "desc" },
             });
@@ -156,17 +155,25 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             console.log(`La dernière image avec ID ${lastImage.id} a été supprimée.`);
           }
 
-          res.status(204).end(); // Suppression réussie
-        } catch (error) {
-          if (error instanceof Error) {
-            console.error("Erreur lors de la suppression de l'image :", error.message);
-            res.status(500).json({ error: 'Erreur lors de la suppression de l\'image.' });
-          } else {
-            console.error("Erreur inconnue :", error);
-            res.status(500).json({ error: 'Erreur inconnue.' });
+          // ICI on supprime physiquement le fichier
+          const { url } = imageToDelete;
+          if (url) {
+            const absolutePath = path.join(process.cwd(), "public", url);
+            try {
+              await fs.unlink(absolutePath);
+              console.log(`Fichier supprimé : ${absolutePath}`);
+            } catch (err) {
+              console.error(`Impossible de supprimer le fichier : ${absolutePath}`, err);
+            }
           }
+
+          // Puis on renvoie un statut vide ou un message de succès
+          return res.status(204).end(); 
+        } catch (error) {
+          console.log(error);
         }
         break;
+
 
 
       default:

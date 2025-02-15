@@ -57,7 +57,7 @@ export function useMobileAnimations(refs: MobileRefs) {
               end: "bottom 70%",
               scrub: 0.5,
               onEnterBack: () => {
-                gsap.to(overlay2, { opacity: 1, duration: 0.5 });
+                gsap.to(overlay2, { opacity: 0, duration: 0.5 });
               },
               onLeave: () => {
                 gsap.to(overlay2, { opacity: 0, duration: 0.5 });
@@ -76,7 +76,7 @@ export function useMobileAnimations(refs: MobileRefs) {
               start: "top 30%",
               end: "top 10%",
               scrub: 0.5,
-              markers: true,
+              markers: false,
               onLeaveBack: () => {
                 gsap.to(overlay1, { opacity: 0, duration: 0.5 });
               },
@@ -84,7 +84,7 @@ export function useMobileAnimations(refs: MobileRefs) {
                 gsap.to(overlay1, { opacity: 1, duration: 0.5 });
               },
               onEnterBack: () => {
-                gsap.to(overlay1, { opacity: 1, duration: 0.5 });
+                gsap.to(overlay1, { opacity: 0, duration: 0.5 });
               },
               invalidateOnRefresh: true,
             }
@@ -111,7 +111,7 @@ export function useMobileAnimations(refs: MobileRefs) {
                 gsap.to(overlay2, { opacity: 0, duration: 0.5 });
               },
               onEnter: () => {
-                gsap.to(overlay2, { opacity: 1, duration: 0.5 });
+                gsap.to(overlay2, { opacity: 0, duration: 0.5 });
               },
               invalidateOnRefresh: true,
             }
@@ -128,7 +128,7 @@ export function useMobileAnimations(refs: MobileRefs) {
               end: "bottom center",
               scrub: 0.5,
               onEnterBack: () => {
-                gsap.to(overlay3, { opacity: 1, duration: 0.5 });
+                gsap.to(overlay3, { opacity: 0, duration: 0.5 });
               },
               onLeave: () => {
                 gsap.to(overlay3, { opacity: 0, duration: 0.5 });

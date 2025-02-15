@@ -1,7 +1,6 @@
-// MasonryGridGalery.tsx
 "use client";
 import styles from "./MasonryGridGalery.module.scss";
-import React, { useEffect, useState, useContext, useRef } from "react";
+import React, { useEffect, useState, useContext, useRef, useCallback } from "react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Masonry from "react-masonry-css";
@@ -25,10 +24,12 @@ import {
   arrayMove,
 } from "@dnd-kit/sortable";
 import SortableItem from "../SortableItem";
-import { parse } from "path";
 
 interface User {
   role?: string;
+}
+interface Props {
+  onImageUploaded?: () => void;  // Quand une image est uploadée
 }
 
 interface ImageData {
@@ -43,14 +44,15 @@ interface ImageData {
   position: number;
 }
 
-const MasonryGridGalery: React.FC = () => {
+const MasonryGridGalery: React.FC<Props> = ({ onImageUploaded }) => {
   const { openModal } = useContext(ModalActionsContext);
   const { data: session } = useSession();
-
+  
   const [images, setImages] = useState<ImageData[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [isDragEnabled, setIsDragEnabled] = useState(false);
+
   const cardsRef = useRef<HTMLDivElement[]>([]);
   const isAdmin = session?.user && (session.user as User).role === "admin";
 
@@ -59,27 +61,59 @@ const MasonryGridGalery: React.FC = () => {
     useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
   );
 
-  useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const response = await fetch("/api/images");
-        const data = await response.json();
+  /**
+   * Construit l’URL complète de l’image
+   */
+  const getImageUrl = (url: string) => {
+    if (url.startsWith("http")) {
+      // URL déjà complète
+      return url;
+    }
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || window.location.origin;
+    return `${baseUrl}${url}`;
+  };
 
-        if (Array.isArray(data)) {
-          setImages(data);
-        } else {
-          setError("Les données récupérées ne sont pas un tableau.");
-        }
-      } catch (err) {
-        console.error("Erreur lors de la récupération des images :", err);
-        setError("Erreur lors de la récupération des images.");
-      } finally {
-        setLoading(false);
+  /**
+   * Fetch des images
+   */
+  const fetchImages = useCallback(async () => {
+    try {
+      setLoading(true);
+      const response = await fetch("/api/images");
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
-    };
-    fetchImages();
+      const data = await response.json();
+      setImages(data);
+    } catch (error) {
+      console.error("Erreur chargement images:", error);
+      setError(error instanceof Error ? error.message : "Erreur de chargement");
+    } finally {
+      setLoading(false);
+    }
   }, []);
 
+  /**
+   * Premier chargement
+   */
+  useEffect(() => {
+    fetchImages();
+  }, [fetchImages]);
+
+  /**
+   * Refetch une seule fois après l’upload
+   */
+  useEffect(() => {
+    if (onImageUploaded) {
+      // Quand onImageUploaded change (c.a.d. quand on a uploadé avec succès),
+      // on refetch les images une seule fois
+      fetchImages();
+    }
+  }, [onImageUploaded, fetchImages]);
+
+  /**
+   * Animation GSAP au montage ou au refetch
+   */
   useEffect(() => {
     if (!images.length) return;
 
@@ -95,11 +129,13 @@ const MasonryGridGalery: React.FC = () => {
     });
 
     return () => {
-      if (tl) tl.kill(); // Vérifie que `tl` existe avant de le tuer
+      tl.kill();
     };
   }, [images]);
 
-
+  /**
+   * Suppression d’image
+   */
   const handleDeleteImage = async (imageId: number) => {
     if (!window.confirm("Êtes-vous sûr de vouloir supprimer cette image ?")) return;
     try {
@@ -117,32 +153,41 @@ const MasonryGridGalery: React.FC = () => {
     }
   };
 
+  /**
+   * Ouvre le formulaire d’upload
+   */
   const handleFormUpload = () => {
     openModal(<UploadForm refreshImages={refreshImages} />);
   };
 
+  /**
+   * Refresh images (appelé après l’édition ou l’upload)
+   */
   const refreshImages = async () => {
-    if (isAdmin) {
-      setLoading(true);
-      try {
-        const response = await fetch("/api/images");
-        const data = await response.json();
-        if (Array.isArray(data)) {
-          setImages(data);
-        } else {
-          setError("Les données récupérées ne sont pas un tableau.");
-        }
-      } catch (err) {
-        console.error("Erreur lors de la récupération des images :", err);
-        setError("Erreur lors de la récupération des images.");
-      } finally {
-        setLoading(false);
-      }      
+    if (!isAdmin) return;
+    setLoading(true);
+    try {
+      const response = await fetch("/api/images");
+      const data = await response.json();
+      if (Array.isArray(data)) {
+        setImages(data);
+      } else {
+        setError("Les données récupérées ne sont pas un tableau.");
+      }
+    } catch (err) {
+      console.error("Erreur lors de la récupération des images :", err);
+      setError("Erreur lors de la récupération des images.");
+    } finally {
+      setLoading(false);
     }
   };
 
+  /**
+   * Clic sur une image
+   */
   const handleImageClick = (image: ImageData) => {
     if (!isAdmin) {
+      // Mode client standard : on affiche la modale de commande
       openModal(
         <div className="flex flex-col items-center">
           <Image
@@ -158,10 +203,10 @@ const MasonryGridGalery: React.FC = () => {
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded"
             onClick={() => {
-              const email = "chicmixt@gmail.com"; // Remplace par l'email du vendeur
+              const email = "fannycamplong06@gmail.com";
               const subject = encodeURIComponent(`Commande pour le produit ${image.reference} ${image.title}`);
               const body = encodeURIComponent(
-                `Bonjour,\n\nJe suis intéressé(e) par le produit suivant :\n\n` +
+                `Bonjour Fanny,\n\nJe suis intéressé(e) par le produit suivant :\n\n` +
                 `🛍️ **Produit** : ${image.title}\n` +
                 `🔖 **Référence** : ${image.reference}\n` +
                 (image.price ? `💰 **Prix** : ${parseFloat(image.price).toFixed(2)} €\n` : '') +
@@ -177,9 +222,9 @@ const MasonryGridGalery: React.FC = () => {
         </div>
       );
     } else {
+      // Mode admin : on ouvre la modale d’édition
       openModal(
         <div className="flex flex-col items-center">
-          
           <EditImageForm
             image={image}
             onSuccess={() => refreshImages()}
@@ -189,6 +234,9 @@ const MasonryGridGalery: React.FC = () => {
     }
   };
 
+  /**
+   * Drag & Drop (reorder) fin
+   */
   const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
     if (!over) return;
@@ -205,8 +253,9 @@ const MasonryGridGalery: React.FC = () => {
           credentials: "include",
           body: JSON.stringify({ orderedIds }),
         });
-        if (!response.ok) throw new Error("Erreur lors de la mise à jour de l'ordre des images.");
-        console.log("Ordre mis à jour avec succès.");
+        if (!response.ok) {
+          throw new Error("Erreur lors de la mise à jour de l'ordre des images.");
+        }
       } catch (err) {
         console.error(err);
         alert("Une erreur est survenue lors de la mise à jour de l'ordre des images.");
@@ -214,6 +263,9 @@ const MasonryGridGalery: React.FC = () => {
     }
   };
 
+  /**
+   * Points de rupture pour Masonry
+   */
   const breakpoints = {
     default: 5,
     1024: 4,
@@ -223,6 +275,7 @@ const MasonryGridGalery: React.FC = () => {
 
   if (error) return <div>{error}</div>;
   if (loading) {
+    // Spinner de chargement global
     return (
       <div className="flex items-center justify-center h-screen">
         <div className="spinner"></div>
@@ -230,6 +283,7 @@ const MasonryGridGalery: React.FC = () => {
     );
   }
 
+  // ---- Mode ADMIN ----
   if (isAdmin) {
     return (
       <div>
@@ -256,6 +310,7 @@ const MasonryGridGalery: React.FC = () => {
         
         <div className={`${styles.masonryGalery} ${styles.section4}`}>
           {isDragEnabled ? (
+            // Drag & Drop
             <DndContext
               sensors={sensors}
               collisionDetection={closestCenter}
@@ -279,13 +334,17 @@ const MasonryGridGalery: React.FC = () => {
                         }}
                       >
                         <Image
-                          src={image.url}
-                          alt={`Accessoires-vetement-mode-femme-enfant-tendance-${image.id}`}
+                          src={getImageUrl(image.url)}
+                          alt={`gallery-photo-${image.id}`}
                           width={400}
                           height={600}
                           className="rounded-lg object-cover hover:opacity-80 transition"
                           onClick={() => handleImageClick(image)}
                           loading="lazy"
+                          onError={() => {
+                            console.error(`Failed to load image ${image.id}`);
+                          }}
+                          unoptimized={process.env.NODE_ENV === 'production'}
                         />
                       </div>
                     </SortableItem>
@@ -294,6 +353,7 @@ const MasonryGridGalery: React.FC = () => {
               </SortableContext>
             </DndContext>
           ) : (
+            // Affichage normal
             <Masonry
               breakpointCols={breakpoints}
               className={styles.myMasonryGrid}
@@ -306,19 +366,23 @@ const MasonryGridGalery: React.FC = () => {
                   ref={(el) => {
                     if (el) cardsRef.current[index] = el;
                   }}
-                  style={{ position: "relative" }} // pour que les éléments en position absolute se placent par rapport à cette div
+                  style={{ position: "relative" }}
                 >
                   <Image
-                    src={image.url}
-                    alt={`Accessoires-vetement-mode-femme-enfant-tendance-${image.id}`}
+                    src={getImageUrl(image.url)}
+                    alt={`gallery-photo-${image.id}`}
                     width={400}
                     height={600}
                     className="rounded-lg object-cover hover:opacity-80 transition"
                     onClick={() => handleImageClick(image)}
                     loading="lazy"
+                    onError={() => {
+                      console.error(`Failed to load image ${image.id}`);
+                    }}
+                    unoptimized={process.env.NODE_ENV === 'production'}
                   />
 
-                  {/* Badges pour nouveauté et promotion */}
+                  {/* Badges nouveauté/promo */}
                   {(image.nouveaute || image.promotion) && (
                     <div className="absolute top-2 left-2 flex flex-col gap-1">
                       {image.nouveaute && (
@@ -334,7 +398,7 @@ const MasonryGridGalery: React.FC = () => {
                     </div>
                   )}
 
-                  {/* Bouton de suppression repositionné en haut à droite */}
+                  {/* Bouton de suppression */}
                   <button
                     className="absolute top-2 right-2 bg-red-500 text-white px-2 py-1 text-sm rounded"
                     onClick={(e) => {
@@ -345,7 +409,7 @@ const MasonryGridGalery: React.FC = () => {
                     Suppr
                   </button>
 
-                  {/* Prix affiché en bas à droite */}
+                  {/* Prix en bas à droite */}
                   { image.price && 
                     image.price !== "" && 
                     image.price !== null && 
@@ -359,13 +423,13 @@ const MasonryGridGalery: React.FC = () => {
                 </div>
               ))}
             </Masonry>
-
           )}
         </div>
       </div>
     );
   }
 
+  // ---- Mode VISITEUR (non-admin) ----
   return (
     <div className={`${styles.masonryGalery} ${styles.section4}`}>
       <Masonry
@@ -380,18 +444,22 @@ const MasonryGridGalery: React.FC = () => {
             ref={(el) => {
               if (el) cardsRef.current[index] = el;
             }}
-            style={{ position: "relative" }} 
+            style={{ position: "relative" }}
           >
             <Image
-              src={image.url}
+              src={getImageUrl(image.url)}
               alt={`gallery-photo-${image.id}`}
               width={400}
               height={600}
               className="rounded-lg object-cover hover:opacity-80 transition"
               onClick={() => handleImageClick(image)}
               loading="lazy"
+              onError={() => {
+                console.error(`Failed to load image ${image.id}`);
+              }}
+              unoptimized={process.env.NODE_ENV === 'production'}
             />
-            {/* Badges pour nouveauté et promotion */}
+            {/* Badges nouveauté/promo */}
             {(image.nouveaute || image.promotion) && (
               <div className="absolute top-2 left-2 flex flex-col gap-1">
                 {image.nouveaute && (
@@ -406,7 +474,7 @@ const MasonryGridGalery: React.FC = () => {
                 )}
               </div>
             )}
-            {/* Prix affiché en bas à droite */}
+            {/* Prix en bas à droite */}
             { image.price && 
               image.price !== "" && 
               image.price !== null && 
@@ -417,7 +485,6 @@ const MasonryGridGalery: React.FC = () => {
                   {parseFloat(image.price).toFixed(2)} €
                 </div>
             )}
-
           </div>
         ))}
       </Masonry>

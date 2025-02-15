@@ -99,13 +99,13 @@ export function ReactShare({ iconSize, classAnimation = "", onceAnimation }: Rea
         <span className={styles.tooltipText}>Partager sur X</span>
       </div>
 
-      {/* Telegram */}
+      {/* Telegram
       <div className={`${styles.network} ${classAnimation} ${styles.tooltip}`}>
         <TelegramShareButton url={shareUrl} title={title} className={styles.shareButton}>
           <TelegramIcon size={iconSize} round />
         </TelegramShareButton>
         <span className={styles.tooltipText}>Partager sur Telegram</span>
-      </div>
+      </div> */}
 
       {/* Whatsapp */}
       <div className={`${styles.network} ${classAnimation} ${styles.tooltip}`}>
@@ -131,7 +131,7 @@ export function ReactShare({ iconSize, classAnimation = "", onceAnimation }: Rea
         <span className={styles.tooltipText}>Partager sur Pinterest</span>
       </div>
 
-      {/* Reddit */}
+      {/* Reddit
       <div className={`${styles.network} ${classAnimation} ${styles.tooltip}`}>
         <RedditShareButton
           url={shareUrl}
@@ -146,12 +146,12 @@ export function ReactShare({ iconSize, classAnimation = "", onceAnimation }: Rea
       </div>
 
       {/* Tumblr */}
-      <div className={`${styles.network} ${classAnimation} ${styles.tooltip}`}>
+      {/* <div className={`${styles.network} ${classAnimation} ${styles.tooltip}`}>
         <TumblrShareButton url={shareUrl} title={title} className={styles.shareButton}>
           <TumblrIcon size={iconSize} round />
         </TumblrShareButton>
         <span className={styles.tooltipText}>Partager sur Tumblr</span>
-      </div>
+      </div>  */}
 
       {/* Email
       <div className={`${styles.network} ${classAnimation}`}>

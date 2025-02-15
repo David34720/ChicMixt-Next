@@ -1,0 +1,19 @@
+{
+  // On part de la config principale
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    // => on veut produire du code JavaScript
+    "noEmit": false,
+
+    // => où mettre le .js compilé
+    "outDir": "dist/server",
+
+    // => Node attend du CommonJS (ou du ESM Node16)
+    "module": "CommonJS",
+
+    // => la version d’ECMAScript qu’on vise
+    "target": "ES2020"
+  },
+  // => on inclut seulement server.ts (ou plus si tu veux)
+  "include": ["server.ts"]
+}

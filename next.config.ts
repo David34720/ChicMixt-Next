@@ -4,11 +4,18 @@ const nextConfig: NextConfig = {
   reactStrictMode: false,
   distDir: ".next",
   images: {
-    domains: ['www.chicmixt.fr', 'localhost'], // Ajoutez ici les domaines autorisés
+    domains: ['localhost', 'www.chicmixt.fr', '192.168.1.81'], // Ajoutez ici les domaines autorisés
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '**',
+      },
+    ],
   },
   sassOptions: {
     silenceDeprecations: ['legacy-js-api'],
   },
+  
   eslint: {
     // Warning: This allows production builds to successfully complete even if
     // your project has ESLint errors.
