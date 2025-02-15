@@ -1,4 +1,4 @@
-// server.js
+// server.ts
 import express from "express";
 import next from "next";
 import path from "path";

@@ -74,6 +74,10 @@ jobs:
       - name: Install PNPM globally
         run: npm install -g pnpm
 
+      - name: Test SSH Connection Stability
+        run: |
+          ssh -o ServerAliveInterval=10 -o ServerAliveCountMax=3 -p ${{ secrets.SSH_PORT }} ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "echo 'SSH connection stable'"
+
       - name: Deploy to VPS
         run: |
           ssh -o StrictHostKeyChecking=no -p "${{ secrets.SSH_PORT }}" ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} <<'EOF'
