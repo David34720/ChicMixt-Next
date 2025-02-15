@@ -63,29 +63,38 @@ export default function UploadForm({ refreshImages }: UploadFormProps) {
     formData.append("promotion", String(promotion));
     formData.append("nouveaute", String(nouveaute));
 
+   try {
+  const response = await fetch("/api/upload", {
+    method: "POST",
+    body: formData,
+  });
+
+  console.log("📡 Réponse reçue :", response.status);
+
+  if (response.ok) {
+    const result = await response.json();
+    closeModal();
+    refreshImages();
+    setUploadStatus("✅ Image uploadée avec succès !");
+    console.log("✅ Résultat :", result);
+  } else {
+    // Récupérer le message d'erreur du serveur
+    let errorMessage = "Aucune réponse détaillée";
     try {
-      const response = await fetch("/api/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      console.log("📡 Réponse reçue :", response.status);
-
-      if (response.ok) {
-        const result = await response.json();
-        closeModal();
-        refreshImages();
-        setUploadStatus("Image uploadée avec succès !");
-        console.log("Résultat :", result);
-      } else {
-        setUploadStatus(`Erreur lors de l'upload. 📡 Réponse reçue :", ${response.status} ${response.json()}`);
-        console.error("❌ Erreur API :", response.status);
-      }
-    } catch (error) {
-      console.error("Erreur :", error);
-      setUploadStatus("Erreur de connexion au serveur.");
+      const errorData = await response.json();
+      errorMessage = errorData.error || JSON.stringify(errorData);
+    } catch (err) {
+      console.error("❌ Impossible de parser la réponse JSON d'erreur :", err);
     }
-  };
+
+    setUploadStatus(`❌ Erreur lors de l'upload (Code ${response.status}): ${errorMessage}`);
+    console.error(`❌ Erreur API - Code ${response.status}:`, errorMessage);
+  }
+} catch (error) {
+  console.error("❌ Erreur de connexion :", error);
+  setUploadStatus("❌ Erreur de connexion au serveur.");
+}
+
 
   return (
     <div className="upload-form">

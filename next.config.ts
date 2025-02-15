@@ -24,7 +24,12 @@ const nextConfig: NextConfig = {
     // Warning: This allows production builds to successfully complete even if
     // your project has ESLint errors.
     ignoreDuringBuilds: true,
-  }
+  },
+  api: {
+    bodyParser: {
+      sizeLimit: "10mb", // Autorise jusqu'à 10 Mo (ajuste selon tes besoins)
+    },
+  },
 };
 
 export default nextConfig;
