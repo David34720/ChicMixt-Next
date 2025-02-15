@@ -94,6 +94,6 @@ const Section2Content = ({ isMobile }: Section2ContentProps) => {
         />
     </>
   )
-}
+} 
 
 export default Section2Content;
