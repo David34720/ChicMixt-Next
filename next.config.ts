@@ -1,7 +1,11 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  reactStrictMode: false,
+  reactStrictMode: true,
+  productionBrowserSourceMaps: false, 
+  devIndicators: {
+    buildActivity: false, // Désactive l'animation de build en mode dev
+  },
   distDir: ".next",
   images: {
     domains: ['localhost', 'www.chicmixt.fr', '192.168.1.81'], // Ajoutez ici les domaines autorisés
