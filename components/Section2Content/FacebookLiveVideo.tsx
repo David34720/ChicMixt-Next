@@ -18,28 +18,35 @@ export default function FacebookLiveVideo({
 }: FacebookLiveVideoProps) {
   const [isSafari, setIsSafari] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  const [key, setKey] = useState(0); // 🟢 Ajout d'une clé unique pour forcer le re-render
 
   useEffect(() => {
-    // Le composant est monté côté client
     setIsClient(true);
 
-    // Détecter Safari au montage client
     if (typeof navigator !== "undefined") {
       const ua = navigator.userAgent;
       const isSafariBrowser = /^((?!chrome|android).)*safari/i.test(ua);
       setIsSafari(isSafariBrowser);
     }
 
-    // Initialiser le plugin Facebook si présent et pas Safari
+    // 🟢 Vérifier si le SDK Facebook est chargé et reparser
     if (typeof window !== "undefined" && window.FB && !isSafari) {
       window.FB.XFBML.parse();
     }
-  }, [isSafari]);
-  useEffect(() => {
-    window.FB.XFBML.parse();
-  }, [isClient]);
+  }, []);
 
-  // Avant que isClient soit true, on retourne un placeholder pour avoir un rendu stable.
+  // 🟢 Déclencher un re-render lorsque `videoUrl` change
+  useEffect(() => {
+    setKey((prevKey) => prevKey + 1); // Change la clé pour forcer le re-render
+
+    // 🟢 Forcer le re-parsing du widget Facebook après une courte attente
+    setTimeout(() => {
+      if (typeof window !== "undefined" && window.FB) {
+        window.FB.XFBML.parse();
+      }
+    }, 500);
+  }, [videoUrl]);
+
   if (!isClient) {
     return (
       <div
@@ -59,11 +66,11 @@ export default function FacebookLiveVideo({
     );
   }
 
-  // Côté client, on peut désormais afficher la vidéo ou l'image selon le navigateur
   return (
     <>
       {!isSafari ? (
         <div
+          key={key} // 🟢 Change la clé pour forcer le re-render quand `videoUrl` change
           className="fb-video"
           data-href={videoUrl}
           data-allowfullscreen="true"
@@ -96,7 +103,6 @@ export default function FacebookLiveVideo({
               objectFit: "cover",
               borderRadius: "20px",
               objectPosition: "top",
-            
             }}
           />
         </div>

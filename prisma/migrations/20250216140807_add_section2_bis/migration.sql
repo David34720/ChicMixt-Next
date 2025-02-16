@@ -1,0 +1,8 @@
+-- CreateTable
+CREATE TABLE "Section2" (
+    "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+    "videoUrl" TEXT NOT NULL,
+    "liveDate" DATETIME NOT NULL,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL
+);
