@@ -119,7 +119,7 @@ export default function Home() {
 
         {/* Section 2 */}
         <section ref={desktopRefs.section2} className="section2">
-          <Section2Content isMobile={false} isAdmin={isAdmin}/>
+          <Section2Content isMobile={false} />
         </section>
 
         {/* Section 3 */}
@@ -186,7 +186,7 @@ export default function Home() {
 
           {/* Section 2 */}
           <section ref={mobileRefs.section2M} className="mobile-section2">
-            <Section2Content isMobile isAdmin={isAdmin}/>
+            <Section2Content isMobile />
           </section>
 
           {/* Section 3 */}
