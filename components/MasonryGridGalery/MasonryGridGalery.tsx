@@ -190,7 +190,7 @@ const MasonryGridGalery: React.FC<Props> = ({ onImageUploaded }) => {
       // Mode client standard : on affiche la modale de commande
       openModal(
         <div className="flex flex-col items-center">
-          <Image
+          <img
             src={image.url}
             alt={`gallery-photo-${image.id}`}
             width={800}

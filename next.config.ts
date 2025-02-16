@@ -8,6 +8,7 @@ const nextConfig: NextConfig = {
   },
   distDir: ".next",
   images: {
+    unoptimized: true,
     domains: ['localhost', 'www.chicmixt.fr', '192.168.1.81'], // Ajoutez ici les domaines autorisés
     remotePatterns: [
       {
