@@ -1,13 +1,14 @@
 "use client";
 import styles from './Header.module.scss'
 import React, { useState, useEffect, useContext } from "react";
+import { useRouter } from "next/navigation";
 import { useSession, signOut } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { ModalActionsContext } from "../../contexts/ModalContext";
 import Link from 'next/link';
 
 import ContactModal from "../ContactModal";
-import AproposModal from "../AproposModal";
+import AproposModal from "../AProposModal/AproposModal";
 import Login from "../Login";
 
 interface User {
@@ -15,6 +16,7 @@ interface User {
 }
 
 const Header: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => {
+  const router = useRouter();
   const { openModal } = useContext(ModalActionsContext);
   const { data: session, status } = useSession();
   const [isSessionLoaded, setIsSessionLoaded] = useState(false);
@@ -38,7 +40,7 @@ const Header: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => {
   };
 
   const handleAproposModal = () => {
-    openModal(<AproposModal />);
+    router.push("/a-propos-boutique-live-mode");  // 🔹 Redirige vers la page overlay
   };
 
   const adminPage = () => {

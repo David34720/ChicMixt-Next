@@ -1,6 +1,7 @@
 "use client";
 import styles from "./Footer.module.scss";
 import React, { useContext } from "react";
+import Link from "next/link";
 import { ReactShare } from "../ReactShare/ReactShare";
 import { ModalActionsContext } from "../../contexts/ModalContext";
 
@@ -119,7 +120,7 @@ const Footer: React.FC = () => {
       </div>
 
       <ReactShare iconSize={30} />
-
+    
       <div>
         Site créé avec &nbsp;<span role="img" aria-label="heart">❤️</span>&nbsp; 
         <a href="https://www.okiweb.fr" target="_blank" rel="noopener">

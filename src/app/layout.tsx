@@ -10,10 +10,11 @@ const aboreto = Aboreto({ subsets: ["latin"], weight: "400" });
 const merriweather = Merriweather_Sans({ subsets: ["latin"], weight: "300" });
 
 export const metadata: Metadata = {
-  title: "Chic\'Mixt - Votre Boutique de Mode en Ligne - Vêtements & Accessoires Tendance en Direct",
+  title: "Chic\'Mixt - Boutique de Mode en Live - Vêtements & Accessoires Tendance",
   description:
-    "Boutique en live Chic\'mixt. Découvrez notre boutique de mode en ligne offrant les dernières tendances en vêtements et accessoires pour tous. Profitez de nos ventes en direct sur Facebook pour des offres exclusives. Achat facile et livraison rapide partout en France.",
+    "Boutique en live Chic\'mixt. Découvrez notre boutique de mode en Live sur Facebook. Shopping mode tendance en direct avec des offres exclusives .",
 };
+
 
 export default function RootLayout({
   children,
@@ -22,6 +23,9 @@ export default function RootLayout({
 }) {
   return (
      <html lang="fr">
+      <head>
+        <meta name="keywords" content="mode, vêtements, boutique en live, tendance, shopping live" />
+      </head>
       <body className={`${aboreto.className} ${merriweather.className}`}>
         <div id="fb-root"></div>
           <ModalProvider>
