@@ -64,7 +64,7 @@ const Section2Content = ({ isMobile }: Section2ContentProps) => {
             <span className={styles.shareText}>
               Partagez à vos amis et profitez des bons plans Mode Chic'Mixt sur vos réseaux préférés !
             </span>
-            {/* <ReactShare iconSize={40} classAnimation="section2ShareAnimation" /> */}
+            <ReactShare iconSize={40} classAnimation="section2ShareAnimation" />
           </div>
         </div>
       </div>

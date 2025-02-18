@@ -17,15 +17,15 @@ const Footer: React.FC = () => {
   return (
     <footer className={`${styles.footer} text-center`}>
       <div>
-        © 2025 Chic&#39;Mixt - Tous droits réservés - 
+        © 2025 Chic&#39;Mixt - Tous droits réservés 
         <button className="button-legal" onClick={handleLegalModal} style={{ paddingLeft: '10px' }}>
-          Mentions légales
+          - Mentions légales
         </button>
       </div>
 
-      {/* <ReactShare iconSize={30} /> */}
+      <ReactShare iconSize={30} />
     
-      <div>
+      <div className="okiweb">
         Site créé avec &nbsp;<span role="img" aria-label="heart">❤️</span>&nbsp; 
         <a href="https://www.okiweb.fr" target="_blank" rel="noopener">
           Okiweb.fr

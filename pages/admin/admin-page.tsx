@@ -2,8 +2,9 @@
 
 import { SessionProvider } from "next-auth/react";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { redirect } from "next/navigation";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "@src/app/globals.scss";
 import dynamic from "next/dynamic";
 import AdminHeader from "@components/Admin/AdminHeader";
@@ -37,6 +38,7 @@ const displayState = [
 ];
 
 function AdminPage() {
+  const router = useRouter();
   const { data: session, status } = useSession();
   const [display, setDisplay] = useState("index"); // L'état contient la clé du composant actif
 
@@ -44,9 +46,10 @@ function AdminPage() {
     return <div>Chargement...</div>;
   }
 
-  if (!session || (session.user as User).role !== "admin") {
-    redirect("/"); // Redirection si non admin
-  }
+  // Redirection si l'utilisateur n'est pas admin
+    if (!session || (session.user as User).role !== "admin") {
+      router.replace("/fanny")
+    }
 
   // Trouver le composant correspondant à l'état actuel
   const activeComponent =

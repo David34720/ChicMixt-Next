@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import Link from "next/link";
 
 export default function MentionsLegales() {
   return (
@@ -9,21 +10,25 @@ export default function MentionsLegales() {
 
           <div className="mb-6">
             <h2 className="text-2xl font-semibold mb-4">Éditeur du site</h2>
-            <p><strong>Nom ou Raison sociale :</strong> Chic&#39;Mixt</p>
-            <p><strong>Adresse du siège social :</strong> [Votre adresse]</p>
-            <p><strong>Forme juridique :</strong> [Ex: SAS / SARL]</p>
-            <p><strong>Capital social :</strong> [Si applicable]</p>
-            <p><strong>Numéro RCS / SIRET :</strong> [Numéro]</p>
-            <p><strong>E-mail :</strong> contact@chicmixt.fr</p>
-            <p><strong>Directeur de la publication :</strong> [Nom et prénom]</p>
+            <p><strong>Nom :</strong> Chic&#39;Mixt</p>
+            <p><strong>Raison sociale :</strong> CAMPLONG Stéphanie</p>
+            <p><strong>Adresse du siège social :</strong> 6 Avenue du Stade, 34140 Mèze</p>
+            <p><strong>Forme juridique :</strong> EI </p>
+            <p><strong>Numéro RCS / SIRET :</strong> 98438883500014</p>
+            <p><strong>Contact :</strong> <Link href="/contact-chicmixt-herault-mode-tendance">Formulaire de contact</Link></p>
+            <p><strong>Directeur de la publication :</strong> CAMPLONG Stéphanie</p>
           </div>
+          <div className="mb-6">
+            <h2 className="text-2xl font-semibold mb-4">Conception du site</h2>
+            <p><strong>Conception :</strong> <a href="https://www.okiweb.fr" target="_blank" rel="noopener noreferrer">Okiweb</a></p>
+          </div>
+          
 
           <div className="mb-6">
             <h2 className="text-2xl font-semibold mb-4">Hébergeur</h2>
-            <p><strong>Dénomination :</strong> [Nom de l’hébergeur]</p>
-            <p><strong>Adresse :</strong> [Adresse de l’hébergeur]</p>
-            <p><strong>Téléphone :</strong> [Numéro de l’hébergeur]</p>
-            <p><strong>Site web :</strong> [URL de l’hébergeur]</p>
+            <p><strong>Dénomination :</strong> OVH</p>
+            <p><strong>Adresse :</strong> 2 rue Kellermann - 59100 Roubaix - France</p>
+            <p><strong>Site web :</strong> https://www.ovhcloud.com/fr/</p>
           </div>
 
           <div className="mb-6">
@@ -97,7 +102,7 @@ export default function MentionsLegales() {
             </p>
           </div>
 
-          <p className="text-sm text-gray-500">Dernière mise à jour : 11-12-2024</p>
+          <p className="text-sm text-gray-500">Dernière mise à jour : 18-02-2025</p>
         </section>
     </>
   );

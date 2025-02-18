@@ -42,6 +42,15 @@
 //   }
 // }
 
+.okiweb {
+  @media screen and (max-width: 768px) {
+    display: none;
+  }
+  @media screen and (max-width: 1050px) {
+    display: none;
+  }
+}
+
 body {
   color: var(--foreground);
   background: var(--background);
