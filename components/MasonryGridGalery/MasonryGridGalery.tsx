@@ -23,7 +23,7 @@ import {
   verticalListSortingStrategy,
   arrayMove,
 } from "@dnd-kit/sortable";
-import SortableItem from "../SortableItem";
+import SortableItem from "./SortableItem";
 
 interface User {
   role?: string;

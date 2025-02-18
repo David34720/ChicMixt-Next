@@ -1,7 +1,7 @@
 import multer from "multer";
 import path from "path";
 import { promises as fs } from "fs";
-import prisma from "../prisma/client"; // Assurez-vous que ce chemin est correct
+import prisma from "../../prisma/client"; // Assurez-vous que ce chemin est correct
 import sharp from "sharp";
 import { getSession } from "next-auth/react";
 import type { NextApiRequest, NextApiResponse } from "next";

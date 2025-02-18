@@ -17,8 +17,8 @@ import MasonryGridLoader from "../../components/MasonryGridGalery/MasonryGridLoa
 import ReassuranceSection from "../../components/ReassuranceSection/ReassuranceSection";
 import { CarouselComments } from "../../components/CarouselComments/CarouselComments";
 import CommentForm from "../../components/CarouselComments/CommentForm";
-import NewsletterSectionFront from "../../components/NewsletterAdmin/NewsletterSectionFront";
-import UnsubscribeModal from "../../components/NewsletterAdmin/UnsubscribeModal";
+import NewsletterSectionFront from "../../components/Admin/NewsletterSectionFront";
+import UnsubscribeModal from "../../components/Admin/UnsubscribeModal";
 
 interface User {
   role?: string; 

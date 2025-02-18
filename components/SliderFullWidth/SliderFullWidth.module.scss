@@ -1,18 +1,30 @@
 .sliderScroll {
   position: relative;
-  width: 100%;
+  width: 100vw !important; // 🔥 Force la largeur
+  max-width: 100vw !important;
   height: 60vh; // Hauteur du slider
   overflow: hidden;
   background-color: white;
   z-index: 4990;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .sliderContainer {
   position: relative;
-  width: 100%;
+  width: 100vw  !important;
+  max-width: 100vw !important;
   height: 100%;
   background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
+
+
 
 .slide {
   position: absolute;

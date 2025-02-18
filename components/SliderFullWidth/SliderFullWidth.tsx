@@ -52,6 +52,7 @@ const SliderFullWidth: React.FC = () => {
     if (!container) return;
     const sliderContainer = container.querySelector(`.${styles.sliderContainer}`);
     if (!sliderContainer) return;
+    gsap.set(container, { width: "100vw", maxWidth: "100vw" });
 
     // Récupération de tous les slides
     const slides = gsap.utils.toArray<HTMLElement>(
@@ -75,8 +76,13 @@ const SliderFullWidth: React.FC = () => {
         pin: true,
         scrub: true,
         markers: false, // passez à true pour débuguer
+        onRefresh: () => {
+        // 🔥 Ajuster dynamiquement la largeur après le pin
+        gsap.set(container, { width: "100vw", maxWidth: "100vw" });
+      },
       },
     });
+
 
     // Pour 4 diapos, il y a 3 transitions.
     // On divise la timeline en 3 segments égaux.

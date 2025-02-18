@@ -6,15 +6,15 @@ import { redirect } from "next/navigation";
 import React, { useState } from "react";
 import "@src/app/globals.scss";
 import dynamic from "next/dynamic";
-import AdminHeader from "@components/AdminHeader";
+import AdminHeader from "@components/Admin/AdminHeader";
 
 
 const NewsletterAdmin = dynamic(
-  () => import("@components/NewsletterAdmin/NewsletterAdmin"),
+  () => import("@components/Admin/NewsletterAdmin"),
   { ssr: false }
 );
 const UsersAdmin = dynamic(
-  () => import("@components/NewsletterAdmin/UsersAdmin"),
+  () => import("@components/Admin/UsersAdmin"),
   { ssr: false }
 );
 interface User {
