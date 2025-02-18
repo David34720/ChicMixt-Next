@@ -6,9 +6,6 @@ import { useSearchParams } from "next/navigation";
 
 import { ModalActionsContext } from "../../contexts/ModalContext";
 
-import { useSectionRefs } from "../../hooks/useSectionRefs";
-import { useDesktopAnimations } from "../../hooks/useDesktopAnimations";
-import { useMobileAnimations } from "../../hooks/useMobileAnimations";
 
 import FacebookLiveVideoMobile from "../../components/Section2Content/FacebookLiveVideoMobile";
 import HookHomePage from "../../components/HookHomePage/HookHomePage";
@@ -29,7 +26,7 @@ interface User {
 
 export default function Home() {
   // Récupération des refs depuis le hook
-  const { desktopRefs, mobileRefs } = useSectionRefs();
+  
 
   // Contexte et session
   const [isAdmin, setIsAdmin] = useState(false);
@@ -73,28 +70,6 @@ export default function Home() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Refresh de la page lors d'un changement de taille de la fenêtre (debounce de 500ms) uniquement sur desktop
-  // useEffect(() => {
-  //   if (!isMobile) {
-  //     let resizeTimer: ReturnType<typeof setTimeout> | null = null;
-  //     const handleResizeReload = () => {
-  //       if (resizeTimer !== null) {
-  //         clearTimeout(resizeTimer);
-  //       }
-  //       resizeTimer = setTimeout(() => {
-  //         window.location.reload();
-  //       }, 500);
-  //     };
-  //     window.addEventListener("resize", handleResizeReload);
-  //     return () => {
-  //       window.removeEventListener("resize", handleResizeReload);
-  //       if (resizeTimer !== null) {
-  //         clearTimeout(resizeTimer);
-  //       }
-  //     };
-  //   }
-  // }, [isMobile]);
-
   // Rendu pour la version Desktop
   const DesktopView = () => {
     const handleSectionClickPlus = () => {
@@ -105,12 +80,10 @@ export default function Home() {
       });
     };
 
-    useDesktopAnimations(desktopRefs);
-
     return (
       <div>
         {/* Section 1 */}
-        <section ref={desktopRefs.section1} className="section1">
+        <section className="section1">
           <div className="section1-div">
             <HookHomePage />
           </div>
@@ -118,12 +91,12 @@ export default function Home() {
         </section>
 
         {/* Section 2 */}
-        <section ref={desktopRefs.section2} className="section2">
+        <section className="section2">
           <Section2Content isMobile={false} />
         </section>
 
         {/* Section 3 */}
-        <section ref={desktopRefs.section3} className="section3">
+        <section className="section3">
           <Section3Content />
         </section>
 
@@ -132,11 +105,11 @@ export default function Home() {
         </section>
 
         {/* Section 4 */}
-        <section ref={desktopRefs.section4} className="section4-container">
+        <section className="section4-container">
           <div className="section4-masonry">
             <MasonryGridLoader />
           </div>
-          <div ref={desktopRefs.section41} className="reassurance">
+          <div className="reassurance">
             <ReassuranceSection />
           </div>
         </section>
@@ -153,11 +126,11 @@ export default function Home() {
             </button>
           </div>
         )}
-        <div ref={desktopRefs.section5} className="section6">
+        <div className="section6">
           <CarouselComments />
         </div>
 
-        <div ref={desktopRefs.section51} className="section7">
+        <div className="section7">
           <NewsletterSectionFront />
         </div>
       </div>
@@ -166,7 +139,6 @@ export default function Home() {
 
   // Rendu pour la version Mobile, en utilisant mobileRefs du hook
   const MobileView = () => {
-    useMobileAnimations(mobileRefs);
     const handleSectionClickPlus = () => {
       window.scrollBy({
         top: window.innerHeight - 100, // Descend d'une hauteur d'écran - 100px
@@ -179,18 +151,18 @@ export default function Home() {
       <>
         <div>
           {/* Section 1 */}
-          <section ref={mobileRefs.section1M} className="section1">
+          <section className="section1">
             <HookHomePage />
             <Section1Content isMobile={isMobile} handleSectionClickPlus={handleSectionClickPlus} />
           </section>
 
           {/* Section 2 */}
-          {/* <section ref={mobileRefs.section2M} className="mobile-section2">
+          <section className="mobile-section2">
             <Section2Content isMobile />
-          </section> */}
+          </section>
 
           {/* Section 3 */}
-          <section ref={mobileRefs.section3M} className="mobile-section3">
+          <section className="mobile-section3">
             <Section3Content />
           </section>
 
@@ -200,7 +172,7 @@ export default function Home() {
           </section>
 
           {/* Section Reassurance */}
-          <section ref={mobileRefs.section4M} className="section4">
+          <section className="section4">
             <div>
              <MasonryGridLoader />
             </div>
@@ -211,12 +183,12 @@ export default function Home() {
           </section>
 
           {/* Section Carousel des commentaires */}
-          <section ref={mobileRefs.section5M} className="mobile-section5">
+          <section className="mobile-section5">
             <CarouselComments />
           </section>
 
           {/* Section Newsletter */}
-          <section ref={mobileRefs.section51M} className="mobile-section7">
+          <section className="mobile-section7">
             <NewsletterSectionFront />
           </section>
         </div>

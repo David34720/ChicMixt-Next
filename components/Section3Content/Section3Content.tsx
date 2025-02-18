@@ -1,8 +1,7 @@
 import styles from './Section3Content.module.scss';
-import { useSectionRefs } from "../../hooks/useSectionRefs";
 import { useScrollEnterAnimation } from "../../hooks/useScrollEnterAnimation";
 import { FcCalendar } from "react-icons/fc";
-
+import {useFadeAnimation} from '../../hooks/useFadeAnimationSection'
 
 
 interface Section3ContentProps {
@@ -10,8 +9,9 @@ interface Section3ContentProps {
 }
 
 const Section3Content = ({  }: Section3ContentProps) => {
-   
-  const { desktopRefs } = useSectionRefs();
+  useFadeAnimation(".section3-overlay", {
+    markers: false
+  });
 
   useScrollEnterAnimation(".section3Animation", {
     duration: 0.8,

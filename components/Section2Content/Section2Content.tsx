@@ -2,8 +2,8 @@ import styles from './Section2Content.module.scss'
 import { useRef } from 'react'
 import Image from "next/image";
 
-import { useSectionRefs } from "../../hooks/useSectionRefs";
 import { useScrollEnterAnimation } from "../../hooks/useScrollEnterAnimation";
+import {useFadeAnimation} from '../../hooks/useFadeAnimationSection'
 
 import FacebookLiveVideo from "./FacebookLiveVideo";
 import FacebookLiveVideoMobile from '@components/Section2Content/FacebookLiveVideoMobile';
@@ -14,9 +14,11 @@ interface Section2ContentProps {
 }
 const Section2Content = ({ isMobile }: Section2ContentProps) => {
 
-  const { desktopRefs } = useSectionRefs();
-
   const facebookVideoUrl = "https://fb.watch/xgvTdqbHcb/";
+
+  useFadeAnimation(".section2-overlay", {
+    markers: false
+  });
 
   useScrollEnterAnimation(".section2Animation", {
     duration: 0.8,

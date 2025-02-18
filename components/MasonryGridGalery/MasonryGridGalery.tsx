@@ -203,7 +203,7 @@ const MasonryGridGalery: React.FC<Props> = ({ onImageUploaded }) => {
           <button
             className="bg-blue-500 text-white px-4 py-2 rounded"
             onClick={() => {
-              const email = "fannycamplong06@gmail.com";
+              const email = process.env.NEXT_PUBLIC_GMAIL_ORDER;
               const subject = encodeURIComponent(`Commande pour le produit ${image.reference} ${image.title}`);
               const body = encodeURIComponent(
                 `Bonjour Fanny,\n\nJe suis intéressé(e) par le produit suivant :\n\n` +
@@ -238,30 +238,41 @@ const MasonryGridGalery: React.FC<Props> = ({ onImageUploaded }) => {
    * Drag & Drop (reorder) fin
    */
   const handleDragEnd = async (event: DragEndEvent) => {
-    const { active, over } = event;
-    if (!over) return;
-    if (active.id !== over.id) {
-      const oldIndex = images.findIndex((img) => img.id === Number(active.id));
-      const newIndex = images.findIndex((img) => img.id === Number(over.id));
-      const newImages = arrayMove(images, oldIndex, newIndex);
-      setImages(newImages);
-      const orderedIds = newImages.map((img) => img.id);
-      try {
-        const response = await fetch("/api/images/reorder", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          credentials: "include",
-          body: JSON.stringify({ orderedIds }),
-        });
-        if (!response.ok) {
-          throw new Error("Erreur lors de la mise à jour de l'ordre des images.");
-        }
-      } catch (err) {
-        console.error(err);
-        alert("Une erreur est survenue lors de la mise à jour de l'ordre des images.");
+  const { active, over } = event;
+  if (!over) return;
+  
+  // Vérification si l'élément déplacé est le même que l'élément cible
+  if (active.id !== over.id) {
+    // Récupérer les indices des éléments déplacés
+    const oldIndex = images.findIndex((img) => img.id === Number(active.id));
+    const newIndex = images.findIndex((img) => img.id === Number(over.id));
+    // Utiliser arrayMove pour réorganiser le tableau sans inverser les éléments
+    const newImages = arrayMove(images, oldIndex, newIndex);
+
+    // Mettre à jour l'état avec le nouvel ordre
+    setImages(newImages);
+
+    // Extraire les IDs dans le nouvel ordre pour les envoyer à l'API
+    const orderedIds = newImages.map((img) => img.id);
+    
+    try {
+      const response = await fetch("/api/images/reorder", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include",
+        body: JSON.stringify({ orderedIds }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Erreur lors de la mise à jour de l'ordre des images.");
       }
+    } catch (err) {
+      console.error(err);
+      alert("Une erreur est survenue lors de la mise à jour de l'ordre des images.");
     }
-  };
+  }
+};
+
 
   /**
    * Points de rupture pour Masonry

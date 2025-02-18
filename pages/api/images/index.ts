@@ -53,7 +53,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
           if (!session || !session.user || (session.user as { role?: string }).role !== "admin") {
             return res.status(403).json({ error: "Accès interdit. Vous n'êtes pas administrateur." });
           }
-          console.log('post', req.body)
+          
           const { title, description, url, price, reference, promotion, nouveaute } = req.body;
 
           if (!title || !url) {
@@ -86,17 +86,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
       case 'PUT': {
         // Nouveau handler PUT pour mettre à jour (title, description)
-        try {
-          console.log('put avant controle session', req.body)
+        try {          
           const session = await getServerSession(req, res, authOptions);
-          console.log("session", session);
+         
           if (!session || !session.user || (session.user as { role?: string }).role !== "admin") {
             return res.status(403).json({ error: "Accès interdit. Vous n'êtes pas administrateur." });
           }
 
           // Récupérer l'id, le title, et la description depuis req.body
           const { id, title, description, price, reference, promotion, nouveaute } = req.body;
-          console.log('put', req.body);
           if (!id || !title) {
             return res.status(400).json({ error: "ID et Titre obligatoires pour la mise à jour." });
           }
@@ -119,7 +117,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
               nouveaute: nouveaute === true || nouveaute === "true",
             },
           });
-          console.log("Image mise à jour :", updatedImage);
           return res.status(200).json(updatedImage);
         } catch (error) {
           console.error("Erreur lors de la mise à jour de l'image :", error);
@@ -141,7 +138,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             imageToDelete = await prisma.image.delete({
               where: { id: parseInt(id, 10) },
             });
-            console.log(`Image avec ID ${id} supprimée.`);
           } else {
             const lastImage = await prisma.image.findFirst({
               orderBy: { id: "desc" },

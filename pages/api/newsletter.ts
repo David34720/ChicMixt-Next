@@ -2,7 +2,7 @@ import nodemailer from "nodemailer";
 import { NextApiRequest, NextApiResponse } from "next";
 import * as yup from "yup";
 import sanitizeHtml from "sanitize-html";
-import { PrismaClient } from "@prisma/client";
+import  {PrismaClient}  from "@prisma/client";
 
 // Initialiser Prisma
 const prisma = new PrismaClient();

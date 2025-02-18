@@ -22,13 +22,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     }
 
     const { orderedIds } = req.body;
+    const reversedOrderedIds = orderedIds.reverse();
 
     if (!Array.isArray(orderedIds)) {
       return res.status(400).json({ error: "Le corps de la requête doit contenir un tableau 'orderedIds'." });
     }
 
     // Mises à jour transactionnelles
-    const updates = orderedIds.map((id, index) => {
+    const updates = reversedOrderedIds.map((id, index) => {
       console.log(`ID: ${id}, Nouvelle position: ${index}`);
       return prisma.image.update({
         where: { id },

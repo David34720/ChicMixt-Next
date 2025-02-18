@@ -1,5 +1,6 @@
 import styles from './Section1Content.module.scss'
 import { useRef } from 'react'
+import {useFadeAnimation} from '../../hooks/useFadeAnimationSection'
 
 interface Section1ContentProps {
   isMobile: boolean,
@@ -8,6 +9,10 @@ interface Section1ContentProps {
 
 const Section1Content = ({ isMobile, handleSectionClickPlus }: Section1ContentProps) => {
   const section1Content = useRef<HTMLDivElement | null>(null);
+
+  useFadeAnimation(".section1overlay", {
+    markers: false
+  });
 
 
   return (  

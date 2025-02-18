@@ -4,16 +4,12 @@ import Image from "next/image";
 
 import { ModalActionsContext } from "../../contexts/ModalContext";
 
-import { useSectionRefs } from '../../hooks/useSectionRefs';
-
-
 import SubscriberForm from "./SubscriberForm";
 import UnsubscribeModal from "./UnsubscribeModal";
 
 
 export default function NewsletterSectionFront() {
   const { openModal, closeModal } = useContext(ModalActionsContext);
-  const { desktopRefs, mobileRefs } = useSectionRefs();
   
   // Gestion de la modale
     const handleCloseModal = useCallback(() => {
