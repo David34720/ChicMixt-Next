@@ -81,7 +81,7 @@ const Header: React.FC = () => {
                   <Link href="/contact-chicmixt-herault-mode-tendance">Contact</Link>
                 </li>
                 <li onClick={() => setMobileMenuOpen(false)}>
-                  <Link href="/mentions-legales">Mentions légales</Link>
+                  <Link href="/mentions-legales-chicmixt-live-facebook">Mentions légales</Link>
                 </li>
                 {isAdmin && (
                   <li onClick={() => setMobileMenuOpen(false)}>

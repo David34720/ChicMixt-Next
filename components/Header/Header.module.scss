@@ -13,6 +13,14 @@
     justify-content: center;
     align-items: center;
     gap: 10px;
+
+    @media screen and (max-width: 768px) {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
   }
 
   .logo {
@@ -107,9 +115,18 @@
     }
 
     .burgerButton {
-      background: none;
-      border: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 45px;
+      height: 45px;
       cursor: pointer;
+      background: rgba(255, 255, 255, 0.60);
+      -webkit-backdrop-filter: blur(5px);
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255, 255, 255, 0.70);
+      border-radius: 10px;
+
       .burgerIcon {
         width: 30px;
         height: 30px;
@@ -127,6 +144,12 @@
       border: 1px solid rgba(255, 255, 255, 0.70);
       border-radius: 10px;
       padding: 10px;
+      width: 50vw;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
 
       ul {
         list-style: none;
@@ -145,7 +168,7 @@
             border: none;
             padding: 10px;
             border-radius: 10px;
-            font-size: clamp(0.6rem, 2.5vw, 1rem);
+            font-size: clamp(1rem, 2.5vw, 1.3rem);
             text-decoration: none;
             color: inherit;
             cursor: pointer;
@@ -165,7 +188,7 @@
     border: 1px solid rgba(255, 0, 111, 0.7);
     padding: 10px;
     border-radius: 5px;
-    font-size: clamp(0.6rem, 2.5vw, 1rem);
+    font-size: clamp(1rem, 2.5vw, 1.3rem);
     cursor: pointer;
     &:hover {
       color: #718096;
