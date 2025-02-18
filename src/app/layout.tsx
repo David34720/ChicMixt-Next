@@ -10,9 +10,9 @@ const aboreto = Aboreto({ subsets: ["latin"], weight: "400" });
 const merriweather = Merriweather_Sans({ subsets: ["latin"], weight: "300" });
 
 export const metadata: Metadata = {
-  title: "Chic\'Mixt - Boutique de Mode en Live - Vêtements & Accessoires Tendance",
+  title: "Chic'Mixt - Boutique de Mode en Live - Vêtements & Accessoires Tendance",
   description:
-    "Boutique en live Chic\'mixt. Découvrez notre boutique de mode en Live sur Facebook. Shopping mode tendance en direct avec des offres exclusives .",
+    "Boutique en live Chic'mixt. Découvrez notre boutique de mode en Live sur Facebook. Shopping mode tendance en direct avec des offres exclusives .",
 };
 
 

@@ -10,7 +10,7 @@ export interface ScrollEnterOptions {
   exitY?: number;      // optionnel, par défaut égale à -y ou -50
   start?: string;
   end?: string;
-  duration?: number;
+  duration?: number; 
   ease?: string;
   stagger?: number;    // délai (en secondes) de décalage entre les éléments
   markers?: boolean;

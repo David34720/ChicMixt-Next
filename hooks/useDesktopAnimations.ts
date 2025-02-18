@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -13,7 +14,7 @@ export function useDesktopAnimations(refs: DesktopRefs) {
   const animationsInitialized = useRef(false);
 
   useEffect(() => {
-    if (animationsInitialized.current) return;
+    if (animationsInitialized.current) return; 
     
     gsap.registerPlugin(ScrollTrigger);
     const mm = gsap.matchMedia();
@@ -26,7 +27,6 @@ export function useDesktopAnimations(refs: DesktopRefs) {
       if (section1.current && section2.current) {
         const overlay2 = section2.current.querySelector(".section2-overlay");
         const overlay1 = section1.current.querySelector(".section1overlay");
-
         // Animation overlay2 (première transition)
         if (overlay2) {
           const tl1 = gsap.timeline({
@@ -34,6 +34,7 @@ export function useDesktopAnimations(refs: DesktopRefs) {
               trigger: section1.current,
               start: "bottom bottom",
               end: "bottom 70%",
+              markers: true,
               scrub: 0.5,
               onEnterBack: self => {
                 gsap.to(overlay2, { opacity: 1, duration: 0.5 });
@@ -41,7 +42,7 @@ export function useDesktopAnimations(refs: DesktopRefs) {
               onLeave: self => {
                 gsap.to(overlay2, { opacity: 0, duration: 0.5 });
               },
-              invalidateOnRefresh: true,
+              invalidateOnRefresh: false,
             }
           });
           
@@ -64,7 +65,7 @@ export function useDesktopAnimations(refs: DesktopRefs) {
               onEnter: self => {
                 gsap.to(overlay1, { opacity: 1, duration: 0.5 });
               },
-              invalidateOnRefresh: true,
+              invalidateOnRefresh: false,
             }
           });
           

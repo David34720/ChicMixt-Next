@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -12,7 +13,7 @@ interface MobileRefs {
 }
 
 export function useMobileAnimations(refs: MobileRefs) {
-  const animationsInitialized = useRef(false);
+  const animationsInitialized = useRef(false); 
 
   useEffect(() => {
     if (animationsInitialized.current) return;

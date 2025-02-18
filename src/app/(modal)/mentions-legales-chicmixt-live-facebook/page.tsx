@@ -1,30 +1,30 @@
 "use client";
 
 import React from "react";
-import AproposModal from "@components/AProposModal/AproposModal";
+import MentionsLegales from "@components/MentionsLegales/MentionsLegales";
 import { NextSeo } from "next-seo";
 import { useRouter } from "next/navigation";
 
-export default function AproposBoutiqueLiveMode() {
+export default function MentionsLegalesModale() {
   const router = useRouter();
 
   return (
     <>
       {/* ✅ SEO optimisé */}
       <NextSeo
-        title="À propos de Chic'Mixt – Boutique Live Mode"
-        description="Découvrez Chic'Mixt, votre boutique de mode en live, animée par Fanny. Collections femmes, hommes et enfants, lives hebdomadaires et bonne humeur !"
-        canonical="https://chicmixt.fr/a-propos-boutique-live-mode"
+        title="Mentions légales de Chic'Mixt – Boutique Live Mode"
+        description="Mentions légales de Chic'Mixt, vente sur Facebook mode et tendance"
+        canonical="https://chicmixt.fr/mentions-legales-chicmixt-live-facebook"
         openGraph={{
-          url: "https://chicmixt.fr/a-propos-boutique-live-mode",
-          title: "À propos de Chic'Mixt",
-          description: "Chic'Mixt est une boutique de mode en live, animée par Fanny. Découvrez nos collections tendances et nos moments conviviaux chaque semaine.",
+          url: "https://chicmixt.fr/mentions-legales-chicmixt-live-facebook",
+          title: "Mentions légales de Chic'Mixt",
+          description: "Mentions légales de Chic'Mixt, vente sur Facebook mode et tendance",
           images: [
             {
               url: "https://chicmixt.fr/images/hook2/hook2-1.png",
               width: 1200,
               height: 630,
-              alt: "Chic'Mixt | Boutique de mode en Live",
+              alt: "Mentions légales Chic'Mixt | Boutique de mode en Live",
             },
           ],
           siteName: "Chic'Mixt",
@@ -40,12 +40,10 @@ export default function AproposBoutiqueLiveMode() {
           >
             ✖
           </button>
-      
           <a onClick={() => router.back()} className="hover:underline text-center text-gray-700 mb-" >
               ← Retour à la page d'accueil
           </a>
-     
-          <AproposModal />
+          <MentionsLegales />
         </div>
       </div>
     </>

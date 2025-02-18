@@ -39,6 +39,7 @@ export default function LazyLoadImage({
       width={width}
       height={height}
       className={className}
+      priority
       // N'utilisez pas "priority" pour les images lourdes afin de ne pas forcer leur préchargement
     />
   );

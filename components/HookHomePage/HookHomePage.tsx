@@ -16,22 +16,21 @@ export default function HookHomePage() {
   const [showPhone, setShowPhone] = useState(false); 
 
   // Animation de l'image de fond : zoom et déflout progressif
-  useEffect(() => {
-    if (bgImageRef.current) {
-      gsap.fromTo(
-        bgImageRef.current,
-        { scale: 3.4, filter: "blur(5px)" },
-        { scale: 1.2, filter: "blur(0px)", duration: 2.5, ease: "power2.out" }
-      );
-    }   
-  }, []); 
-//tetst 146
+  // useEffect(() => {
+  //   if (bgImageRef.current) {
+  //     gsap.fromTo(
+  //       bgImageRef.current,
+  //       { scale: 3.4, filter: "blur(5px)" },
+  //       { scale: 1.2, filter: "blur(0px)", duration: 2.5, ease: "power2.out" }
+  //     );
+  //   }   
+  // }, []); 
 
   // Retarder le rendu du smartphone après 2 secondes
   useEffect(() => {
     const timer = setTimeout(() => {
       setShowPhone(true);
-    }, 2000);
+    }, 1000);
     return () => clearTimeout(timer);
   }, []);
 
@@ -68,6 +67,7 @@ export default function HookHomePage() {
       const y = e.clientY - innerHeight / 2;
       const bgX = -x / 10;
       const bgY = -y / 10;
+      if (!bgImageRef.current) return;
       gsap.to(bgImageRef.current, {
         x: bgX,
         y: bgY,
@@ -77,7 +77,7 @@ export default function HookHomePage() {
     };
     window.addEventListener("mousemove", handleMouseMove);
     return () => window.removeEventListener("mousemove", handleMouseMove);
-  }, []);
+  }, [bgImageRef]);
 
   // Parallaxe pour le smartphone : effet inverse et légère inclinaison lors du mouvement de la souris
   useEffect(() => {
@@ -109,13 +109,14 @@ export default function HookHomePage() {
       {/* Image de fond animée directement par GSAP */}
       <Image
         ref={bgImageRef as any} // Next.js Image n'accepte pas toujours la ref directement
-        src="/images/HookHomePage/webpeditor_DALL·E2025-02-0120.42.17-Showroom-Next_Chicmixt.webp"
+        src="/images/HookHomePage/showroom-Next_Chicmixt-boutique-live.webp"
         placeholder="blur"
-        blurDataURL="/images/HookHomePage/webpeditor_DALL·E2025-02-0120.42.17-Showroom-Next_Chicmixt-PH.webp"
-        alt="Showroom"
+        blurDataURL="/images/HookHomePage/showroom-Next_Chicmixt-boutique-live-PH.webp"
+        alt="Showroom Chicmixt boutique live"
         fill
         priority
         className={styles.bgImage}
+        quality={80}
       />
 
       {/* Le smartphone (mockup + GIF) ne s'affiche qu'après le délai */}
@@ -124,20 +125,24 @@ export default function HookHomePage() {
           <div className={styles.phoneContainer}>
             <Image
               src="/images/HookHomePage/mochup_Chicmixt-live.webp"
-              alt="Smartphone mockup"
+              placeholder="blur"
+              blurDataURL="/images/HookHomePage/mochup_Chicmixt-live-low.webp"
+              alt="Smartphone mockup Chicmixt boutiquelive "
               width={400}
               height={600}
               className={styles.phoneImg}
               priority
+              quality={80}
             />
             <LazyLoadImage
               placeholderSrc="/images/HookHomePage/webpeditor_placeHolderHook-ChicMixt-mode-live.webp"
               actualSrc="/images/HookHomePage/Live-mockup-Chicmixt-Hook-3.gif"
-              alt="GIF in phone screen"
+              alt="GIF in phone screen boutique live"
+              
               width={400}
               height={600}
               className={styles.phoneScreen}
-              delay={2000} // Le GIF est chargé avec un délai supplémentaire
+              delay={500} // Le GIF est chargé avec un délai supplémentaire
             />
           </div>
         </div>

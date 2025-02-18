@@ -7,7 +7,7 @@ import { redirect } from "next/navigation";
 import { ModalActionsContext } from "../../contexts/ModalContext";
 import Link from 'next/link';
 
-import ContactModal from "../ContactModal";
+import ContactModal from "../Contact/ContactModal";
 import AproposModal from "../AProposModal/AproposModal";
 import Login from "../Login";
 
@@ -36,7 +36,8 @@ const Header: React.FC<{ isScrolled: boolean }> = ({ isScrolled }) => {
   };
 
   const handleContactModal = () => {
-    openModal(<ContactModal />);
+    router.push("/contact-chicmixt-herault-mode-tendance");  // 🔹 Redirige vers la page overlay
+    // openModal(<ContactModal />);
   };
 
   const handleAproposModal = () => {

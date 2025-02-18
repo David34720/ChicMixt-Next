@@ -28,11 +28,11 @@ const Section2Content = ({ isMobile }: Section2ContentProps) => {
   return (  
     <>
       <div className={`${styles.leftCol} section2AnimationContainer`}>
-        {!isMobile && (
+        {/* {!isMobile && (
           <div className={styles.imageWrapper}>
             <FacebookLiveVideo videoUrl={facebookVideoUrl} />
           </div>
-        )}
+        )} */}
       </div>
       <div className={`${styles.rightCol} section2AnimationContainer`}>
         <a href="https://fb.watch/xgvTdqbHcb/" target="_blank" rel="noopener noreferrer">
@@ -62,7 +62,7 @@ const Section2Content = ({ isMobile }: Section2ContentProps) => {
             <span className={styles.shareText}>
               Partagez à vos amis et profitez des bons plans Mode Chic'Mixt sur vos réseaux préférés !
             </span>
-            <ReactShare iconSize={40} classAnimation="section2ShareAnimation" />
+            {/* <ReactShare iconSize={40} classAnimation="section2ShareAnimation" /> */}
           </div>
         </div>
       </div>

@@ -185,9 +185,9 @@ export default function Home() {
           </section>
 
           {/* Section 2 */}
-          <section ref={mobileRefs.section2M} className="mobile-section2">
+          {/* <section ref={mobileRefs.section2M} className="mobile-section2">
             <Section2Content isMobile />
-          </section>
+          </section> */}
 
           {/* Section 3 */}
           <section ref={mobileRefs.section3M} className="mobile-section3">
