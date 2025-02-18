@@ -22,7 +22,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
     }
 
     const { orderedIds } = req.body;
-    const reversedOrderedIds = orderedIds.reverse();
+     const reversedOrderedIds = [...orderedIds].reverse() as (number | string)[];
 
     if (!Array.isArray(orderedIds)) {
       return res.status(400).json({ error: "Le corps de la requête doit contenir un tableau 'orderedIds'." });
@@ -30,9 +30,13 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse<
 
     // Mises à jour transactionnelles
     const updates = reversedOrderedIds.map((id, index) => {
-      console.log(`ID: ${id}, Nouvelle position: ${index}`);
+      const numericId = parseInt(id as string, 10); // Assurez-vous que l'id est un entier
+      if (isNaN(numericId)) {
+        throw new Error(`L'ID ${id} est invalide`);
+      }
+      console.log(`ID: ${numericId}, Nouvelle position: ${index}`);
       return prisma.image.update({
-        where: { id },
+        where: { id: numericId },
         data: { position: index },
       });
     });
