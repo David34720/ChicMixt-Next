@@ -11,13 +11,6 @@ import Footer from "./Footer/Footer";
 export default function AppWrapper({ children }: { children: React.ReactNode }) {
   const sectionsRef = useRef<(HTMLElement | null)[]>([]);
 
-  const navigateToSection = (index: number) => {
-    const section = sectionsRef.current[index];
-    if (section) {
-      section.scrollIntoView({ behavior: "smooth", block: "start" });
-    }
-  };
-
   useEffect(() => {
     if (typeof window !== "undefined") {
       (window as any).fbAsyncInit = function () {
@@ -31,7 +24,7 @@ export default function AppWrapper({ children }: { children: React.ReactNode }) 
 
   return (
     <SessionProvider>
-      <Header isScrolled={false} />
+      <Header />
       <main className="container mx-auto">
         <Suspense fallback={<div>Chargement...</div>}>
           {children}
