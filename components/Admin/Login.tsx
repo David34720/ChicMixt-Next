@@ -1,9 +1,8 @@
-import { useContext } from "react";
+"use client";
 import { signIn } from "next-auth/react";
-import { ModalActionsContext } from "../contexts/ModalContext";
+import { redirect } from 'next/navigation'
 
 export default function Login() {
-  const { closeModal } = useContext(ModalActionsContext);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -22,7 +21,7 @@ export default function Login() {
       console.error("Erreur de connexion:", result.error);
       alert("Échec de la connexion. Vérifiez vos identifiants.");
     } else if (result?.ok) {
-      closeModal();
+     redirect('/')
     }
   };
 
