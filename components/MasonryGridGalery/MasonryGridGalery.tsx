@@ -6,6 +6,7 @@ import Image from "next/image";
 import Masonry from "react-masonry-css";
 import { ModalActionsContext } from "../../contexts/ModalContext";
 import { gsap } from "gsap";
+import { useScrollEnterAnimation } from "../../hooks/useScrollEnterAnimation";
 import UploadForm from "./UploadForm";
 import EditImageForm from "./EditImageForm";
 import {
@@ -30,6 +31,7 @@ interface User {
 }
 interface Props {
   onImageUploaded?: () => void;  // Quand une image est uploadée
+  isVisible: boolean;
 }
 
 interface ImageData {
@@ -44,7 +46,7 @@ interface ImageData {
   position: number;
 }
 
-const MasonryGridGalery: React.FC<Props> = ({ onImageUploaded }) => {
+const MasonryGridGalery: React.FC<Props> = ({ onImageUploaded, isVisible }) => {
   const { openModal } = useContext(ModalActionsContext);
   const { data: session } = useSession();
   
@@ -116,22 +118,14 @@ const MasonryGridGalery: React.FC<Props> = ({ onImageUploaded }) => {
    */
   useEffect(() => {
     if (!images.length) return;
-
-    gsap.set(cardsRef.current, { opacity: 0, y: 50 });
-    
-    const tl = gsap.timeline();
-    tl.to(cardsRef.current, {
-      opacity: 1,
-      y: 0,
-      stagger: 0.15,
-      duration: 0.7,
-      ease: "power2.out",
-    });
-
-    return () => {
-      tl.kill();
-    };
-  }, [images]);
+    console.log("Animation GSAP");
+    useScrollEnterAnimation(".cardGalery", {
+    duration: 0.8,
+    y: 50,
+    ease: "power2.out",
+    markers: false
+  });
+  }, [isVisible]);
 
   /**
    * Suppression d’image

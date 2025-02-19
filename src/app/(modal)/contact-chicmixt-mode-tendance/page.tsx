@@ -5,13 +5,13 @@ export const metadata = {
   description:
     "Contactez Chic'Mixt avec ce formulaire de contact, Live shopping Facebook",
   openGraph: {
-    url: "https://chicmixt.fr/contact-chicmixt-herault-mode-tendance",
+    url: "https://www.chicmixt.fr/contact-chicmixt-herault-mode-tendance",
     title: "Formulaire de contact de Chic'Mixt",
     description:
       "Contactez Chic'Mixt avec ce formulaire de contact, Live shopping Facebook",
     images: [
       {
-        url: "https://chicmixt.fr/images/hook2/hook2-1.png",
+        url: "https://www.chicmixt.fr/images/s-logo-chicMixt.jpeg",
         width: 1200,
         height: 630,
         alt: "Contactez Chic'Mixt | Boutique de mode en Live",
@@ -20,7 +20,7 @@ export const metadata = {
     siteName: "Chic'Mixt",
   },
   alternates: {
-    canonical: "https://chicmixt.fr/contact-chicmixt-herault-mode-tendance",
+    canonical: "https://www.chicmixt.fr/contact-chicmixt-herault-mode-tendance",
   },
 };
 

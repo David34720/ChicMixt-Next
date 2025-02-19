@@ -20,7 +20,8 @@ export default function MentionsLegales() {
           </div>
           <div className="mb-6">
             <h2 className="text-2xl font-semibold mb-4">Conception du site</h2>
-            <p><strong>Conception :</strong> <a href="https://www.okiweb.fr" target="_blank" rel="noopener noreferrer">Okiweb</a></p>
+            {/* <p><strong>Conception :</strong> <a href="https://www.okiweb.fr" target="_blank" rel="noopener noreferrer">Okiweb</a></p> */}
+            <p><strong>Conception :</strong> Okiweb</p>
           </div>
           
 

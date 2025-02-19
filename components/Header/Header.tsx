@@ -75,10 +75,10 @@ const Header: React.FC = () => {
             <div className={styles.mobileMenu}>
               <ul>
                 <li onClick={() => setMobileMenuOpen(false)}>
-                  <Link href="/a-propos-boutique-live-mode">À propos</Link>
+                  <Link href="/a-propos-live-mode">À propos</Link>
                 </li>
                 <li onClick={() => setMobileMenuOpen(false)}>
-                  <Link href="/contact-chicmixt-herault-mode-tendance">Contact</Link>
+                  <Link href="/contact-chicmixt-mode-tendance">Contact</Link>
                 </li>
                 <li onClick={() => setMobileMenuOpen(false)}>
                   <Link href="/mentions-legales-chicmixt-live-facebook">Mentions légales</Link>

@@ -6,12 +6,12 @@ export const metadata = {
   title: "Mentions légales de Chic'Mixt – Boutique Live Mode",
   description: "Mentions légales de Chic'Mixt, vente sur Facebook mode et tendance",
   openGraph: {
-    url: "https://chicmixt.fr/mentions-legales-chicmixt-live-facebook",
+    url: "https://www.chicmixt.fr/",
     title: "Mentions légales de Chic'Mixt",
     description: "Mentions légales de Chic'Mixt, vente sur Facebook mode et tendance",
     images: [
       {
-        url: "https://chicmixt.fr/images/hook2/hook2-1.png",
+        url: "https://www.chicmixt.fr/images/s-logo-chicMixt.jpeg",
         width: 1200,
         height: 630,
         alt: "Mentions légales Chic'Mixt | Boutique de mode en Live",
@@ -20,7 +20,7 @@ export const metadata = {
     siteName: "Chic'Mixt",
   },
   alternates: {
-    canonical: "https://chicmixt.fr/mentions-legales-chicmixt-live-facebook",
+    canonical: "https://www.chicmixt.fr/mentions-legales-chicmixt-live-facebook",
   },
 };
 

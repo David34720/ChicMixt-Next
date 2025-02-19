@@ -32,40 +32,76 @@ const MasonryGridLoader = () => {
    */
   useEffect(() => {
     if (typeof window === "undefined" || !containerRef.current || loadedRef.current) return;
-
+    const targetElement = document.querySelector(".slider-container");
+    if (!targetElement) {
+      console.warn("⚠️ .slider-container non trouvé !");
+      return;
+    }
     const observer = new IntersectionObserver(
       (entries) => {
         const [entry] = entries;
         if (entry.isIntersecting && !loadedRef.current) {
-          // On charge la galerie qu’une fois
+          console.log("🔄 Chargement de la galerie déclenché par .slider-container !");
           loadedRef.current = true;
           setShouldLoad(true);
-          setIsVisible(true);
-          observer.disconnect();
+          observer.disconnect(); // Stopper l'observation après activation
         }
       },
-      { threshold: 0.1, rootMargin: "50px" }
+      {
+        root: null, // Observer par rapport au viewport
+        rootMargin: "200px", // Déclenche 200px avant que `.slider-container` ne soit visible
+        threshold: 0.2, // Déclenche lorsque 20% de `.slider-container` est visible
+      }
     );
 
-    observer.observe(containerRef.current);
+    observer.observe(targetElement);
+
+
+    return () => {
+      if (targetElement) {
+        observer.unobserve(targetElement);
+      }
+    };
+  }, []);
+  useEffect(() => {
+    if (!containerRef.current || typeof window === "undefined" || loadedRef.current) {
+      console.warn("⚠️ container masonry non trouvé !");
+      return;
+    }
+
+    const observer2 = new IntersectionObserver(
+      (entries) => {
+        const [entry] = entries;
+        if (entry.isIntersecting) {
+          // On charge la galerie qu’une fois
+          setIsVisible(true);
+          observer2.disconnect();
+          console.log("trigger image")
+        }
+      },
+      { threshold: 0.1, rootMargin: "-150px" }
+    );
+
+    observer2.observe(containerRef.current);
 
     return () => {
       if (containerRef.current) {
-        observer.unobserve(containerRef.current);
+        observer2.unobserve(containerRef.current);
       }
     };
   }, []);
 
   if (hasError) {
     // En cas d’erreur, on peut décider d’afficher la galerie directement
-    return <MasonryGridGalery onImageUploaded={handleImageUploaded} />;
+    return <MasonryGridGalery onImageUploaded={handleImageUploaded} isVisible />;
   }
 
   return (
     <div ref={containerRef} className="w-full">
       {shouldLoad && (
-        <div className={`transition-opacity duration-500 ${isVisible ? "opacity-100" : "opacity-0"}`}>
-          <MasonryGridGalery key={key} onImageUploaded={handleImageUploaded} />
+        // <div className={`transition-opacity duration-500 ${isVisible ? "opacity-100" : "opacity-0"}`}>
+        <div className={` duration-500 `}>
+          <MasonryGridGalery key={key} onImageUploaded={handleImageUploaded} isVisible/>
         </div>
       )}
     </div>

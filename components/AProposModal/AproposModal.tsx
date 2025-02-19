@@ -1,4 +1,4 @@
-"use client";
+
 import React from "react";
 
 export default function AproposModal() {
@@ -40,6 +40,7 @@ export default function AproposModal() {
         <div className="text-center">
           <a href="https://www.facebook.com/profile.php?id=61555657774462" 
             target="_blank" 
+            rel="noopener noreferrer"
             className="inline-block bg-pink-500 text-white py-2 px-4 rounded-lg shadow hover:bg-pink-600 focus:outline-none focus:ring-2 focus:ring-pink-400 focus:ring-offset-2 transition">
             Rejoignez nos lives
           </a>

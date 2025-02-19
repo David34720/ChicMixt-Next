@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense, useRef, useEffect } from "react";
+import React, { Suspense, useEffect } from "react";
 import { SessionProvider } from "next-auth/react";
 import Script from "next/script";
 import Modal from "./Modal/Modal";
@@ -9,7 +9,6 @@ import Footer from "./Footer/Footer";
 
 
 export default function AppWrapper({ children }: { children: React.ReactNode }) {
-  const sectionsRef = useRef<(HTMLElement | null)[]>([]);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
