@@ -31,7 +31,7 @@ interface User {
 }
 interface Props {
   onImageUploaded?: () => void;  // Quand une image est uploadée
-  isVisible: boolean;
+  isVisible?: boolean;
 }
 
 interface ImageData {
