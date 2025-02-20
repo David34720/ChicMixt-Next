@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://www.chicmixt.fr
+
+# Sitemaps
+Sitemap: https://www.chicmixt.fr/sitemap.xml
