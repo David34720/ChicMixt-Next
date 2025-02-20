@@ -1,20 +1,31 @@
 .leftCol {
     width: 40%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     background: #ffffff;
+    @media screen and (max-width: 768px) {
+      width: 100%;
+
+    }
 
     .imageWrapper {
       position: relative;
-      width: 100%;
-      aspect-ratio: 9/16;
+      height: 100%;
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: hidden; 
-      max-height: 93vh;
       border-radius: 20px;
+      overflow: visible;
+      @media screen and (max-width: 768px) {
+        max-height: none;
+        align-items: flex-start;
+        margin-top: 20px;
+      }
+
+    
+
 
       p {
         position: absolute;

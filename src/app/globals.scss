@@ -94,6 +94,7 @@ body {
   }
 }
 
+
 /* Ajoutez ce CSS dans votre globals.scss par exemple */
 .spinner {
   border: 8px solid #f3f3f3; 
@@ -163,7 +164,7 @@ h1 {
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  height: calc(100vh - 50px);
+  height: 100vh;
   position: relative;
   z-index: 0;
 
@@ -186,17 +187,49 @@ h1 {
   z-index: 10;
   display: flex;
   width: 100vw;
-  height: calc(100vh - 50px - 120px);
-  overflow: hidden; 
+  height: 100vh;
+  overflow: visible; 
   background-color: #ffffff;
   padding: 50px;
   justify-content: center;
   align-items: center;  
+  box-sizing: content-box;
+}
+
+.social-media-embed {
+  border-radius: 10px;
+  height: 100vh;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  * {
+    border-radius: 10px;
+    overflow: visible;
+  }
+  .fb-post {
+    width: calc( 100vh / 20 * 9) !important;
+    height: 100% !important;
+    aspect-ratio: 9 / 20;
+
+    @media screen and (max-width: 768px) {
+      aspect-ratio: 9 / 16;
+    }
+  }
+}
+.mobile-section2, .mobile-section3, .mobile-section7 {
+  position: relative;
+}
+.admin-section2 {
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 
 .section3 {
-  height: calc(100vh - 50px - 120px);
+  height: 100vh;
   display: flex;
   justify-content: space-between;
   flex-direction: row;
@@ -268,7 +301,7 @@ h1 {
 
   .section5-content {
 
-    height: calc(100vh - 50px - 120px);
+    height: 100vh;
     width: 100%;
     display: flex;
     flex-direction: row;
@@ -380,7 +413,7 @@ h1 {
   }
 }
 .mobile-section7 {
-  margin-bottom: 50px;
+  margin-bottom: 100px;
 }
 // Admin
 .admin-container {

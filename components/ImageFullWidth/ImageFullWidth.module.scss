@@ -1,0 +1,117 @@
+.sliderScroll {
+  position: relative;
+  width: 100% !important; // 🔥 Force la largeur
+  max-width: 100% !important;
+  height: auto; // Hauteur du slider
+  overflow: hidden;
+  background-color: white;
+  z-index: 4990;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.sliderContainer {
+  position: relative;
+  width: 100%  !important;
+  max-width: 100% !important;
+  height: 100%;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.slide {
+  position: relative;
+  text-align: center;
+  width: 100%;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      circle at center,
+      transparent 10%,
+      rgba(0, 0, 0, 0.1) 45%,
+      rgba(0, 0, 0, 0.4) 70%,
+      rgba(0, 0, 0, 0.6) 85%,
+      rgba(0, 0, 0, 0.8) 100%
+    );
+    pointer-events: none;
+  }
+}
+
+.imageWrapper img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  text-align: center;
+  z-index: 2;
+  padding: 0 1rem;
+}
+
+.title {
+  font-size: clamp(2rem, 6vw, 8rem);
+  margin: 0.5rem 0;
+  font-family: "Aboreto", cursive;
+  text-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+}
+
+.slogan2 {
+  font-size: clamp(1.5rem, 5vw, 3rem);
+  margin: 0.5rem 0;
+  font-family: "Merriweather Sans", sans-serif;
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.slogan {
+  font-size: clamp(1rem, 4vw, 2rem);
+  margin: 0.5rem 0;
+  font-family: "Merriweather Sans", sans-serif;
+  text-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.prevButton,
+.nextButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--tertiary-color-hover);
+  border-radius: 5px;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  cursor: pointer;
+  font-size: 24px;
+  z-index: 10;
+}
+
+.prevButton {
+  left: 10px;
+}
+
+.nextButton {
+  right: 10px;
+}
+
+.prevButton:hover,
+.nextButton:hover {
+  background: var(--tertiary-color);
+}
