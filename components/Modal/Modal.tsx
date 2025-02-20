@@ -14,6 +14,36 @@ const Modal: React.FC = () => {
     setMounted(true);
   }, []);
 
+  // Empêche le scroll du body lorsque la modal est ouverte
+  useEffect(() => {
+  if (isOpen) {
+    document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "auto";
+    document.documentElement.style.overflow = "auto";
+  }
+  return () => {
+    document.body.style.overflow = "auto";
+    document.documentElement.style.overflow = "auto";
+  };
+}, [isOpen]);
+useEffect(() => {
+  const preventTouchMove = (e: TouchEvent) => {
+    e.preventDefault();
+  };
+
+  if (isOpen) {
+    document.addEventListener("touchmove", preventTouchMove, { passive: false });
+  } else {
+    document.removeEventListener("touchmove", preventTouchMove);
+  }
+
+  return () => {
+    document.removeEventListener("touchmove", preventTouchMove);
+  };
+}, [isOpen]);
+
   if (!mounted) return null;
   const modalRoot = document.getElementById("modal-root");
   if (!modalRoot) return null;
