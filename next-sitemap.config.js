@@ -18,7 +18,6 @@ module.exports = {
     await config.transform(config, '/'), // Homepage
     await config.transform(config, '/a-propos-live-mode'),
     await config.transform(config, '/contact-chicmixt-mode-tendance'),
-    await config.transform(config, '/fanny13'),
     await config.transform(config, '/mentions-legales-chicmixt-live-facebook'),
   ],
 };
