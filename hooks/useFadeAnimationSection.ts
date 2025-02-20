@@ -7,17 +7,22 @@ export interface ScrollFadeOptions {
   start?: string;
   end?: string;
   markers?: boolean;
+  inverse?: boolean;
   duration?: number; // Durée de l'animation
 }
 
 export function useFadeAnimation(
   selectorFade: string,
+  
   options: ScrollFadeOptions = {}
 ) {
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger);
 
     // Sélection de tous les éléments correspondant au sélecteur
+    if (!selectorFade || selectorFade.trim() === "") {
+      return;
+    }
     const elementsFade = document.querySelectorAll(selectorFade);
     if (elementsFade.length === 0) {
       return;
@@ -39,16 +44,16 @@ export function useFadeAnimation(
         end: options.end || "bottom 20%",
         scrub: 1,
         onEnter: () => {
-          gsap.to(element, { opacity: 0, ease: "power1.inOut", duration });
+          gsap.to(element, { opacity: options.inverse ? 1 : 0, ease: "power1.inOut", duration });
         },
         onLeave: () => {
-          gsap.to(element, { opacity: 1, ease: "power1.inOut", duration });
+          gsap.to(element, { opacity: options.inverse ? 0 : 1, ease: "power1.inOut", duration });
         },
         onEnterBack: () => {
-          gsap.to(element, { opacity: 0, ease: "power1.inOut", duration });
+          gsap.to(element, { opacity: options.inverse ? 1 : 0, ease: "power1.inOut", duration });
         },
         onLeaveBack: () => {
-          gsap.to(element, { opacity: 1, ease: "power1.inOut", duration });
+          gsap.to(element, { opacity: options.inverse ? 0 : 1, ease: "power1.inOut", duration });
         },
       });
     });

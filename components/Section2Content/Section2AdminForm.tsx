@@ -7,12 +7,14 @@ interface Section2Data {
   liveDate: string; // format adapté pour datetime-local
 }
 
-const Section2AdminForm: React.FC = () => {
+const Section2AdminForm: React.FC<{ onClose?: () => void }> = ({onClose}) => {
   const [data, setData] = useState<Section2Data>({ videoUrl: "", liveDate: "" });
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<boolean>(false);
+
+  
 
   // 🟢 Récupérer les données de la DB au chargement
   useEffect(() => {
@@ -73,6 +75,7 @@ const Section2AdminForm: React.FC = () => {
     } finally {
       setSaving(false);
     }
+    if (onClose) onClose();
   };
 
   if (loading) return <div>Chargement...</div>;

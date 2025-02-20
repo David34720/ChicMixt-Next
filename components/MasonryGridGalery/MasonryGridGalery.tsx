@@ -103,31 +103,6 @@ const MasonryGridGalery: React.FC<Props> = ({ onImageUploaded, isVisible }) => {
   }, [fetchImages]);
 
   /**
-   * Refetch une seule fois après l’upload
-   */
-  useEffect(() => {
-    if (onImageUploaded) {
-      // Quand onImageUploaded change (c.a.d. quand on a uploadé avec succès),
-      // on refetch les images une seule fois
-      fetchImages();
-    }
-  }, [onImageUploaded, fetchImages]);
-
-  /**
-   * Animation GSAP au montage ou au refetch
-   */
-  useEffect(() => {
-    if (!images.length) return;
-    console.log("Animation GSAP");
-    useScrollEnterAnimation(".cardGalery", {
-    duration: 0.8,
-    y: 50,
-    ease: "power2.out",
-    markers: false
-  });
-  }, [isVisible]);
-
-  /**
    * Suppression d’image
    */
   const handleDeleteImage = async (imageId: number) => {
@@ -384,7 +359,7 @@ const MasonryGridGalery: React.FC<Props> = ({ onImageUploaded, isVisible }) => {
                     onError={() => {
                       console.error(`Failed to load image ${image.id}`);
                     }}
-                    unoptimized={process.env.NODE_ENV === 'production'}
+                    // unoptimized={process.env.NODE_ENV === 'production'}
                   />
 
                   {/* Badges nouveauté/promo */}
@@ -445,7 +420,7 @@ const MasonryGridGalery: React.FC<Props> = ({ onImageUploaded, isVisible }) => {
         {images.map((image, index) => (
           <div
             key={image.id}
-            className={styles.cardGalery}
+            className={`${styles.cardGalery} cardImg`}
             ref={(el) => {
               if (el) cardsRef.current[index] = el;
             }}

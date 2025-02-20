@@ -63,37 +63,10 @@ const MasonryGridLoader = () => {
       }
     };
   }, []);
-  useEffect(() => {
-    if (!containerRef.current || typeof window === "undefined" || loadedRef.current) {
-      console.warn("⚠️ container masonry non trouvé !");
-      return;
-    }
-
-    const observer2 = new IntersectionObserver(
-      (entries) => {
-        const [entry] = entries;
-        if (entry.isIntersecting) {
-          // On charge la galerie qu’une fois
-          setIsVisible(true);
-          observer2.disconnect();
-          console.log("trigger image")
-        }
-      },
-      { threshold: 0.1, rootMargin: "-150px" }
-    );
-
-    observer2.observe(containerRef.current);
-
-    return () => {
-      if (containerRef.current) {
-        observer2.unobserve(containerRef.current);
-      }
-    };
-  }, []);
-
+ 
   if (hasError) {
     // En cas d’erreur, on peut décider d’afficher la galerie directement
-    return <MasonryGridGalery onImageUploaded={handleImageUploaded} isVisible />;
+    return <MasonryGridGalery onImageUploaded={handleImageUploaded} isVisible={true} />;
   }
 
   return (
@@ -101,7 +74,7 @@ const MasonryGridLoader = () => {
       {shouldLoad && (
         // <div className={`transition-opacity duration-500 ${isVisible ? "opacity-100" : "opacity-0"}`}>
         <div className={` duration-500 `}>
-          <MasonryGridGalery key={key} onImageUploaded={handleImageUploaded} isVisible/>
+          <MasonryGridGalery key={key} onImageUploaded={handleImageUploaded} isVisible={true}/>
         </div>
       )}
     </div>
