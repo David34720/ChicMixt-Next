@@ -40,7 +40,7 @@ export interface ReactShareProps {
 }
 
 export function ReactShare({ iconSize, classAnimation = "", onceAnimation }: ReactShareProps) {
-  const shareUrl = "https://www.facebook.com/profile.php?id=61555657774462";
+  const shareUrl = "https://www.chicmixt.fr/";
   const title = "La meilleure boutique de mode en live Facebook";
   const [copied, setCopied] = useState(false);
 
