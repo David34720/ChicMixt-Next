@@ -69,7 +69,7 @@ export function ReactShare({ iconSize, classAnimation = "", onceAnimation }: Rea
   return (
     <div className={styles.RSContainer}>
       {/* Bouton personnalisé pour copier le lien */}
-      <div className={`${styles.network} ${classAnimation} ${styles.tooltip}`}>
+      {/* <div className={`${styles.network} ${classAnimation} ${styles.tooltip}`}>
         <button
           onClick={handleCopy}
           title={title}
@@ -81,7 +81,7 @@ export function ReactShare({ iconSize, classAnimation = "", onceAnimation }: Rea
         </button>
         {copied && <span style={{ marginLeft: "10px", color: "green" }}>Lien copié!</span>}
         <span className={styles.tooltipText}>Copier le lien</span>
-      </div>
+      </div> */}
 
       {/* Facebook */}
       <div className={`${styles.network} ${classAnimation}  ${styles.tooltip}`}>

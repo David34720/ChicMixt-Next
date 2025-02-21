@@ -28,21 +28,21 @@ const Modal: React.FC = () => {
     document.documentElement.style.overflow = "auto";
   };
 }, [isOpen]);
-useEffect(() => {
-  const preventTouchMove = (e: TouchEvent) => {
-    e.preventDefault();
-  };
+// useEffect(() => {
+//   const preventTouchMove = (e: TouchEvent) => {
+//     e.preventDefault();
+//   };
 
-  if (isOpen) {
-    document.addEventListener("touchmove", preventTouchMove, { passive: false });
-  } else {
-    document.removeEventListener("touchmove", preventTouchMove);
-  }
+//   if (isOpen) {
+//     document.addEventListener("touchmove", preventTouchMove, { passive: false });
+//   } else {
+//     document.removeEventListener("touchmove", preventTouchMove);
+//   }
 
-  return () => {
-    document.removeEventListener("touchmove", preventTouchMove);
-  };
-}, [isOpen]);
+//   return () => {
+//     document.removeEventListener("touchmove", preventTouchMove);
+//   };
+// }, [isOpen]);
 
   if (!mounted) return null;
   const modalRoot = document.getElementById("modal-root");
