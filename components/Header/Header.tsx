@@ -35,10 +35,10 @@ const Header: React.FC = () => {
         <nav className={styles.desktopNav}>
           <ul>
             <li>
-              <Link href="/a-propos-boutique-live-mode">À propos</Link>
+              <Link href="/a-propos-live-mode">À propos</Link>
             </li>
             <li>
-              <Link href="/contact-chicmixt-herault-mode-tendance">Contact</Link>
+              <Link href="/contact-chicmixt-mode-tendance">Contact</Link>
             </li>
             {isAdmin && (
               <li>
